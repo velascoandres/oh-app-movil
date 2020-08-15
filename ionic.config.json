@@ -1,0 +1,7 @@
+{
+  "name": "oh-app-movil",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
