@@ -6,27 +6,29 @@ import { NavBarComponent } from 'src/app/componentes/nav-bar/nav-bar.component';
 import { InmuebleRestService } from './servicios/rest/inmueble-rest.service';
 import { HttpClientModule } from '@angular/common/http';
 
-import { StoreModule } from '@ngrx/store';
-import { inmuebleReducer } from './menu-inmueble-store/reducers/inmueble.reducer';
-import { inmueblesReducer } from './menu-inmueble-store/reducers/inmuebles.reducers';
+
 import { IonicModule } from '@ionic/angular';
 import { InmuebleEffects } from './menu-inmueble-store/effects/inmueble.effects';
 import { EffectsModule } from '@ngrx/effects';
+import { COMPARTIDO_STORE } from './constantes/store';
+import { CrearEditarInmuebleComponent } from './modales/crear-editar-inmueble/crear-editar-inmueble.component';
+import { MapaInmueblesComponent } from './modales/mapa-inmuebles/mapa-inmuebles.component';
+import { InformacionInmuebleComponent } from './modales/informacion-inmueble/informacion-inmueble.component';
 
-const STORE_INMUEBLE = StoreModule.forFeature(
-  'inmuebles',
-  inmueblesReducer,
-);
+
 @NgModule({
   declarations: [
     ListaInmuebleComponent,
     ItemInmuebleComponent,
     NavBarComponent,
+    CrearEditarInmuebleComponent,
+    MapaInmueblesComponent,
+    InformacionInmuebleComponent,
   ],
   imports: [
     CommonModule,
     HttpClientModule,
-    STORE_INMUEBLE,
+    ...COMPARTIDO_STORE,
     IonicModule,
     EffectsModule
       .forRoot(
@@ -43,6 +45,11 @@ const STORE_INMUEBLE = StoreModule.forFeature(
     ItemInmuebleComponent,
     NavBarComponent,
     InmuebleRestService,
+  ],
+  entryComponents: [
+    CrearEditarInmuebleComponent,
+    MapaInmueblesComponent,
+    InformacionInmuebleComponent,
   ]
 })
 export class CompartidoModule { }

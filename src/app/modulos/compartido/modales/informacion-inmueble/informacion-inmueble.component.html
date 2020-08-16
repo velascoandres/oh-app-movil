@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      {{inmueble.nombre}}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarModal()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-slides *ngIf="inmueble && inmueble.imagenes.length">
+    <ion-slide *ngFor="let imagen of inmueble.imagenes">
+      <div class="slide">
+        <img [src]="imagen.url" />
+      </div>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{inmueble.nombre}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item color="warning">
+        <ion-label>$ {{inmueble.precio}}</ion-label>
+      </ion-item>
+      <ion-list-header>Tipo: </ion-list-header>
+      <ion-label>$ {{inmueble.categoria.nombre}}</ion-label>
+      <ion-list-header>Descripcion</ion-list-header>
+      <p>
+        {{inmueble.descripcion}}
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

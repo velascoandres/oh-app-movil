@@ -12,6 +12,8 @@ import { StoreModule } from '@ngrx/store';
 import { APP_REDUCERS } from './store/app.reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
+import { AuthModule } from './modulos/auth/auth.module';
+import { AuthService } from './modulos/auth/servicios/auth.service';
 
 
 @NgModule({
@@ -33,6 +35,7 @@ import { environment } from 'src/environments/environment';
           logOnly: environment.production,
         },
       ),
+    AuthModule,
   ],
   providers: [
     StatusBar,
@@ -41,4 +44,8 @@ import { environment } from 'src/environments/environment';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private readonly authService: AuthService) {
+
+  }
+}

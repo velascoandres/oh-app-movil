@@ -1,5 +1,5 @@
 export interface UsuarioInterface {
     id?: number;
-    perfilUsuario: any;
+    perfilUsuario?: any;
     correo: string;
 }

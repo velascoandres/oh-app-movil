@@ -6,6 +6,7 @@ import { mergeMap, map, catchError } from 'rxjs/operators';
 import { ApiResponse } from 'src/lib/principal.service';
 import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
 import { of } from 'rxjs';
+import { FavoritosActions } from '../../favoritos-store/favoritos.actions';
 
 @Injectable()
 export class InmuebleEffects {
@@ -18,7 +19,6 @@ export class InmuebleEffects {
 
     cargarInmuebles$ = createEffect(
         () => {
-            console.log('estoy aqui');
             // Definimos que accion va escuchar
             const accion$ = this.acciones$.pipe(
                 ofType(InmueblesActions.cargarInmuebles)
@@ -27,6 +27,7 @@ export class InmuebleEffects {
                 .pipe(
                     mergeMap(
                         ({ parametros }) => {
+                            console.log(parametros);
                             return this._inmuebleService.findAll(parametros);
                         },
                     ),
@@ -46,4 +47,34 @@ export class InmuebleEffects {
                 );
         },
     );
+
+    // cargarInmueblesFavoritos$ = createEffect(
+    //     () => {
+    //         // Definimos que accion va escuchar
+    //         const accion$ = this.acciones$.pipe(
+    //             ofType(FavoritosActions.cargarInmueblesFavoritos)
+    //         );
+    //         return accion$
+    //             .pipe(
+    //                 mergeMap(
+    //                     ({ parametros }) => {
+    //                         return this._inmuebleService.findAll(parametros);
+    //                     },
+    //                 ),
+    //                 map(
+    //                     (respuesta: ApiResponse<InmuebleInterface>) => {
+    //                         return FavoritosActions.cargarInmueblesFavoritosExito(
+    //                             {
+    //                                 inmuebles: respuesta.data,
+    //                                 total: respuesta.total,
+    //                             },
+    //                         );
+    //                     }
+    //                 ),
+    //                 catchError(
+    //                     error => of(FavoritosActions.cargarInmueblesFavoritosError({ error, }))
+    //                 ),
+    //             );
+    //     },
+    // );
 }
