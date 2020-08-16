@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { InmuebleRestService } from '../../servicios/rest/inmueble-rest.service';
 import { InmueblesActions } from '../actions/menu-inmueble.actions';
-import { mergeMap, map } from 'rxjs/operators';
+import { mergeMap, map, catchError } from 'rxjs/operators';
 import { ApiResponse } from 'src/lib/principal.service';
 import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
+import { of } from 'rxjs';
 
 @Injectable()
 export class InmuebleEffects {
@@ -17,6 +18,7 @@ export class InmuebleEffects {
 
     cargarInmuebles$ = createEffect(
         () => {
+            console.log('estoy aqui');
             // Definimos que accion va escuchar
             const accion$ = this.acciones$.pipe(
                 ofType(InmueblesActions.cargarInmuebles)
@@ -37,8 +39,11 @@ export class InmuebleEffects {
                                 },
                             );
                         }
-                    )
+                    ),
+                    catchError(
+                        error => of(InmueblesActions.cargarInmueblesError({ error, }))
+                    ),
                 );
-        }
+        },
     );
 }

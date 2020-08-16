@@ -11,13 +11,11 @@ import { inmuebleReducer } from './menu-inmueble-store/reducers/inmueble.reducer
 import { inmueblesReducer } from './menu-inmueble-store/reducers/inmuebles.reducers';
 import { IonicModule } from '@ionic/angular';
 import { InmuebleEffects } from './menu-inmueble-store/effects/inmueble.effects';
+import { EffectsModule } from '@ngrx/effects';
 
 const STORE_INMUEBLE = StoreModule.forFeature(
-  'inmueble',
-  {
-    inmuebleReducer,
-    inmueblesReducer,
-  }
+  'inmuebles',
+  inmueblesReducer,
 );
 @NgModule({
   declarations: [
@@ -30,10 +28,15 @@ const STORE_INMUEBLE = StoreModule.forFeature(
     HttpClientModule,
     STORE_INMUEBLE,
     IonicModule,
+    EffectsModule
+      .forRoot(
+        [
+          InmuebleEffects,
+        ],
+      )
   ],
   providers: [
     InmuebleRestService,
-    InmuebleEffects,
   ],
   exports: [
     ListaInmuebleComponent,

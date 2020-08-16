@@ -6,7 +6,7 @@ export interface InmuebleInterface{
     precio: number;
     pisos: number;
     parqueaderos: number;
-    imagenes: string[];
+    imagenes: any[];
     categoria: any;
     esAlquiler: 0 | 1;
     perfilUsuario: any;

@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { MenuInmuebleState } from 'src/app/modulos/compartido/menu-inmueble-store/menu-inmueble.state';
 import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
 import { InmueblesActions } from 'src/app/modulos/compartido/menu-inmueble-store/actions/menu-inmueble.actions';
+import { AppState, AppStateInmueble } from 'src/app/store/app.reducers';
 
 @Component({
   selector: 'app-lista-inmueble',
@@ -22,25 +23,32 @@ export class ListaInmuebleComponent implements OnInit {
   };
 
   constructor(
-    private readonly storeInmueble: Store<InmuebleState>,
-    private readonly storeInmuebles: Store<MenuInmuebleState>
+    private readonly storeInmuebles: Store<AppStateInmueble>
   ) { }
 
   ngOnInit() {
+    this.inicializar();
+  }
 
+
+  private inicializar(){
+    this.listarInmuebles();
+    this.escucharInmuebles();
   }
 
   private escucharInmuebles() {
     this.storeInmuebles
+      .select('inmuebles')
       .subscribe(
         (inmueblesState: MenuInmuebleState) => {
+          console.log('aqui', inmueblesState.inmuebles);
           this.inmuebles = inmueblesState.inmuebles;
         }
       );
   }
 
   private listarInmuebles() {
-    this.storeInmueble
+    this.storeInmuebles
       .dispatch(
         InmueblesActions.cargarInmuebles(
           {
