@@ -1,10 +1,15 @@
-<ion-grid>
-  <ion-row *ngFor="let inmueble of inmuebles" 
-  class="ion-align-items-center"
-  >
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4" *ngFor="let inmueble of inmuebles">
+        <app-item-inmueble [inmueble]="inmueble">
+        </app-item-inmueble>
+      </div>
+    </div>
+  </div>
+  <!-- <ion-row *ngFor="let inmueble of inmuebles" class="ion-align-items-center">
     <ion-col>
       <app-item-inmueble [inmueble]="inmueble">
       </app-item-inmueble>
     </ion-col>
-  </ion-row>
-</ion-grid>
+  </ion-row> -->

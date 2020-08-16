@@ -2,6 +2,9 @@
     <div class="item__contenedor">
         <div class="item__imagen__contenedor" (click)="verInformacion()">
             <img class="item__imagen" [src]="inmueble.imagenes[0].url" alt="imagen" />
+            <div class="item__price text text__price">
+                $ {{ inmueble.precio }}
+            </div>
         </div>
         <div class="item__options">
             <button type="button" class="item__option active">
@@ -16,12 +19,10 @@
             <a type="button" class="item__cart active">
                 <i class="fas fa-cart-plus"></i>
             </a>
-            <h4>{{inmueble.nombre}}</h4>
+            <h5>{{inmueble.nombre}}</h5>
         </div>
-        <div class="item__detail">
-            <div class="item__price text">
-                $ {{ inmueble.precio }}
-            </div>
-        </div>
+        <!-- <div class="item__detail">
+            
+        </div> -->
     </div>
 </div>

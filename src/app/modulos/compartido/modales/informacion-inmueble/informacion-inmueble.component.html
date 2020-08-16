@@ -14,7 +14,7 @@
   <ion-slides *ngIf="inmueble && inmueble.imagenes.length">
     <ion-slide *ngFor="let imagen of inmueble.imagenes">
       <div class="slide">
-        <img [src]="imagen.url" />
+        <img [src]="imagen.url" class="imagen" />
       </div>
     </ion-slide>
   </ion-slides>
@@ -28,12 +28,16 @@
       <ion-item color="warning">
         <ion-label>$ {{inmueble.precio}}</ion-label>
       </ion-item>
-      <ion-list-header>Tipo: </ion-list-header>
-      <ion-label>$ {{inmueble.categoria.nombre}}</ion-label>
-      <ion-list-header>Descripcion</ion-list-header>
-      <p>
-        {{inmueble.descripcion}}
-      </p>
+      <ion-list-header>
+        <strong>Tipo: </strong> {{inmueble.categoria.nombre}}
+      </ion-list-header>
+      <ion-label></ion-label>
+      <ion-list-header>
+        <strong> Descripcion: </strong> 
+        <p>
+          {{inmueble.descripcion}}
+        </p>
+      </ion-list-header>
     </ion-card-content>
   </ion-card>
 
