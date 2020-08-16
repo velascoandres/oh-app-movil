@@ -1,4 +1,4 @@
-export interface Inmueble{
+export interface InmuebleInterface{
     id?: number;
     nombre: string;
     descripcion: string;

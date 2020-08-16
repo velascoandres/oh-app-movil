@@ -1,4 +1,4 @@
- 
+
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
@@ -7,19 +7,19 @@ import { environment } from '../environments/environment';
 
 type Dictionary = { [key: string]: string | number };
 
-interface ApiResponse<T> {
-    count: number;
-    next?: string;
-    previous?: string;
-    results: T[];
-}
 
 interface HttpMethods<T> {
-    findAll: (page?: number, params?: Dictionary) => Observable<[T[], number]>;
+    findAll: (params?: Dictionary, headers?: any) => Observable<ApiResponse<T>>;
     createOne: (body: T) => Observable<T>;
     updateOne: (id: number, body: T) => Observable<T>;
     patchOne: (id: number, body: T) => Observable<T>;
     deleteOne: (id: number) => Observable<T>;
+}
+
+export interface ApiResponse<T> {
+    nextQuery: string;
+    data: T[];
+    total: number;
 }
 
 export abstract class PrincipalRestService<T> implements HttpMethods<T>{
@@ -33,18 +33,17 @@ export abstract class PrincipalRestService<T> implements HttpMethods<T>{
 
     }
 
-    public findAll(page?: number, params?: { [key: string]: string | number }): Observable<[T[], number]> {
-        const pagination = page ? `?page=${page}` : '?page=1';
-        const parameters = params ? `&${this.convertDict2Query(params)}` : '';
-        return this.httpClient.get(this.url).pipe(
-            mergeMap(
-                (response: ApiResponse<T>) => {
-                    const count = response.count;
-                    const data = response.results;
-                    return of([data, count]);
-                }
-            ),
-        ) as Observable<[T[], number]>;
+    public findAll(params?: { [key: string]: string | number }, headers?: any): Observable<ApiResponse<T>> {
+        return this.httpClient
+            .get(
+                this.url,
+                {
+                    headers,
+                    params: {
+                        query: JSON.stringify(params)
+                    },
+                },
+            ) as Observable<ApiResponse<T>>;
     }
 
     public createOne(body: T): Observable<T> {

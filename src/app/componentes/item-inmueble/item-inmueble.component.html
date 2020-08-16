@@ -1,13 +1,27 @@
 <div class="item">
-  <div class="item__contenedor">
-      <div class="item__imagen__contenedor">
-          <img 
-          class="item__imagen"
-          [src]="imbueble.imagenes[0]" 
-          alt="imagen"/>
-      </div>
-      <div class="item__descripcion">
-          <h3>{{imbueble.nombre}}</h3>
-      </div>
-  </div>
+    <div class="item__contenedor">
+        <div class="item__imagen__contenedor">
+            <img class="item__imagen" [src]="inmueble.imagenes[0]" alt="imagen" />
+        </div>
+        <div class="item__options">
+            <button type="button" class="item__option active">
+                <i class="fas fa-cart-plus"></i>
+            </button>
+            <button type="button" class="item__option active">
+                <i class="fas fa-cart-plus"></i>
+            </button>
+            <br>
+        </div>
+        <div class="item__descripcion text">
+            <a type="button" class="item__cart active">
+                <i class="fas fa-cart-plus"></i>
+            </a>
+            <h4>{{inmueble.nombre}}</h4>
+        </div>
+        <div class="item__detail">
+            <div class="item__price text">
+                {{inmueble.precio | currency}}
+            </div>
+        </div>
+    </div>
 </div>

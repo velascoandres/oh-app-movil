@@ -1,3 +1,8 @@
-<p>
-  lista-inmueble works!
-</p>
+<ion-grid>
+  <ion-row *ngFor="let inmueble of inmuebles">
+    <app-item-inmueble
+      [inmueble]="inmueble"
+    >
+    </app-item-inmueble>
+  </ion-row>
+</ion-grid>

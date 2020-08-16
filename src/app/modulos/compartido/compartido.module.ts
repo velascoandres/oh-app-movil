@@ -3,9 +3,22 @@ import { CommonModule } from '@angular/common';
 import { ListaInmuebleComponent } from 'src/app/componentes/lista-inmueble/lista-inmueble.component';
 import { ItemInmuebleComponent } from 'src/app/componentes/item-inmueble/item-inmueble.component';
 import { NavBarComponent } from 'src/app/componentes/nav-bar/nav-bar.component';
+import { InmuebleRestService } from './servicios/rest/inmueble-rest.service';
+import { HttpClientModule } from '@angular/common/http';
 
+import { StoreModule } from '@ngrx/store';
+import { inmuebleReducer } from './menu-inmueble-store/reducers/inmueble.reducer';
+import { inmueblesReducer } from './menu-inmueble-store/reducers/inmuebles.reducers';
+import { IonicModule } from '@ionic/angular';
+import { InmuebleEffects } from './menu-inmueble-store/effects/inmueble.effects';
 
-
+const STORE_INMUEBLE = StoreModule.forFeature(
+  'inmueble',
+  {
+    inmuebleReducer,
+    inmueblesReducer,
+  }
+);
 @NgModule({
   declarations: [
     ListaInmuebleComponent,
@@ -13,12 +26,20 @@ import { NavBarComponent } from 'src/app/componentes/nav-bar/nav-bar.component';
     NavBarComponent,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    HttpClientModule,
+    STORE_INMUEBLE,
+    IonicModule,
+  ],
+  providers: [
+    InmuebleRestService,
+    InmuebleEffects,
   ],
   exports: [
     ListaInmuebleComponent,
     ItemInmuebleComponent,
     NavBarComponent,
+    InmuebleRestService,
   ]
 })
 export class CompartidoModule { }

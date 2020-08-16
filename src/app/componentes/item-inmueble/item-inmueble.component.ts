@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Inmueble } from 'src/app/interfaces/inmueble.interface';
+import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
 
 @Component({
   selector: 'app-item-inmueble',
@@ -9,7 +9,7 @@ import { Inmueble } from 'src/app/interfaces/inmueble.interface';
 export class ItemInmuebleComponent implements OnInit {
 
   @Input()
-  imbueble: Inmueble;
+  inmueble: InmuebleInterface;
 
   constructor() { }
 
