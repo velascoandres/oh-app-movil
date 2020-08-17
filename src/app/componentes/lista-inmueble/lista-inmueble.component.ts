@@ -5,7 +5,6 @@ import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
 import { InmueblesActions } from 'src/app/modulos/compartido/menu-inmueble-store/actions/menu-inmueble.actions';
 import { AppStateInmueble } from 'src/app/store/app.reducers';
 import { Subscription } from 'rxjs';
-import { IonInfiniteScroll } from '@ionic/angular';
 
 @Component({
   selector: 'app-lista-inmueble',
@@ -44,7 +43,6 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy {
       .select('inmuebles')
       .subscribe(
         (inmueblesState: MenuInmuebleState) => {
-          console.log('se ha cargado: ', inmueblesState);
           if (inmueblesState.cargo) {
             this.inmuebles = inmueblesState.inmuebles;
             this.totalInmuebles = inmueblesState.total;
@@ -60,10 +58,11 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy {
     );
   }
 
-  cargarMasInmuebles() {
+  cargarMasInmuebles(evento) {
     console.log('me carge');
     this.query.skip = this.query.skip + 10;
     const deberCargar = this.inmuebles.length < this.totalInmuebles;
+    evento.target.complete();
     if (deberCargar) {
       this.storeInmuebles.dispatch(
         InmueblesActions.cargarInmuebles(
@@ -72,7 +71,8 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy {
           },
         ),
       );
-      // evento.target.complete();
+    } else {
+      evento.target.disabled = true;
     }
   }
 }

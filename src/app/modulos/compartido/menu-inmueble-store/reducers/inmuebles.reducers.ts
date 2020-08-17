@@ -39,7 +39,9 @@ const _inmueblesReducer = createReducer(
             }
             return {
                 ...estado,
-                inmuebles,
+                inmuebles: [
+                    ...inmueblesNuevos
+                ],
                 total,
                 cargando: false,
                 cargo: true,
