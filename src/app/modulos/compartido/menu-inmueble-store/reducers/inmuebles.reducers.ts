@@ -13,22 +13,37 @@ const _inmueblesReducer = createReducer(
     estadoInicialInmuebles,
     on(
         InmueblesActions.cargarInmuebles,
-        (estado: MenuInmuebleState, { parametros }) => {
+        (estado: MenuInmuebleState, { parametros, filtro }) => {
             return {
                 ...estado,
-                ...parametros,
+                queryActual: {
+                    ...estado.queryActual,
+                    ...parametros,
+                },
                 cargando: true,
+                filtro,
             };
         }
     ),
     on(
         InmueblesActions.cargarInmueblesExito,
-        (estado: MenuInmuebleState, { inmuebles }) => {
+        (estado: MenuInmuebleState, { inmuebles, total, nextQuery, filtro }) => {
+            let inmueblesNuevos = [];
+            if (filtro) {
+                inmueblesNuevos = inmuebles;
+            } else {
+                inmueblesNuevos = [
+                    ...estado.inmuebles,
+                    ...inmuebles,
+                ];
+            }
             return {
                 ...estado,
-                inmuebles: [...inmuebles],
+                inmuebles,
+                total,
                 cargando: false,
                 cargo: true,
+                filtro,
             };
         },
     ),

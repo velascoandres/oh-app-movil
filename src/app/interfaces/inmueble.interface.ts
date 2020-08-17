@@ -10,4 +10,6 @@ export interface InmuebleInterface{
     categoria: any;
     esAlquiler: 0 | 1;
     perfilUsuario: any;
+    habitaciones: number;
+    direccion: string;
 }

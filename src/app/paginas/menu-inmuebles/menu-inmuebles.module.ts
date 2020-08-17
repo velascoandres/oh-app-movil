@@ -8,6 +8,7 @@ import { MenuInmueblesPageRoutingModule } from './menu-inmuebles-routing.module'
 
 import { MenuInmueblesPage } from './menu-inmuebles.page';
 import { CompartidoModule } from 'src/app/modulos/compartido/compartido.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { CompartidoModule } from 'src/app/modulos/compartido/compartido.module';
     IonicModule,
     MenuInmueblesPageRoutingModule,
     CompartidoModule,
+    RouterModule,
   ],
   declarations: [
     MenuInmueblesPage,

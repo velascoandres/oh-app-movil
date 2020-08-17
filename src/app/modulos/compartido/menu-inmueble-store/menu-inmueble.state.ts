@@ -5,4 +5,7 @@ export interface MenuInmuebleState {
     cargando: boolean;
     error: any;
     inmuebles?: InmuebleInterface[];
+    total?: number;
+    queryActual?: any;
+    filtro?: boolean;
 }

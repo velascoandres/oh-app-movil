@@ -20,11 +20,11 @@ export class FavoritosPage implements OnInit, ViewWillEnter {
   ) { }
 
   ionViewWillEnter(): void {
-    this.inicializar();
+    // this.inicializar();
   }
 
   ngOnInit() {
-    this.inicializar();
+    // this.inicializar();
   }
 
 
@@ -54,7 +54,7 @@ export class FavoritosPage implements OnInit, ViewWillEnter {
       .inmueblesStore
       .dispatch(
         InmueblesActions.cargarInmuebles(
-          { parametros: consulta }
+          { parametros: consulta, filtro: true }
         ),
       );
   }

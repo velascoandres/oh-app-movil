@@ -17,6 +17,8 @@ export const estadoInicialInmuebles: InmuebleState = {
     categoria: null,
     esAlquiler: 0,
     perfilUsuario: null,
+    direccion: '',
+    habitaciones: 0,
 };
 
 const _inmuebleReducer = createReducer(

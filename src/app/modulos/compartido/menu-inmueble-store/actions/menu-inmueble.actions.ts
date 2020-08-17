@@ -4,12 +4,12 @@ import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
 export class InmueblesActions {
     static cargarInmuebles = createAction(
         '[Inmuebles] cargar inmuebles',
-        props<{ parametros: {[k in string]: any} }>()
+        props<{ parametros: {[k in string]: any}, filtro?: boolean }>()
     );
 
     static cargarInmueblesExito = createAction(
         '[Inmuebles] cargar inmuebles exito',
-        props<{ inmuebles: InmuebleInterface[], total: number }>()
+        props<{ inmuebles: InmuebleInterface[], total: number, nextQuery: any, filtro?: boolean }>()
     );
 
     static cargarInmueblesError = createAction(

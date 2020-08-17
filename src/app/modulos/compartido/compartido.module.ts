@@ -31,7 +31,7 @@ import { InformacionInmuebleComponent } from './modales/informacion-inmueble/inf
     ...COMPARTIDO_STORE,
     IonicModule,
     EffectsModule
-      .forRoot(
+      .forFeature(
         [
           InmuebleEffects,
         ],
