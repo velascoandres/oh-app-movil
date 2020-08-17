@@ -14,6 +14,7 @@ const _inmueblesReducer = createReducer(
     on(
         InmueblesActions.cargarInmuebles,
         (estado: MenuInmuebleState, { parametros, filtro }) => {
+            console.log(filtro);
             return {
                 ...estado,
                 queryActual: {
@@ -27,9 +28,10 @@ const _inmueblesReducer = createReducer(
     ),
     on(
         InmueblesActions.cargarInmueblesExito,
-        (estado: MenuInmuebleState, { inmuebles, total, nextQuery, filtro }) => {
+        (estado: MenuInmuebleState, { inmuebles, total, nextQuery }) => {
             let inmueblesNuevos = [];
-            if (filtro) {
+            console.log(estado.filtro);
+            if (estado.filtro) {
                 inmueblesNuevos = inmuebles;
             } else {
                 inmueblesNuevos = [
@@ -37,6 +39,7 @@ const _inmueblesReducer = createReducer(
                     ...inmuebles,
                 ];
             }
+            console.log(inmueblesNuevos);
             return {
                 ...estado,
                 inmuebles: [
@@ -45,7 +48,6 @@ const _inmueblesReducer = createReducer(
                 total,
                 cargando: false,
                 cargo: true,
-                filtro,
             };
         },
     ),

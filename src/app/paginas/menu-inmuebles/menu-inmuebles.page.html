@@ -2,6 +2,15 @@
   <app-nav-bar></app-nav-bar>
   <ion-toolbar>
     <ion-title>Inmuebles</ion-title>
+    <ion-searchbar 
+      mode="ios" 
+      animated 
+      placeholder="Buscar por nombre" 
+      autocomplete 
+      debounce="1000"
+      (ionChange)="buscarPorNombre($event)"
+      >
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 

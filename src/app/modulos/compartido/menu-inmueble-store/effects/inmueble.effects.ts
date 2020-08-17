@@ -27,7 +27,7 @@ export class InmuebleEffects {
                 ofType(InmueblesActions.cargarInmuebles),
                 withLatestFrom(this.inmublesStore.select('inmuebles')),
                 mergeMap(
-                    ([{ parametros }, { queryActual }]) => {
+                    ([{ parametros, filtro }, { queryActual }]) => {
                         console.log(parametros);
                         return this._inmuebleService.findAll(
                             {

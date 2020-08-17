@@ -12,8 +12,9 @@ import { take } from 'rxjs/operators';
 })
 export class MenuInmueblesPage implements OnInit, ViewWillEnter {
 
-  consulta = {
+  public consulta = {
     where: {
+      nombre: undefined,
       habilitado: 1,
       imagenes: {},
       categoria: {}
@@ -33,14 +34,32 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter {
     this.cargarInmuebles();
   }
 
-  cargarInmuebles() {
-    console.log('llamo a cargar');
+  cargarInmuebles(filtro = false) {
     this
       .inmueblesStore
       .dispatch(
         InmueblesActions.cargarInmuebles(
-          { parametros: this.consulta }
+          { parametros: this.consulta, filtro }
         ),
       );
+  }
+
+  buscarPorNombre(evento) {
+    if (evento) {
+      const valor = evento.detail.value;
+      this.consulta = {
+        where: {
+          nombre: { $like: `%${valor}%` },
+          habilitado: 1,
+          imagenes: {},
+          categoria: {}
+        },
+        skip: 0,
+        take: 10
+      };
+      this.cargarInmuebles(true);
+    } else {
+      this.cargarInmuebles(false);
+    }
   }
 }
