@@ -1,17 +1,18 @@
-import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MenuInmuebleState } from 'src/app/modulos/compartido/menu-inmueble-store/menu-inmueble.state';
 import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
 import { InmueblesActions } from 'src/app/modulos/compartido/menu-inmueble-store/actions/menu-inmueble.actions';
 import { AppStateInmueble } from 'src/app/store/app.reducers';
 import { Subscription } from 'rxjs';
+import { IonInfiniteScroll } from '@ionic/angular';
 
 @Component({
   selector: 'app-lista-inmueble',
   templateUrl: './lista-inmueble.component.html',
   styleUrls: ['./lista-inmueble.component.scss'],
 })
-export class ListaInmuebleComponent implements OnInit, OnDestroy {
+export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit {
 
   inmuebles: InmuebleInterface[] = [];
   subscripciones: Subscription[] = [];
@@ -22,14 +23,20 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy {
     take: 10,
   };
 
+  @ViewChild('scroll') infiniteScroll: IonInfiniteScroll;
+
 
   constructor(
     private readonly storeInmuebles: Store<AppStateInmueble>
   ) { }
 
+  ngAfterViewInit(): void {
+    this.inicializar();
+  }
+
 
   ngOnInit() {
-    this.inicializar();
+    // this.inicializar();
   }
 
 
@@ -43,10 +50,11 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy {
       .select('inmuebles')
       .subscribe(
         (inmueblesState: MenuInmuebleState) => {
-          if (inmueblesState.cargo) {
-            this.inmuebles = inmueblesState.inmuebles;
-            this.totalInmuebles = inmueblesState.total;
-          }
+          this.inmuebles = inmueblesState.inmuebles;
+          this.totalInmuebles = inmueblesState.total;
+          const deberCargar = this.inmuebles.length < this.totalInmuebles;
+          this.infiniteScroll.disabled = !deberCargar;
+          this.query.skip = inmueblesState.queryActual.skip;
         }
       );
     this.subscripciones.push(subscripcionStoreInmueble);
@@ -59,10 +67,9 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy {
   }
 
   cargarMasInmuebles(evento) {
-    console.log('me carge');
     this.query.skip = this.query.skip + 10;
+    console.log(this.inmuebles.length, this.totalInmuebles);
     const deberCargar = this.inmuebles.length < this.totalInmuebles;
-    evento.target.complete();
     if (deberCargar) {
       this.storeInmuebles.dispatch(
         InmueblesActions.cargarInmuebles(
@@ -74,5 +81,6 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy {
     } else {
       evento.target.disabled = true;
     }
+    evento.target.complete();
   }
 }
