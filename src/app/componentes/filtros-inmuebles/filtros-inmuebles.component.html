@@ -5,13 +5,13 @@
       <ion-row>
         <ion-col class="centro">
           <ion-label>Precio</ion-label>
-          <ion-chip>
-            <ion-icon name="pin"></ion-icon>
-            <ion-label>${{filtros.precios.lower}}</ion-label>
+          <ion-chip outline color="success">
+            <ion-icon name="cash-outline"></ion-icon>
+            <ion-label>{{filtros.precios.lower}}</ion-label>
           </ion-chip> -
-          <ion-chip>
-            <ion-icon name="pin"></ion-icon>
-            <ion-label>${{filtros.precios.upper}}</ion-label>
+          <ion-chip outline color="success">
+            <ion-icon name="cash-outline"></ion-icon>
+            <ion-label>{{filtros.precios.upper}}</ion-label>
           </ion-chip>
         </ion-col>
       </ion-row>
@@ -28,8 +28,12 @@
       <ion-row>
         <ion-col class="centro">
           <ion-label>Area Terreno</ion-label>
-          <ion-badge color="primary">${{filtros.areaTerreno.lower}}</ion-badge>
-          <ion-badge color="danger">${{filtros.areaTerreno.upper}}</ion-badge>
+          <ion-chip outline color="primary">
+            <ion-label>{{filtros.areaTerreno.lower}} m<sup>2</sup></ion-label>
+          </ion-chip> -
+          <ion-chip outline color="primary">
+            <ion-label>{{filtros.areaTerreno.upper}} m<sup>2</sup></ion-label>
+          </ion-chip>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -45,8 +49,12 @@
       <ion-row>
         <ion-col class="centro">
           <ion-label>Area Construccion</ion-label>
-          <ion-badge color="primary">${{filtros.areaConstruccion.lower}}</ion-badge>
-          <ion-badge color="danger">${{filtros.areaConstruccion.upper}}</ion-badge>
+          <ion-chip outline color="secondary">
+            <ion-label>{{filtros.areaConstruccion.lower}} m<sup>2</sup></ion-label>
+          </ion-chip> -
+          <ion-chip outline color="secondary">
+            <ion-label>{{filtros.areaConstruccion.upper}} m<sup>2</sup></ion-label>
+          </ion-chip>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -62,13 +70,19 @@
       <ion-row>
         <ion-col class="centro">
           <ion-label>Pisos</ion-label>
-          <ion-badge color="primary">${{filtros.plantas.lower}}</ion-badge>
-          <ion-badge color="danger">${{filtros.plantas.upper}}</ion-badge>
+          <ion-chip outline color="dark">
+            <ion-icon name="business-outline"></ion-icon>
+            <ion-label>{{filtros.plantas.lower}}</ion-label>
+          </ion-chip> -
+          <ion-chip outline color="dark">
+            <ion-icon name="business-outline"></ion-icon>
+            <ion-label>{{filtros.plantas.upper}}</ion-label>
+          </ion-chip>
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-range min="1" max="20" id="precio" dual-knobs pin color="danger" [(ngModel)]="filtros.plantas"
-          mode="ios" step="1">
+        <ion-range min="1" max="20" id="precio" dual-knobs pin color="danger" [(ngModel)]="filtros.plantas" mode="ios"
+          step="1">
         </ion-range>
       </ion-row>
     </ion-grid>
@@ -79,8 +93,14 @@
       <ion-row>
         <ion-col class="centro">
           <ion-label>Habitaciones</ion-label>
-          <ion-badge color="primary">{{filtros.habitaciones.lower}}</ion-badge>
-          <ion-badge color="danger">{{filtros.habitaciones.upper}}</ion-badge>
+          <ion-chip color="dark">
+            <ion-icon name="bed"></ion-icon>
+            <ion-label>{{filtros.habitaciones.lower}}</ion-label>
+          </ion-chip> -
+          <ion-chip color="dark">
+            <ion-icon name="bed"></ion-icon>
+            <ion-label>{{filtros.habitaciones.upper}}</ion-label>
+          </ion-chip>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -91,13 +111,20 @@
     </ion-grid>
   </ion-item>
 
+
   <ion-item>
     <ion-grid>
       <ion-row>
         <ion-col class="centro">
           <ion-label>Parqueaderos</ion-label>
-          <ion-badge color="primary">${{filtros.parqueaderos.lower}}</ion-badge>
-          <ion-badge color="danger">${{filtros.parqueaderos.upper}}</ion-badge>
+          <ion-chip color="tertiary">
+            <ion-icon name="car"></ion-icon>
+            <ion-label>{{filtros.parqueaderos.lower}}</ion-label>
+          </ion-chip> -
+          <ion-chip color="tertiary">
+            <ion-icon name="car"></ion-icon>
+            <ion-label>{{filtros.parqueaderos.upper}}</ion-label>
+          </ion-chip>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -109,15 +136,17 @@
   </ion-item>
 
   <ion-item>
-    <ion-label>Es Alquilter</ion-label>
-    <ion-radio slot="start" value="buford" [(ngModel)]="filtros.esAlquiler"></ion-radio>
+    <ion-label>Es Alquiler</ion-label>
+    <ion-checkbox slot="end" [value]="1" [(ngModel)]="filtros.esAlquiler"></ion-checkbox>
   </ion-item>
-
 
 </ion-list>
 
 
 <ion-list>
+  <ion-list-header>
+    <ion-label><strong>Categorias</strong></ion-label>
+  </ion-list-header>
   <ion-item *ngFor="let categoria of categorias">
     <ion-label>{{categoria.nombre}}</ion-label>
     <ion-checkbox slot="end" [value]="categoria.id" (ionChange)="setearCategoria($event)"></ion-checkbox>

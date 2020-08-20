@@ -17,7 +17,7 @@ export class FiltrosInmueblesComponent implements OnInit {
 
   filtros = {
     categorias: [],
-    esAlquiler: false,
+    esAlquiler: 0,
     habitaciones: {lower: 1, upper: 5},
     areaConstruccion: {lower: 50, upper: 200},
     areaTerreno: {lower: 50, upper: 200},
