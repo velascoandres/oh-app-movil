@@ -12,19 +12,22 @@ const _filtroReducer = createReducer(
     on(
         FiltroActions.emitirFiltro,
         (estado: FiltroState, { query }) => {
-            return {
+            const nuevoEstado = {
                 ...estado,
                 query,
             };
+            console.log(nuevoEstado);
+            return nuevoEstado;
         }
     ),
     on(
         FiltroActions.mostrarFiltros,
         (estado) => {
-            return {
+            const nuevoEstado = {
                 ...estado,
                 filtrando: !estado.filtrando,
             };
+            return nuevoEstado;
         }
     ),
 );

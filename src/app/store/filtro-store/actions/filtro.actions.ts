@@ -5,7 +5,7 @@ import { FiltroState } from '../filtro.state';
 export class FiltroActions {
 
     static emitirFiltro = createAction(
-        '[Filtro] emitir Filtro',
+        '[Filtro] mostrar Filtro',
         props<{query: any}>()
     );
 

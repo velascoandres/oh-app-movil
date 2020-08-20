@@ -4,6 +4,7 @@ import { CategoriaInterface } from 'src/app/interfaces/categoria.interface';
 import { ApiResponse } from 'src/lib/principal.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducers';
+import { FiltroActions } from 'src/app/store/filtro-store/actions/filtro.actions';
 
 @Component({
   selector: 'app-filtros-inmuebles',
@@ -73,48 +74,50 @@ export class FiltrosInmueblesComponent implements OnInit {
   }
 
   filtrar() {
-    // categorias: [],
-    // esAlquiler: 0,
-    // habitaciones: { lower: 1, upper: 5 },
-    // areaConstruccion: { lower: 50, upper: 200 },
-    // areaTerreno: { lower: 50, upper: 200 },
-    // plantas: { lower: 1, upper: 4 },
-    // parqueaderos: { lower: 1, upper: 2 },
-    // precios: { lower: 30000, upper: 100000 },
-    // const categorias = {this.filtros.categorias;
-
-    const consultaCategoria = this.filtros.categorias.length > 0 ? { $in: this.filtros.categorias, } : undefined;
-    const consultaHabitaciones = this.filtros.categorias.length > 0 ? { $in: this.filtros.categorias, } : undefined;
-    const consultaPrecio = this.filtros.categorias.length > 0 ? { $in: this.filtros.categorias, } : undefined;
-    const consultaParqueaderos = this.filtros.categorias.length > 0 ? { $in: this.filtros.categorias, } : undefined;
-    const consultaAreaConstruccion = this.filtros.categorias.length > 0 ? { $in: this.filtros.categorias, } : undefined;
-    const consultaAreaTerreno = this.filtros.categorias.length > 0 ? { $in: this.filtros.categorias, } : undefined;
-    const consultaPlantas = this.filtros.categorias.length > 0 ? { $in: this.filtros.categorias, } : undefined;
+    const consultaCategoria = this.filtros.categorias.length > 0 ? {
+      id: { $in: this.filtros.categorias },
+    } : undefined;
+    const consultaHabitaciones = this.filtros.habitaciones.habilitado ? [
+      { $gte: this.filtros.habitaciones.lower },
+      { $lte: this.filtros.habitaciones.upper }
+    ] : undefined;
+    const consultaPrecio = this.filtros.precios.habilitado ? [
+      { $gte: this.filtros.precios.lower },
+      { $lte: this.filtros.precios.upper }
+    ] : undefined;
+    const consultaParqueaderos = this.filtros.parqueaderos.habilitado ? [
+      { $gte: this.filtros.parqueaderos.lower },
+      { $lte: this.filtros.parqueaderos.upper }
+    ] : undefined;
+    const consultaAreaConstruccion = this.filtros.areaConstruccion.habilitado ? [
+      { $gte: this.filtros.areaConstruccion.lower },
+      { $lte: this.filtros.areaConstruccion.upper }
+    ] : undefined;
+    const consultaAreaTerreno = this.filtros.areaTerreno.habilitado ? [
+      { $gte: this.filtros.areaTerreno.lower },
+      { $lte: this.filtros.areaTerreno.upper }
+    ] : undefined;
+    const consultaPlantas = this.filtros.plantas.habilitado ? [
+      { $gte: this.filtros.plantas.lower },
+      { $lte: this.filtros.plantas.upper }
+    ] : undefined;
     const consulta = {
       where: {
-        categoria: { $in: this.filtros.categorias, },
-        esAlquiler: this.filtros.esAlquiler,
-        habitaciones: [
-          { $gte: this.filtros.habitaciones.lower },
-          { $lte: this.filtros.habitaciones.upper }
-        ],
-        precio: [
-          { $gte: this.filtros.precios.lower },
-          { $lte: this.filtros.precios.upper }
-        ],
-        parqueaderos: [
-          { $gte: this.filtros.parqueaderos.lower },
-          { $lte: this.filtros.parqueaderos.upper }
-        ],
-        areaConstruccion: [
-          { $gte: this.filtros.areaConstruccion.lower },
-          { $lte: this.filtros.areaConstruccion.upper }
-        ],
-        areaTerreno: [
-          { $gte: this.filtros.areaConstruccion.lower },
-          { $lte: this.filtros.areaConstruccion.upper }
-        ],
+        categoria: consultaCategoria,
+        enAlquiler: this.filtros.esAlquiler ? 1 : 0,
+        habitaciones: consultaHabitaciones,
+        precio: consultaPrecio,
+        parqueaderos: consultaParqueaderos,
+        areaConstruccion: consultaAreaConstruccion,
+        areaTerreno: consultaAreaTerreno,
+        plantas: consultaPlantas,
       }
     };
+    this.filtroStore
+      .dispatch(
+        FiltroActions.emitirFiltro(
+          { query: consulta }
+        ),
+      );
   }
 }
