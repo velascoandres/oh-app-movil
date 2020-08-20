@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { MenuInmuebleState } from 'src/app/modulos/compartido/menu-inmueble-store/menu-inmueble.state';
 import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
 import { InmueblesActions } from 'src/app/modulos/compartido/menu-inmueble-store/actions/menu-inmueble.actions';
-import { AppStateInmueble } from 'src/app/store/app.reducers';
+import { AppStateInmueble, AppState } from 'src/app/store/app.reducers';
 import { Subscription } from 'rxjs';
 import { IonInfiniteScroll } from '@ionic/angular';
 
@@ -17,6 +17,9 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit 
   inmuebles: InmuebleInterface[] = [];
   subscripciones: Subscription[] = [];
   totalInmuebles: number;
+  mostrarLista: boolean;
+
+
   @Input()
   query = {
     skip: 0,
@@ -27,8 +30,11 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit 
 
 
   constructor(
-    private readonly storeInmuebles: Store<AppStateInmueble>
-  ) { }
+    private readonly storeInmuebles: Store<AppStateInmueble>,
+    private readonly filtroStore: Store<AppState>,
+  ) {
+    this.mostrarLista = true;
+  }
 
   ngAfterViewInit(): void {
     this.inicializar();
@@ -43,6 +49,7 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit 
   private inicializar() {
     // this.listarInmuebles();
     this.escucharInmuebles();
+    this.escucharFiltros();
   }
 
   private escucharInmuebles() {
@@ -68,7 +75,6 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit 
 
   cargarMasInmuebles(evento) {
     this.query.skip = this.query.skip + 10;
-    console.log(this.inmuebles.length, this.totalInmuebles);
     const deberCargar = this.inmuebles.length < this.totalInmuebles;
     if (deberCargar) {
       this.storeInmuebles.dispatch(
@@ -78,9 +84,19 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit 
           },
         ),
       );
-    } else {
-      evento.target.disabled = true;
     }
     evento.target.complete();
+  }
+
+  escucharFiltros() {
+    console.log('escuchando');
+    this.filtroStore
+      .select('filtro')
+      .subscribe(
+        (estado) => {
+          console.log('escuchando', estado);
+          this.mostrarLista = !estado.filtrando;
+        }
+      );
   }
 }

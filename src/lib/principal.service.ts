@@ -33,7 +33,7 @@ export abstract class PrincipalRestService<T> implements HttpMethods<T>{
 
     }
 
-    public findAll(params?: { [key: string]: string | number }, headers?: any): Observable<ApiResponse<T>> {
+    public findAll(params?: { [key: string]: string | number | any }, headers?: any): Observable<ApiResponse<T>> {
         return this.httpClient
             .get(
                 this.url,

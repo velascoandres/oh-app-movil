@@ -1,31 +1,17 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-4" *ngFor="let inmueble of inmuebles">
-      <app-item-inmueble [inmueble]="inmueble">
-      </app-item-inmueble>
+<div class="lista">
+  <div class="container" [hidden]="!mostrarLista">
+    <div class="row">
+      <div class="col-md-4" *ngFor="let inmueble of inmuebles">
+        <app-item-inmueble [inmueble]="inmueble">
+        </app-item-inmueble>
+      </div>
     </div>
+    <ion-infinite-scroll #scroll  threshold="100px" (ionInfinite)="cargarMasInmuebles($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+  <div [hidden]="mostrarLista">
+    <app-filtros-inmuebles></app-filtros-inmuebles>
   </div>
 </div>
-  <!-- <div class="row">
-    <ion-virtual-scroll [items]="inmuebles">
-      <div *virtualItem="let item" class="col-md-4" >
-        <div>
-          <app-item-inmueble [inmueble]="item">
-          </app-item-inmueble>
-        </div>
-      </div>
-    </ion-virtual-scroll>
-  </div> -->
-
-  <ion-infinite-scroll #scroll  threshold="100px" (ionInfinite)="cargarMasInmuebles($event)">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
-<!-- 
-  <button (click)="cargarMasInmuebles()">Cargar mas </button> -->
-  <!-- <ion-row *ngFor="let inmueble of inmuebles" class="ion-align-items-center">
-    <ion-col>
-      <app-item-inmueble [inmueble]="inmueble">
-      </app-item-inmueble>
-    </ion-col>
-  </ion-row> -->

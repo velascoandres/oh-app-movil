@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewWillEnter } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { AppStateInmueble } from 'src/app/store/app.reducers';
+import { AppStateInmueble, AppState } from 'src/app/store/app.reducers';
 import { InmueblesActions } from 'src/app/modulos/compartido/menu-inmueble-store/actions/menu-inmueble.actions';
 import { take } from 'rxjs/operators';
+import { FiltroActions } from 'src/app/store/filtro-store/actions/filtro.actions';
 
 @Component({
   selector: 'app-menu-inmuebles',
@@ -25,6 +26,7 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter {
 
   constructor(
     private readonly inmueblesStore: Store<AppStateInmueble>,
+    private readonly filtrosStore: Store<AppState>,
   ) { }
   ionViewWillEnter(): void {
     // this.cargarInmuebles();
@@ -61,5 +63,13 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter {
     } else {
       this.cargarInmuebles(false);
     }
+  }
+
+  mostrarOcultarFiltros() {
+    this
+      .filtrosStore
+      .dispatch(
+        FiltroActions.mostrarFiltros(),
+      );
   }
 }

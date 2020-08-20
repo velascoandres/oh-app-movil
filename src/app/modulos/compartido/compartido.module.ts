@@ -14,6 +14,9 @@ import { COMPARTIDO_STORE } from './constantes/store';
 import { CrearEditarInmuebleComponent } from './modales/crear-editar-inmueble/crear-editar-inmueble.component';
 import { MapaInmueblesComponent } from './modales/mapa-inmuebles/mapa-inmuebles.component';
 import { InformacionInmuebleComponent } from './modales/informacion-inmueble/informacion-inmueble.component';
+import { CategoriaRestService } from './servicios/rest/categoria-rest.service';
+import { FiltrosInmueblesComponent } from 'src/app/componentes/filtros-inmuebles/filtros-inmuebles.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -24,12 +27,14 @@ import { InformacionInmuebleComponent } from './modales/informacion-inmueble/inf
     CrearEditarInmuebleComponent,
     MapaInmueblesComponent,
     InformacionInmuebleComponent,
+    FiltrosInmueblesComponent,
   ],
   imports: [
     CommonModule,
     HttpClientModule,
     ...COMPARTIDO_STORE,
     IonicModule,
+    FormsModule,
     EffectsModule
       .forFeature(
         [
@@ -39,6 +44,7 @@ import { InformacionInmuebleComponent } from './modales/informacion-inmueble/inf
   ],
   providers: [
     InmuebleRestService,
+    CategoriaRestService,
   ],
   exports: [
     ListaInmuebleComponent,
