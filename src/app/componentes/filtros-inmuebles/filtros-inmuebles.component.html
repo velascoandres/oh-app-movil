@@ -1,23 +1,58 @@
 <ion-list>
 
+
   <ion-item>
     <ion-grid>
       <ion-row>
         <ion-col class="centro">
-          <ion-label>Precio</ion-label>
-          <ion-chip outline color="success">
-            <ion-icon name="cash-outline"></ion-icon>
-            <ion-label>{{filtros.precios.lower}}</ion-label>
-          </ion-chip> -
-          <ion-chip outline color="success">
-            <ion-icon name="cash-outline"></ion-icon>
-            <ion-label>{{filtros.precios.upper}}</ion-label>
-          </ion-chip>
+          <ion-label>
+            <input type="checkbox" [value]="1" [(ngModel)]="filtros.precios.habilitado">
+            Precio
+          </ion-label>
+
+          <div [hidden]="!filtros.precios.habilitado">
+            <ion-chip outline color="success">
+              <ion-icon name="success"></ion-icon>
+              <ion-label>{{filtros.precios.lower}} m<sup>2</sup></ion-label>
+            </ion-chip> -
+            <ion-chip outline color="success">
+              <ion-icon name="success"></ion-icon>
+              <ion-label>{{filtros.precios.upper}} m<sup>2</sup></ion-label>
+            </ion-chip>
+          </div>
         </ion-col>
       </ion-row>
+      <ion-row [hidden]="!filtros.precios.habilitado">
+        <ion-range min="5000" max="500000" dual-knobs pin color="danger" [(ngModel)]="filtros.precios" mode="ios"
+          step="10">
+        </ion-range>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+
+
+  <ion-item>
+    <ion-grid>
       <ion-row>
-        <ion-range min="5000" max="500000" id="precio" dual-knobs pin color="danger" [(ngModel)]="filtros.precios"
-          mode="ios" step="5000">
+        <ion-col class="centro">
+          <ion-label>
+            <input type="checkbox" [value]="1" [(ngModel)]="filtros.areaTerreno.habilitado">
+            Area Terreno
+          </ion-label>
+
+          <div [hidden]="!filtros.areaTerreno.habilitado">
+            <ion-chip outline color="primary">
+              <ion-label>{{filtros.areaTerreno.lower}} m<sup>2</sup></ion-label>
+            </ion-chip> -
+            <ion-chip outline color="primary">
+              <ion-label>{{filtros.areaTerreno.upper}} m<sup>2</sup></ion-label>
+            </ion-chip>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row [hidden]="!filtros.areaTerreno.habilitado">
+        <ion-range min="20" max="500" dual-knobs pin color="danger" [(ngModel)]="filtros.areaTerreno" mode="ios"
+          step="10">
         </ion-range>
       </ion-row>
     </ion-grid>
@@ -27,18 +62,22 @@
     <ion-grid>
       <ion-row>
         <ion-col class="centro">
-          <ion-label>Area Terreno</ion-label>
-          <ion-chip outline color="primary">
-            <ion-label>{{filtros.areaTerreno.lower}} m<sup>2</sup></ion-label>
-          </ion-chip> -
-          <ion-chip outline color="primary">
-            <ion-label>{{filtros.areaTerreno.upper}} m<sup>2</sup></ion-label>
-          </ion-chip>
+          <ion-label> <input type="checkbox" [value]="1" [(ngModel)]="filtros.areaConstruccion.habilitado"> Area
+            Construccion </ion-label>
+
+          <div [hidden]="!filtros.areaConstruccion.habilitado">
+            <ion-chip outline color="secondary">
+              <ion-label>{{filtros.areaConstruccion.lower}} m<sup>2</sup></ion-label>
+            </ion-chip> -
+            <ion-chip outline color="secondary">
+              <ion-label>{{filtros.areaConstruccion.upper}} m<sup>2</sup></ion-label>
+            </ion-chip>
+          </div>
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-range min="20" max="500" id="precio" dual-knobs pin color="danger" [(ngModel)]="filtros.areaTerreno"
-          mode="ios" step="10">
+      <ion-row [hidden]="!filtros.areaConstruccion.habilitado">
+        <ion-range min="20" max="500" dual-knobs pin color="danger" [(ngModel)]="filtros.areaConstruccion" mode="ios"
+          step="10">
         </ion-range>
       </ion-row>
     </ion-grid>
@@ -48,18 +87,23 @@
     <ion-grid>
       <ion-row>
         <ion-col class="centro">
-          <ion-label>Area Construccion</ion-label>
-          <ion-chip outline color="secondary">
-            <ion-label>{{filtros.areaConstruccion.lower}} m<sup>2</sup></ion-label>
-          </ion-chip> -
-          <ion-chip outline color="secondary">
-            <ion-label>{{filtros.areaConstruccion.upper}} m<sup>2</sup></ion-label>
-          </ion-chip>
+          <ion-label>
+            <input type="checkbox" [value]="1" [(ngModel)]="filtros.plantas.habilitado">
+            Pisos</ion-label>
+          <div [hidden]="!filtros.plantas.habilitado">
+            <ion-chip outline color="dark">
+              <ion-icon name="business-outline"></ion-icon>
+              <ion-label>{{filtros.plantas.lower}}</ion-label>
+            </ion-chip> -
+            <ion-chip outline color="dark">
+              <ion-icon name="business-outline"></ion-icon>
+              <ion-label>{{filtros.plantas.upper}}</ion-label>
+            </ion-chip>
+          </div>
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-range min="20" max="500" id="precio" dual-knobs pin color="danger" [(ngModel)]="filtros.areaConstruccion"
-          mode="ios" step="10">
+      <ion-row [hidden]="!filtros.plantas.habilitado">
+        <ion-range min="1" max="20" dual-knobs pin color="danger" [(ngModel)]="filtros.plantas" mode="ios" step="1">
         </ion-range>
       </ion-row>
     </ion-grid>
@@ -69,19 +113,53 @@
     <ion-grid>
       <ion-row>
         <ion-col class="centro">
-          <ion-label>Pisos</ion-label>
-          <ion-chip outline color="dark">
-            <ion-icon name="business-outline"></ion-icon>
-            <ion-label>{{filtros.plantas.lower}}</ion-label>
-          </ion-chip> -
-          <ion-chip outline color="dark">
-            <ion-icon name="business-outline"></ion-icon>
-            <ion-label>{{filtros.plantas.upper}}</ion-label>
-          </ion-chip>
+          <ion-label>
+            <input type="checkbox" [value]="1" [(ngModel)]="filtros.habitaciones.habilitado">
+
+            Habitaciones</ion-label>
+
+          <div [hidden]="!filtros.habitaciones.habilitado">
+            <ion-chip color="dark">
+              <ion-icon name="bed"></ion-icon>
+              <ion-label>{{filtros.habitaciones.lower}}</ion-label>
+            </ion-chip> -
+            <ion-chip color="dark">
+              <ion-icon name="bed"></ion-icon>
+              <ion-label>{{filtros.habitaciones.upper}}</ion-label>
+            </ion-chip>
+          </div>
         </ion-col>
       </ion-row>
+      <ion-row [hidden]="!filtros.habitaciones.habilitado">
+        <ion-range min="1" max="10" dual-knobs pin color="danger" [(ngModel)]="filtros.habitaciones" mode="ios"
+          step="1">
+        </ion-range>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+
+
+  <ion-item>
+    <ion-grid>
       <ion-row>
-        <ion-range min="1" max="20" id="precio" dual-knobs pin color="danger" [(ngModel)]="filtros.plantas" mode="ios"
+        <ion-col class="centro">
+          <ion-label>
+            <input type="checkbox" [value]="1" [(ngModel)]="filtros.parqueaderos.habilitado">
+            Parqueaderos</ion-label>
+          <div [hidden]="!filtros.parqueaderos.habilitado">
+            <ion-chip color="tertiary">
+              <ion-icon name="car"></ion-icon>
+              <ion-label>{{filtros.parqueaderos.lower}}</ion-label>
+            </ion-chip> -
+            <ion-chip color="tertiary">
+              <ion-icon name="car"></ion-icon>
+              <ion-label>{{filtros.parqueaderos.upper}}</ion-label>
+            </ion-chip>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row [hidden]="!filtros.parqueaderos.habilitado">
+        <ion-range min="1" max="10" dual-knobs pin color="danger" [(ngModel)]="filtros.parqueaderos" mode="ios"
           step="1">
         </ion-range>
       </ion-row>
@@ -89,55 +167,9 @@
   </ion-item>
 
   <ion-item>
-    <ion-grid>
-      <ion-row>
-        <ion-col class="centro">
-          <ion-label>Habitaciones</ion-label>
-          <ion-chip color="dark">
-            <ion-icon name="bed"></ion-icon>
-            <ion-label>{{filtros.habitaciones.lower}}</ion-label>
-          </ion-chip> -
-          <ion-chip color="dark">
-            <ion-icon name="bed"></ion-icon>
-            <ion-label>{{filtros.habitaciones.upper}}</ion-label>
-          </ion-chip>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-range min="1" max="10" id="precio" dual-knobs pin color="danger" [(ngModel)]="filtros.habitaciones"
-          mode="ios" step="1">
-        </ion-range>
-      </ion-row>
-    </ion-grid>
-  </ion-item>
-
-
-  <ion-item>
-    <ion-grid>
-      <ion-row>
-        <ion-col class="centro">
-          <ion-label>Parqueaderos</ion-label>
-          <ion-chip color="tertiary">
-            <ion-icon name="car"></ion-icon>
-            <ion-label>{{filtros.parqueaderos.lower}}</ion-label>
-          </ion-chip> -
-          <ion-chip color="tertiary">
-            <ion-icon name="car"></ion-icon>
-            <ion-label>{{filtros.parqueaderos.upper}}</ion-label>
-          </ion-chip>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-range min="1" max="10" id="precio" dual-knobs pin color="danger" [(ngModel)]="filtros.parqueaderos"
-          mode="ios" step="1">
-        </ion-range>
-      </ion-row>
-    </ion-grid>
-  </ion-item>
-
-  <ion-item>
     <ion-label>Es Alquiler</ion-label>
-    <ion-checkbox slot="end" [value]="1" [(ngModel)]="filtros.esAlquiler"></ion-checkbox>
+    <ion-checkbox slot="end" [value]="1" [(ngModel)]="filtros.esAlquiler" (ionBlur)="filtros.esAlquiler = undefined">
+    </ion-checkbox>
   </ion-item>
 
 </ion-list>
@@ -152,3 +184,5 @@
     <ion-checkbox slot="end" [value]="categoria.id" (ionChange)="setearCategoria($event)"></ion-checkbox>
   </ion-item>
 </ion-list>
+
+<ion-button expand="full" color="secondary" (click)="filtrar()">Filtrar</ion-button>

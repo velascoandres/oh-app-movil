@@ -34,13 +34,13 @@ import { InmuebleEffects } from './modulos/compartido/menu-inmueble-store/effect
       .forRoot(
         [],
       ),
-    // StoreDevtoolsModule
-    //   .instrument(
-    //     {
-    //       maxAge: 25,
-    //       logOnly: environment.production,
-    //     },
-    //   ),
+    StoreDevtoolsModule
+      .instrument(
+        {
+          maxAge: 25,
+          logOnly: environment.production,
+        },
+      ),
     AuthModule,
   ],
   providers: [
