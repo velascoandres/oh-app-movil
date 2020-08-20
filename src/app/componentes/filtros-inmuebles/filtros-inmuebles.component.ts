@@ -18,12 +18,12 @@ export class FiltrosInmueblesComponent implements OnInit {
   filtros = {
     categorias: [],
     esAlquiler: 0,
-    habitaciones: {lower: 1, upper: 5},
-    areaConstruccion: {lower: 50, upper: 200},
-    areaTerreno: {lower: 50, upper: 200},
-    plantas: {lower: 1, upper: 4},
-    parqueaderos: {lower: 1, upper: 2},
-    precios: {lower: 30000, upper: 100000},
+    habitaciones: { lower: 1, upper: 5 },
+    areaConstruccion: { lower: 50, upper: 200 },
+    areaTerreno: { lower: 50, upper: 200 },
+    plantas: { lower: 1, upper: 4 },
+    parqueaderos: { lower: 1, upper: 2 },
+    precios: { lower: 30000, upper: 100000 },
   };
 
   constructor(
@@ -48,8 +48,28 @@ export class FiltrosInmueblesComponent implements OnInit {
       );
   }
 
-  setearCategoria(evento){
-    console.log(evento);
+  setearCategoria(evento) {
+    const idCategoria = +evento.detail.value;
+    const debeAgregarElemento = evento.detail.checked;
+    if (debeAgregarElemento) {
+      this.filtros.categorias.push(idCategoria);
+    }
+    this.filtros.categorias = this.filtros.categorias.filter(
+      debeAgregarElemento ? this.callbackSoloUnicos() : this.callbackQuitar(idCategoria),
+    );
+    console.log(this.filtros);
+  }
+
+  private callbackSoloUnicos() {
+    return (valor, indice, arreglo) => {
+      return arreglo.indexOf(valor) === indice;
+    };
+  }
+
+  private callbackQuitar(valorQuitar) {
+    return (valor) => {
+      return valorQuitar !== valor;
+    };
   }
 
 }
