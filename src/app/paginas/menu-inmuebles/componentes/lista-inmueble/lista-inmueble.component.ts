@@ -89,13 +89,11 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   escucharFiltros() {
-    console.log('escuchando');
     this.filtroStore
       .select('filtro')
       .subscribe(
         (estado) => {
-          console.log('escuchando', estado);
-          this.mostrarLista = !estado.filtrando;
+          this.mostrarLista = !estado.mostrandoFiltros;
         }
       );
   }

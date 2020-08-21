@@ -1,10 +1,11 @@
-import { createReducer, on, Action } from '@ngrx/store';
-import { FiltroState } from '../filtro.state';
-import { FiltroActions } from '../actions/filtro.actions';
+import {Action, createReducer, on} from '@ngrx/store';
+import {FiltroState} from '../filtro.state';
+import {FiltroActions} from '../actions/filtro.actions';
 
 export const estadoInicialFiltro: FiltroState = {
-    filtrando: false,
+    mostrandoFiltros: false,
     query: {},
+    emitioFiltros: false,
 };
 
 const _filtroReducer = createReducer(
@@ -12,22 +13,20 @@ const _filtroReducer = createReducer(
     on(
         FiltroActions.emitirFiltro,
         (estado: FiltroState, { query }) => {
-            const nuevoEstado = {
-                ...estado,
+            return {
                 query,
+                mostrandoFiltros: false,
+                emitioFiltros: true,
             };
-            console.log(nuevoEstado);
-            return nuevoEstado;
         }
     ),
     on(
         FiltroActions.mostrarFiltros,
-        (estado) => {
-            const nuevoEstado = {
+        (estado: FiltroState) => {
+            return {
                 ...estado,
-                filtrando: !estado.filtrando,
+                mostrandoFiltros: !estado.mostrandoFiltros,
             };
-            return nuevoEstado;
         }
     ),
 );

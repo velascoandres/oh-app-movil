@@ -5,6 +5,7 @@ import {AppStateInmuebles, AppState} from 'src/app/store/app.reducers';
 import {InmueblesActions} from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/actions/menu-inmueble.actions';
 import {take} from 'rxjs/operators';
 import {FiltroActions} from 'src/app/store/filtro-store/actions/filtro.actions';
+import {FiltroState} from '../../store/filtro-store/filtro.state';
 
 @Component({
     selector: 'app-menu-inmuebles',
@@ -37,14 +38,27 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter {
 
     ngOnInit() {
         this.cargarInmuebles();
+        this.escucharFiltros();
+    }
+
+
+    private escucharFiltros() {
         this.filtrosStore
             .select('filtro')
             .subscribe(
-                ({filtrando}) => this.estaFiltrando = filtrando,
+                (estado: FiltroState) => {
+                    if (estado.emitioFiltros) {
+                        this.inmueblesStore.dispatch(
+                            InmueblesActions.cargarInmuebles(
+                                {filtro: true, parametros: estado.query}
+                            )
+                        );
+                    }
+                },
             );
     }
 
-    cargarInmuebles(filtro = false) {
+    private cargarInmuebles(filtro = false) {
         this
             .inmueblesStore
             .dispatch(

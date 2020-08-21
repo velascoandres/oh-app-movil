@@ -5,6 +5,8 @@ import {ApiResponse} from 'src/lib/principal.service';
 import {Store} from '@ngrx/store';
 import {AppState} from 'src/app/store/app.reducers';
 import {FiltroActions} from 'src/app/store/filtro-store/actions/filtro.actions';
+import {CriteroRango, FiltroInmueble} from '../../../../interfaces/filtro-inmueble.interface';
+
 
 @Component({
     selector: 'app-filtros-inmuebles',
@@ -16,15 +18,15 @@ export class FiltrosInmueblesComponent implements OnInit {
     categorias: CategoriaInterface[] = [];
 
 
-    filtros = {
+    filtros: FiltroInmueble = {
         categorias: [],
         esAlquiler: 0,
-        habitaciones: {lower: 0, upper: 0, habilitado: 0},
-        areaConstruccion: {lower: 0, upper: 0, habilitado: 0},
-        areaTerreno: {lower: 0, upper: 0, habilitado: 0},
-        plantas: {lower: 0, upper: 0, habilitado: 0},
-        parqueaderos: {lower: 0, upper: 0, habilitado: 0},
-        precios: {lower: 0, upper: 0, habilitado: 0},
+        habitaciones: {min: 0, max: 0, habilitado: 0},
+        areaConstruccion: {min: 0, max: 0, habilitado: 0},
+        areaTerreno: {min: 0, max: 0, habilitado: 0},
+        plantas: {min: 0, max: 0, habilitado: 0},
+        parqueaderos: {min: 0, max: 0, habilitado: 0},
+        precios: {min: 0, max: 0, habilitado: 0},
     };
 
     constructor(
@@ -45,64 +47,29 @@ export class FiltrosInmueblesComponent implements OnInit {
             .findAll(consulta)
             .subscribe(
                 (respuesta: ApiResponse<CategoriaInterface>) => {
-                    console.log(respuesta);
                     this.categorias = respuesta.data;
                 }
             );
     }
 
     setearCategoria(evento) {
-        // const idCategoria = +evento.detail.value;
         this.filtros.categorias = evento.detail.value;
-        // const debeAgregarElemento = evento.detail.checked;
-        // if (debeAgregarElemento) {
-        //   this.filtros.categorias.push(idCategoria);
-        // }
-        // this.filtros.categorias = this.filtros.categorias.filter(
-        //   debeAgregarElemento ? this.callbackSoloUnicos() : this.callbackQuitar(idCategoria),
-        // );
     }
 
-    private callbackSoloUnicos() {
-        return (valor, indice, arreglo) => {
-            return arreglo.indexOf(valor) === indice;
-        };
-    }
-
-    private callbackQuitar(valorQuitar) {
-        return (valor) => {
-            return valorQuitar !== valor;
-        };
+    private empaquetarConsultaRango(criterio: CriteroRango) {
+        return this.filtros[criterio].habilitado ? {$btw: [this.filtros[criterio].min, this.filtros[criterio].max]} : undefined;
     }
 
     filtrar() {
         const consultaCategoria = this.filtros.categorias.length > 0 ? {
             id: {$in: this.filtros.categorias},
         } : undefined;
-        const consultaHabitaciones = this.filtros.habitaciones.habilitado ? [
-            {$gte: this.filtros.habitaciones.lower},
-            {$lte: this.filtros.habitaciones.upper}
-        ] : undefined;
-        const consultaPrecio = this.filtros.precios.habilitado ? [
-            {$gte: this.filtros.precios.lower},
-            {$lte: this.filtros.precios.upper}
-        ] : undefined;
-        const consultaParqueaderos = this.filtros.parqueaderos.habilitado ? [
-            {$gte: this.filtros.parqueaderos.lower},
-            {$lte: this.filtros.parqueaderos.upper}
-        ] : undefined;
-        const consultaAreaConstruccion = this.filtros.areaConstruccion.habilitado ? [
-            {$gte: this.filtros.areaConstruccion.lower},
-            {$lte: this.filtros.areaConstruccion.upper}
-        ] : undefined;
-        const consultaAreaTerreno = this.filtros.areaTerreno.habilitado ? [
-            {$gte: this.filtros.areaTerreno.lower},
-            {$lte: this.filtros.areaTerreno.upper}
-        ] : undefined;
-        const consultaPlantas = this.filtros.plantas.habilitado ? [
-            {$gte: this.filtros.plantas.lower},
-            {$lte: this.filtros.plantas.upper}
-        ] : undefined;
+        const consultaHabitaciones = this.empaquetarConsultaRango('habitaciones');
+        const consultaPrecio = this.empaquetarConsultaRango('precios');
+        const consultaParqueaderos = this.empaquetarConsultaRango('parqueaderos');
+        const consultaAreaConstruccion = this.empaquetarConsultaRango('areaConstruccion');
+        const consultaAreaTerreno = this.empaquetarConsultaRango('areaTerreno');
+        const consultaPlantas = this.empaquetarConsultaRango('plantas');
         const consulta = {
             where: {
                 categoria: consultaCategoria,
@@ -113,7 +80,11 @@ export class FiltrosInmueblesComponent implements OnInit {
                 areaConstruccion: consultaAreaConstruccion,
                 areaTerreno: consultaAreaTerreno,
                 plantas: consultaPlantas,
-            }
+                habilitado: 1,
+                imagenes: {},
+            },
+            skip: 0,
+            take: 10,
         };
         this.filtroStore
             .dispatch(

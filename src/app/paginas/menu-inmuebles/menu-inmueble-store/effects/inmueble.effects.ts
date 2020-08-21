@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { InmuebleRestService } from '../../../../modulos/compartido/servicios/rest/inmueble-rest.service';
-import { InmueblesActions } from '../actions/menu-inmueble.actions';
-import { mergeMap, map, catchError, withLatestFrom, switchMap, concatMap } from 'rxjs/operators';
-import { ApiResponse } from 'src/lib/principal.service';
-import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
-import { of } from 'rxjs';
-import { FavoritosActions } from '../../../favoritos/favoritos-store/favoritos.actions';
-import { Store } from '@ngrx/store';
-import { AppState, AppStateInmuebles } from 'src/app/store/app.reducers';
+import {Injectable} from '@angular/core';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {InmuebleRestService} from '../../../../modulos/compartido/servicios/rest/inmueble-rest.service';
+import {InmueblesActions} from '../actions/menu-inmueble.actions';
+import {catchError, mergeMap, withLatestFrom} from 'rxjs/operators';
+import {ApiResponse} from 'src/lib/principal.service';
+import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
+import {of} from 'rxjs';
+import {Store} from '@ngrx/store';
+import {AppStateInmuebles} from 'src/app/store/app.reducers';
 
 @Injectable()
 export class InmuebleEffects {
@@ -23,12 +22,11 @@ export class InmuebleEffects {
     cargarInmuebles$ = createEffect(
         () => {
             // Definimos que accion va escuchar
-            const accion$ = this.acciones$.pipe(
+            return this.acciones$.pipe(
                 ofType(InmueblesActions.cargarInmuebles),
                 withLatestFrom(this.inmublesStore.select('inmuebles')),
                 mergeMap(
-                    ([{ parametros, filtro }, { queryActual }]) => {
-                        console.log(parametros);
+                    ([{parametros, filtro}, {queryActual}]) => {
                         return this._inmuebleService.findAll(
                             {
                                 ...queryActual,
@@ -49,10 +47,9 @@ export class InmuebleEffects {
                     }
                 ),
                 catchError(
-                    error => of(InmueblesActions.cargarInmueblesError({ error, }))
+                    error => of(InmueblesActions.cargarInmueblesError({error,}))
                 ),
             );
-            return accion$;
         },
     );
 

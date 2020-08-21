@@ -12,12 +12,12 @@
         <div class="row" [hidden]="!filtros.precios.habilitado">
             <div class="col-5" >
                 <ion-input
-                        [(ngModel)]="filtros.precios.lower"
+                        [(ngModel)]="filtros.precios.min"
                         class="border" placeholder="min" inputmode="numeric"></ion-input>
             </div>
             <div class="col-5">
                 <ion-input
-                        [(ngModel)]="filtros.precios.upper"
+                        [(ngModel)]="filtros.precios.max"
                         class="border" placeholder="max" inputmode="numeric"></ion-input>
             </div>
         </div>
@@ -35,11 +35,11 @@
         <div class="row">
             <div class="col-5" [hidden]="!filtros.areaTerreno.habilitado">
                 <ion-input
-                        [(ngModel)]="filtros.areaTerreno.lower"
+                        [(ngModel)]="filtros.areaTerreno.min"
                         class="border" placeholder="min" inputmode="numeric"></ion-input>
             </div>
             <div class="col-5" [hidden]="!filtros.areaTerreno.habilitado">
-                <ion-input [(ngModel)]="filtros.areaTerreno.upper"
+                <ion-input [(ngModel)]="filtros.areaTerreno.max"
                            class="border" placeholder="max" inputmode="numeric"></ion-input>
             </div>
         </div>
@@ -56,12 +56,12 @@
         </div>
         <div class="row">
             <div class="col-5" [hidden]="!filtros.areaConstruccion.habilitado">
-                <ion-input [(ngModel)]="filtros.areaConstruccion.lower"
+                <ion-input [(ngModel)]="filtros.areaConstruccion.min"
                            class="border" placeholder="min" inputmode="numeric"></ion-input>
             </div>
             <div class="col-5"
                  [hidden]="!filtros.areaConstruccion.habilitado">
-                <ion-input [(ngModel)]="filtros.areaConstruccion.upper"
+                <ion-input [(ngModel)]="filtros.areaConstruccion.max"
                            class="border" placeholder="max" inputmode="numeric"></ion-input>
             </div>
         </div>
@@ -78,11 +78,11 @@
         </div>
         <div class="row">
             <div class="col-3" [hidden]="!filtros.plantas.habilitado">
-                <ion-input [(ngModel)]="filtros.plantas.lower"
+                <ion-input [(ngModel)]="filtros.plantas.min"
                            class="border" placeholder="min" inputmode="numeric"></ion-input>
             </div>
             <div class="col-3" [hidden]="!filtros.plantas.habilitado">
-                <ion-input [(ngModel)]="filtros.plantas.upper"
+                <ion-input [(ngModel)]="filtros.plantas.max"
                            class="border" placeholder="max" inputmode="numeric"></ion-input>
             </div>
         </div>
@@ -100,11 +100,11 @@
 
         <div class="row">
             <div class="col-3" [hidden]="!filtros.habitaciones.habilitado">
-                <ion-input [(ngModel)]="filtros.habitaciones.lower"
+                <ion-input [(ngModel)]="filtros.habitaciones.min"
                            class="border" placeholder="0.00" inputmode="numeric"></ion-input>
             </div>
             <div class="col-3" [hidden]="!filtros.habitaciones.habilitado">
-                <ion-input [(ngModel)]="filtros.habitaciones.upper"
+                <ion-input [(ngModel)]="filtros.habitaciones.max"
                            class="border" placeholder="0.00" inputmode="numeric"></ion-input>
             </div>
         </div>
@@ -122,11 +122,11 @@
         </div>
         <div class="row">
             <div class="col-5" [hidden]="!filtros.parqueaderos.habilitado">
-                <ion-input class="border" placeholder="min" inputmode="numeric" [(ngModel)]="filtros.parqueaderos.lower">
+                <ion-input class="border" placeholder="min" inputmode="numeric" [(ngModel)]="filtros.parqueaderos.min">
                 </ion-input>
             </div>
             <div class="col-5" [hidden]="!filtros.parqueaderos.habilitado">
-                <ion-input class="border" placeholder="max" inputmode="numeric" [(ngModel)]="filtros.parqueaderos.upper"></ion-input>
+                <ion-input class="border" placeholder="max" inputmode="numeric" [(ngModel)]="filtros.parqueaderos.max"></ion-input>
             </div>
         </div>
     </div>

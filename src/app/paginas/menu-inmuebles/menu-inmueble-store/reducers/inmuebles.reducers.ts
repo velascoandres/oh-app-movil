@@ -1,6 +1,6 @@
-import { MenuInmuebleState } from '../menu-inmueble.state';
-import { createReducer, on, Action } from '@ngrx/store';
-import { InmueblesActions } from '../actions/menu-inmueble.actions';
+import {MenuInmuebleState} from '../menu-inmueble.state';
+import {createReducer, on, Action} from '@ngrx/store';
+import {InmueblesActions} from '../actions/menu-inmueble.actions';
 
 export const estadoInicialInmuebles: MenuInmuebleState = {
     cargando: false,
@@ -13,8 +13,7 @@ const _inmueblesReducer = createReducer(
     estadoInicialInmuebles,
     on(
         InmueblesActions.cargarInmuebles,
-        (estado: MenuInmuebleState, { parametros, filtro }) => {
-            console.log(filtro);
+        (estado: MenuInmuebleState, {parametros, filtro}) => {
             return {
                 ...estado,
                 queryActual: {
@@ -28,9 +27,8 @@ const _inmueblesReducer = createReducer(
     ),
     on(
         InmueblesActions.cargarInmueblesExito,
-        (estado: MenuInmuebleState, { inmuebles, total, nextQuery }) => {
+        (estado: MenuInmuebleState, {inmuebles, total, nextQuery}) => {
             let inmueblesNuevos = [];
-            console.log(estado.filtro);
             if (estado.filtro) {
                 inmueblesNuevos = inmuebles;
             } else {
@@ -39,7 +37,6 @@ const _inmueblesReducer = createReducer(
                     ...inmuebles,
                 ];
             }
-            console.log(inmueblesNuevos);
             return {
                 ...estado,
                 inmuebles: [
@@ -53,7 +50,7 @@ const _inmueblesReducer = createReducer(
     ),
     on(
         InmueblesActions.cargarInmueblesError,
-        (estado: MenuInmuebleState, { error }) => {
+        (estado: MenuInmuebleState, {error}) => {
             return {
                 ...estado,
                 cargando: false,
