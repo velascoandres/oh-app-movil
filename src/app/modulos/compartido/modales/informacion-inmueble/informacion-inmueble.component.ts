@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { InmuebleState } from '../../menu-inmueble-store/inmueble.state';
+import { InmuebleState } from '../../../../paginas/menu-inmuebles/menu-inmueble-store/inmueble.state';
 import { Store } from '@ngrx/store';
-import { AppStateInmueble, AppState, AppStateInmuebleSolo } from 'src/app/store/app.reducers';
+import { AppStateInmuebles, AppState, AppStateInmueble } from 'src/app/store/app.reducers';
 import { ModalController } from '@ionic/angular';
 import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
 
@@ -17,7 +17,7 @@ export class InformacionInmuebleComponent implements OnInit {
   inmueble: InmuebleInterface;
 
   constructor(
-    private readonly inmubleStore: Store<AppStateInmuebleSolo>,
+    private readonly inmubleStore: Store<AppStateInmueble>,
     private readonly modalController: ModalController,
   ) {
     this.cargando = true;

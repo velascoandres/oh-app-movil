@@ -1,9 +1,9 @@
 import { Component, OnInit, Query } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppStateInmueble, AppState } from 'src/app/store/app.reducers';
+import { AppStateInmuebles, AppState } from 'src/app/store/app.reducers';
 import { AuthService } from 'src/app/modulos/auth/servicios/auth.service';
-import { InmuebleActions } from 'src/app/modulos/compartido/menu-inmueble-store/actions/inmueble.actions';
-import { InmueblesActions } from 'src/app/modulos/compartido/menu-inmueble-store/actions/menu-inmueble.actions';
+import { InmuebleActions } from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/actions/inmueble.actions';
+import { InmueblesActions } from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/actions/menu-inmueble.actions';
 import { ViewWillEnter } from '@ionic/angular';
 
 @Component({
@@ -15,7 +15,7 @@ export class FavoritosPage implements OnInit, ViewWillEnter {
 
 
   constructor(
-    private readonly inmueblesStore: Store<AppStateInmueble>,
+    private readonly inmueblesStore: Store<AppStateInmuebles>,
     private readonly authStore: Store<AppState>,
   ) { }
 

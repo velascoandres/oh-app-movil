@@ -1,0 +1,156 @@
+
+<ion-list>
+    <div class="item">
+        <div class="row">
+            <div class="col-12">
+                <ion-label>
+                    <input type="checkbox" [value]="1" [(ngModel)]="filtros.precios.habilitado">
+                    Rango de Precios:
+                </ion-label>
+            </div>
+        </div>
+        <div class="row" [hidden]="!filtros.precios.habilitado">
+            <div class="col-5" >
+                <ion-input
+                        [(ngModel)]="filtros.precios.lower"
+                        class="border" placeholder="min" inputmode="numeric"></ion-input>
+            </div>
+            <div class="col-5">
+                <ion-input
+                        [(ngModel)]="filtros.precios.upper"
+                        class="border" placeholder="max" inputmode="numeric"></ion-input>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="row">
+            <div class="col-12">
+                <ion-label>
+                    <input type="checkbox" [value]="1" [(ngModel)]="filtros.areaTerreno.habilitado">
+                    Rango de area terreno:
+                </ion-label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5" [hidden]="!filtros.areaTerreno.habilitado">
+                <ion-input
+                        [(ngModel)]="filtros.areaTerreno.lower"
+                        class="border" placeholder="min" inputmode="numeric"></ion-input>
+            </div>
+            <div class="col-5" [hidden]="!filtros.areaTerreno.habilitado">
+                <ion-input [(ngModel)]="filtros.areaTerreno.upper"
+                           class="border" placeholder="max" inputmode="numeric"></ion-input>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="row">
+            <div class="col-12">
+                <ion-label>
+                    <input type="checkbox" [value]="1" [(ngModel)]="filtros.areaConstruccion.habilitado">
+                    Rango de area de construccion:
+                </ion-label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5" [hidden]="!filtros.areaConstruccion.habilitado">
+                <ion-input [(ngModel)]="filtros.areaConstruccion.lower"
+                           class="border" placeholder="min" inputmode="numeric"></ion-input>
+            </div>
+            <div class="col-5"
+                 [hidden]="!filtros.areaConstruccion.habilitado">
+                <ion-input [(ngModel)]="filtros.areaConstruccion.upper"
+                           class="border" placeholder="max" inputmode="numeric"></ion-input>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="row">
+            <div class="col-12">
+                <ion-label>
+                    <input type="checkbox" [value]="1" [(ngModel)]="filtros.plantas.habilitado">
+                        Plantas
+                </ion-label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3" [hidden]="!filtros.plantas.habilitado">
+                <ion-input [(ngModel)]="filtros.plantas.lower"
+                           class="border" placeholder="min" inputmode="numeric"></ion-input>
+            </div>
+            <div class="col-3" [hidden]="!filtros.plantas.habilitado">
+                <ion-input [(ngModel)]="filtros.plantas.upper"
+                           class="border" placeholder="max" inputmode="numeric"></ion-input>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="row">
+            <div class="col-12">
+                <ion-label>
+                    <input type="checkbox" [value]="1" [(ngModel)]="filtros.habitaciones.habilitado">
+                    Habitaciones
+                </ion-label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3" [hidden]="!filtros.habitaciones.habilitado">
+                <ion-input [(ngModel)]="filtros.habitaciones.lower"
+                           class="border" placeholder="0.00" inputmode="numeric"></ion-input>
+            </div>
+            <div class="col-3" [hidden]="!filtros.habitaciones.habilitado">
+                <ion-input [(ngModel)]="filtros.habitaciones.upper"
+                           class="border" placeholder="0.00" inputmode="numeric"></ion-input>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="item">
+        <div class="row">
+            <div class="col-12">
+                <ion-label>
+                    <input type="checkbox" [value]="1" [(ngModel)]="filtros.parqueaderos.habilitado">
+                    Parqueaderos
+                </ion-label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5" [hidden]="!filtros.parqueaderos.habilitado">
+                <ion-input class="border" placeholder="min" inputmode="numeric" [(ngModel)]="filtros.parqueaderos.lower">
+                </ion-input>
+            </div>
+            <div class="col-5" [hidden]="!filtros.parqueaderos.habilitado">
+                <ion-input class="border" placeholder="max" inputmode="numeric" [(ngModel)]="filtros.parqueaderos.upper"></ion-input>
+            </div>
+        </div>
+    </div>
+
+
+    <ion-item>
+        <ion-label>Inmuebles en alquiler</ion-label>
+        <ion-checkbox slot="end" [value]="1" [(ngModel)]="filtros.esAlquiler">
+        </ion-checkbox>
+    </ion-item>
+
+</ion-list>
+
+
+<ion-list>
+    <ion-item>
+        <ion-label>Categorias</ion-label>
+        <ion-select multiple="true" cancelText="Cerrar" okText="Aceptar" (ionChange)="setearCategoria($event)">
+            <ion-select-option [value]="categoria.id" *ngFor="let categoria of categorias">
+                {{categoria.nombre | uppercase}}
+            </ion-select-option>
+        </ion-select>
+    </ion-item>
+
+</ion-list>
+
+<ion-button expand="full" color="secondary" (click)="filtrar()">Filtrar</ion-button>

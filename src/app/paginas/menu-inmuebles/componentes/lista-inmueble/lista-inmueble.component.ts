@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { MenuInmuebleState } from 'src/app/modulos/compartido/menu-inmueble-store/menu-inmueble.state';
+import { MenuInmuebleState } from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/menu-inmueble.state';
 import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
-import { InmueblesActions } from 'src/app/modulos/compartido/menu-inmueble-store/actions/menu-inmueble.actions';
-import { AppStateInmueble, AppState } from 'src/app/store/app.reducers';
+import { InmueblesActions } from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/actions/menu-inmueble.actions';
+import { AppStateInmuebles, AppState } from 'src/app/store/app.reducers';
 import { Subscription } from 'rxjs';
 import { IonInfiniteScroll } from '@ionic/angular';
 
@@ -30,7 +30,7 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit 
 
 
   constructor(
-    private readonly storeInmuebles: Store<AppStateInmueble>,
+    private readonly storeInmuebles: Store<AppStateInmuebles>,
     private readonly filtroStore: Store<AppState>,
   ) {
     this.mostrarLista = true;

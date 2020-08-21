@@ -1,7 +1,7 @@
 import { StoreModule } from '@ngrx/store';
-import { inmueblesReducer } from '../menu-inmueble-store/reducers/inmuebles.reducers';
-import { inmueblesFavoritosReducer } from '../favoritos-store/favoritos.reducers';
-import { inmuebleReducer } from '../menu-inmueble-store/reducers/inmueble.reducer';
+import { inmueblesReducer } from '../reducers/inmuebles.reducers';
+import { inmueblesFavoritosReducer } from '../../../favoritos/favoritos-store/favoritos.reducers';
+import { inmuebleReducer } from '../reducers/inmueble.reducer';
 
 const STORE_INMUEBLE = StoreModule.forFeature(
     'inmuebles',

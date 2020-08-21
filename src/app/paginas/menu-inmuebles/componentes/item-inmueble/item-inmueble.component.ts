@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
 import { Store } from '@ngrx/store';
-import { InmuebleState } from 'src/app/modulos/compartido/menu-inmueble-store/inmueble.state';
+import { InmuebleState } from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/inmueble.state';
 import { ModalController } from '@ionic/angular';
 import { InformacionInmuebleComponent } from 'src/app/modulos/compartido/modales/informacion-inmueble/informacion-inmueble.component';
-import { InmuebleActions } from 'src/app/modulos/compartido/menu-inmueble-store/actions/inmueble.actions';
+import { InmuebleActions } from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/actions/inmueble.actions';
 
 @Component({
   selector: 'app-item-inmueble',

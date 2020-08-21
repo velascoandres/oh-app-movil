@@ -1,0 +1,22 @@
+.centro{
+    text-align: center;
+}
+
+.border{
+    border: solid black 2px;
+    border-radius: 5px;
+}
+
+.item{
+    padding: 1rem;
+}
+
+input[type="checkbox"]{
+    height: 1rem;
+    width: 1rem;
+}
+
+
+div > .col-3 {
+    padding-top: 2%;
+}

@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { InmuebleRestService } from '../../servicios/rest/inmueble-rest.service';
+import { InmuebleRestService } from '../../../../modulos/compartido/servicios/rest/inmueble-rest.service';
 import { InmueblesActions } from '../actions/menu-inmueble.actions';
 import { mergeMap, map, catchError, withLatestFrom, switchMap, concatMap } from 'rxjs/operators';
 import { ApiResponse } from 'src/lib/principal.service';
 import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
 import { of } from 'rxjs';
-import { FavoritosActions } from '../../favoritos-store/favoritos.actions';
+import { FavoritosActions } from '../../../favoritos/favoritos-store/favoritos.actions';
 import { Store } from '@ngrx/store';
-import { AppState, AppStateInmueble } from 'src/app/store/app.reducers';
+import { AppState, AppStateInmuebles } from 'src/app/store/app.reducers';
 
 @Injectable()
 export class InmuebleEffects {
     constructor(
         private acciones$: Actions,
         private readonly _inmuebleService: InmuebleRestService,
-        private readonly inmublesStore: Store<AppStateInmueble>,
+        private readonly inmublesStore: Store<AppStateInmuebles>,
     ) {
 
     }
