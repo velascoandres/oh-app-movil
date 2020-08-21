@@ -29,6 +29,9 @@ import {ItemInmuebleComponent} from './componentes/item-inmueble/item-inmueble.c
         ListaInmuebleComponent,
         ItemInmuebleComponent,
     ],
+    exports: [
+        ListaInmuebleComponent
+    ],
     entryComponents: [
         InformacionInmuebleComponent,
     ]

@@ -1,9 +1,10 @@
-import { UsuarioInterface } from 'src/app/interfaces/usuario.interface';
+import {PerfilUsuarioInterface} from 'src/app/interfaces/perfil-usuario.interface';
 
-export interface UsuarioState extends UsuarioInterface{
+export interface UsuarioState {
     cargo: boolean;
     cargando: boolean;
     error: any;
+    usuario: PerfilUsuarioInterface;
 }
 
 

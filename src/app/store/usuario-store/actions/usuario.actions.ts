@@ -1,17 +1,17 @@
-import { createAction, props } from '@ngrx/store';
-import { UsuarioInterface } from 'src/app/interfaces/usuario.interface';
+import {createAction, props} from '@ngrx/store';
+import {PerfilUsuarioInterface} from 'src/app/interfaces/perfil-usuario.interface';
 
 
 export class UsuarioActions {
 
     static cargarUsuario = createAction(
         '[Usuario] cargar usuario',
-        props<{ parametros: Partial<UsuarioInterface> }>()
+        props<{ parametros: Partial<PerfilUsuarioInterface> }>()
     );
 
     static cargarUsuarioExito = createAction(
         '[Usuario] cargar usuario exito',
-        props<{ usuario: UsuarioInterface }>()
+        props<{ usuario: PerfilUsuarioInterface }>()
     );
 
     static cargarUsuarioError = createAction(

@@ -6,8 +6,10 @@ export const estadoInicialUsuario: UsuarioState = {
     cargando: false,
     cargo: false,
     error: null,
-    perfilUsuario: null,
-    correo: null,
+    usuario: {
+        id: 1,
+        correo: 'velasco.andrs@gmail.com',
+    },
 };
 
 const _usuarioReducer = createReducer(

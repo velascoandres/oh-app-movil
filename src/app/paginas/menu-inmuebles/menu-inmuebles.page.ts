@@ -1,20 +1,22 @@
 import {Component, OnInit} from '@angular/core';
-import {ViewWillEnter} from '@ionic/angular';
+import {ViewWillEnter, ViewWillLeave} from '@ionic/angular';
 import {Store} from '@ngrx/store';
 import {AppStateInmuebles, AppState} from 'src/app/store/app.reducers';
 import {InmueblesActions} from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/actions/menu-inmueble.actions';
 import {take} from 'rxjs/operators';
 import {FiltroActions} from 'src/app/store/filtro-store/actions/filtro.actions';
 import {FiltroState} from '../../store/filtro-store/filtro.state';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-menu-inmuebles',
     templateUrl: './menu-inmuebles.page.html',
     styleUrls: ['./menu-inmuebles.page.scss'],
 })
-export class MenuInmueblesPage implements OnInit, ViewWillEnter {
+export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
 
     estaFiltrando = false;
+    subscripciones: Subscription[] = [];
     public consulta = {
         where: {
             nombre: undefined,
@@ -33,12 +35,12 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter {
     }
 
     ionViewWillEnter(): void {
-        // this.cargarInmuebles();
+        this.escucharFiltros();
+        this.cargarInmuebles(true);
     }
 
     ngOnInit() {
-        this.cargarInmuebles();
-        this.escucharFiltros();
+       // this.cargarInmuebles();
     }
 
 
@@ -94,5 +96,9 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter {
             .dispatch(
                 FiltroActions.mostrarFiltros(),
             );
+    }
+
+    ionViewWillLeave(): void {
+        this.subscripciones.forEach(sub => sub.unsubscribe());
     }
 }

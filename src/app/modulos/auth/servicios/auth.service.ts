@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducers';
 import { UsuarioActions } from 'src/app/store/usuario-store/actions/usuario.actions';
-import { UsuarioInterface } from 'src/app/interfaces/usuario.interface';
+import { PerfilUsuarioInterface } from 'src/app/interfaces/perfil-usuario.interface';
 
 @Injectable()
 export class AuthService {
 
-    usuarioActual: UsuarioInterface = {
+    usuarioActual: PerfilUsuarioInterface = {
         id: 74,
         perfilUsuario: {
             id: 74,

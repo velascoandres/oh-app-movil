@@ -1,15 +1,82 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {AppState, AppStateInmuebles} from '../../store/app.reducers';
+import {ViewWillEnter, ViewWillLeave} from '@ionic/angular';
+import {PerfilUsuarioInterface} from '../../interfaces/perfil-usuario.interface';
+import {Subscription} from 'rxjs';
+import {InmuebleActions} from '../menu-inmuebles/menu-inmueble-store/actions/inmueble.actions';
+import {InmuebleInterface} from '../../interfaces/inmueble.interface';
+import {InmueblesActions} from '../menu-inmuebles/menu-inmueble-store/actions/menu-inmueble.actions';
 
 @Component({
-  selector: 'app-gestion-inmueble',
-  templateUrl: './gestion-inmueble.page.html',
-  styleUrls: ['./gestion-inmueble.page.scss'],
+    selector: 'app-gestion-inmueble',
+    templateUrl: './gestion-inmueble.page.html',
+    styleUrls: ['./gestion-inmueble.page.scss'],
 })
-export class GestionInmueblePage implements OnInit {
+export class GestionInmueblePage implements OnInit, ViewWillEnter, ViewWillLeave {
 
-  constructor() { }
+    usuario: PerfilUsuarioInterface;
+    subscripciones: Subscription[] = [];
+    inmuebles: InmuebleInterface[] = [];
 
-  ngOnInit() {
-  }
+    constructor(
+        private readonly _inmuebleStore: Store<AppStateInmuebles>,
+        private readonly _usuarioState: Store<AppState>,
+    ) {
+    }
+
+    ngOnInit() {
+        // this.escucharUsuario();
+        // this.escucharInmuebles();
+    }
+
+    ionViewWillEnter(): void {
+        this.escucharUsuario();
+        this.escucharInmuebles();
+    }
+
+    private escucharUsuario() {
+        const subscripcionUsaurio = this._usuarioState
+            .select('usuario')
+            .subscribe(
+                ({usuario}) => {
+                    console.log(usuario);
+                    this.usuario = usuario;
+                    this.cargarInmueblesDelUsuario(this.usuario.id);
+                }
+            );
+        this.subscripciones.push(subscripcionUsaurio);
+    }
+
+    private cargarInmueblesDelUsuario(idUsuario) {
+        const query = {
+            where: {
+                habilitado: 1,
+                imagenes: {},
+                perfilUsuario: {id: idUsuario},
+                categoria: {},
+            },
+            skip: 0,
+            take: 10
+        };
+        this._inmuebleStore.dispatch(
+            InmueblesActions.cargarInmuebles({parametros: query, filtro: true})
+        );
+    }
+
+    private escucharInmuebles() {
+        const subscripcionInmueble = this._inmuebleStore
+            .select('inmuebles')
+            .subscribe(
+                ({inmuebles}) => {
+                    this.inmuebles = inmuebles;
+                },
+            );
+        this.subscripciones.push(subscripcionInmueble);
+    }
+
+    ionViewWillLeave(): void {
+        this.subscripciones.forEach(sub => sub.unsubscribe());
+    }
 
 }

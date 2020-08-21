@@ -5,7 +5,7 @@ import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
 export class InmuebleActions {
     static cargarInmueble = createAction(
         '[Inmueble] cargar inmueble',
-        props<{ parametros: Partial<InmuebleInterface> }>()
+        props<{ parametros: Partial<InmuebleInterface> | any }>()
     );
 
     static agregarFavoritos = createAction(
