@@ -1,33 +1,32 @@
 <ion-header>
-  <app-nav-bar></app-nav-bar>
+    <app-nav-bar></app-nav-bar>
     <ion-toolbar>
-      <ion-title>
-        Inmuebles
-      </ion-title>
-      <ion-buttons slot="end">
-        <ion-button (click)="mostrarOcultarFiltros()" color="dark">
-          <ion-icon slot="icon-only" name="ellipsis-vertical">
-          </ion-icon>
-        </ion-button>
-      </ion-buttons>
+        <ion-title>
+            Inmuebles
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="mostrarOcultarFiltros()" color="dark">
+                <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
-  <ion-toolbar>
-    <ion-searchbar [hidden]="estaFiltrando"
-                   mode="ios"
-                   animated
-                   placeholder="Buscar por nombre"
-                   autocomplete
-                   debounce="1000"
-                   (ionChange)="buscarPorNombre($event)"
-    >
-    </ion-searchbar>
-    <ion-title [hidden]="!estaFiltrando">
-      Filtrar inmuebles
-    </ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-searchbar [hidden]="estaFiltrando"
+                       mode="ios"
+                       animated
+                       placeholder="Buscar por nombre"
+                       autocomplete
+                       debounce="1000"
+                       (ionChange)="buscarPorNombre($event)"
+        >
+        </ion-searchbar>
+        <ion-title [hidden]="!estaFiltrando">
+            Filtrar inmuebles
+        </ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <app-lista-inmueble>
-  </app-lista-inmueble>
+    <app-lista-inmueble>
+    </app-lista-inmueble>
 </ion-content>

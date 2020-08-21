@@ -47,6 +47,7 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter {
             .select('filtro')
             .subscribe(
                 (estado: FiltroState) => {
+                    this.estaFiltrando = estado.mostrandoFiltros;
                     if (estado.emitioFiltros) {
                         this.inmueblesStore.dispatch(
                             InmueblesActions.cargarInmuebles(
