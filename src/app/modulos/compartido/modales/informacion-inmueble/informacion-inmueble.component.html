@@ -1,56 +1,75 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      {{inmueble.nombre}}
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="cerrarModal()">Cerrar</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>
+            {{inmueble.nombre}}
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="cerrarModal()">Cerrar</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
+    <div class="contenedor__imagenes" *ngIf="inmueble && totalImagenes"
+    >
+        <ion-slides
+                [options]="opciones"
+                (ionSlideNextEnd)="gestionarPaginacion(+1)"
+                (ionSlidePrevEnd)="gestionarPaginacion(-1)"
+                mode="ios"
+        >
+            <ion-slide *ngFor="let imagen of inmueble.imagenes">
 
-  <ion-slides *ngIf="inmueble && inmueble.imagenes.length">
-    <ion-slide *ngFor="let imagen of inmueble.imagenes">
-      <div class="slide">
-        <img [src]="imagen.url" class="imagen" />
-      </div>
-    </ion-slide>
-  </ion-slides>
-  <ion-item color="warning">
-    <ion-label>$ {{inmueble.precio}}</ion-label>
-  </ion-item>
-  <ion-card>
-    <ion-card-content>
-      <ion-label></ion-label>
-      <ion-text color="dark">
-        {{inmueble.descripcion}}
-      </ion-text>
+                <div class="slide">
+                    <img [src]="imagen.url" class="imagen"/>
+                </div>
+            </ion-slide>
+        </ion-slides>
+        <div class="paginador">
+            <ion-chip outline color="primary" class="paginador__chip">
+                <ion-icon name="image">
+                </ion-icon>
+                <ion-label>
+                    {{imagenActual}} / {{totalImagenes}}
+                </ion-label>
+            </ion-chip>
+        </div>
+    </div>
+    <ion-item color="warning">
+        <ion-label>$ {{inmueble.precio}}</ion-label>
+    </ion-item>
+    <ion-card>
+        <ion-card-content>
+            <ion-label></ion-label>
+            <ion-text color="dark">
+                {{inmueble.descripcion}}
+            </ion-text>
 
-      <ion-item-divider></ion-item-divider>
-      <ion-text color="dark">
-        {{inmueble.direccion}}
-      </ion-text>
-    </ion-card-content>
+            <ion-item-divider></ion-item-divider>
+            <ion-text color="dark">
+                {{inmueble.direccion}}
+            </ion-text>
+        </ion-card-content>
 
-    <ion-list>
-      <ion-item *ngIf="inmueble.esAlquiler">
-        <ion-label><ion-badge>Alquiler</ion-badge></ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label><strong>Tipo: </strong> {{inmueble.categoria.nombre}}</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label><strong>Pisos: </strong> {{inmueble.pisos}}</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label><strong>Habitaciones: </strong> {{inmueble.habitaciones}}</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label><strong>Parqueaderos: </strong> {{inmueble.parqueaderos}}</ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-card>
+        <ion-list>
+            <ion-item *ngIf="inmueble.esAlquiler">
+                <ion-label>
+                    <ion-badge>Alquiler</ion-badge>
+                </ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-label><strong>Tipo: </strong> {{inmueble.categoria.nombre}}</ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-label><strong>Pisos: </strong> {{inmueble.pisos}}</ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-label><strong>Habitaciones: </strong> {{inmueble.habitaciones}}</ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-label><strong>Parqueaderos: </strong> {{inmueble.parqueaderos}}</ion-label>
+            </ion-item>
+        </ion-list>
+    </ion-card>
 
 </ion-content>

@@ -1,44 +1,79 @@
-import { Component, OnInit } from '@angular/core';
-import { InmuebleState } from '../../../../paginas/menu-inmuebles/menu-inmueble-store/inmueble.state';
-import { Store } from '@ngrx/store';
-import { AppStateInmuebles, AppState, AppStateInmueble } from 'src/app/store/app.reducers';
-import { ModalController } from '@ionic/angular';
-import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {AppStateInmueble} from 'src/app/store/app.reducers';
+import {IonSlides, LoadingController, ModalController} from '@ionic/angular';
+import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
+import {OPCIONES_CARRUSEL_COVERFLOW} from './animaciones-slide/opciones-carrusel-coverflow';
+import {Subscription} from 'rxjs';
 
 @Component({
-  selector: 'app-informacion-inmueble',
-  templateUrl: './informacion-inmueble.component.html',
-  styleUrls: ['./informacion-inmueble.component.scss'],
+    selector: 'app-informacion-inmueble',
+    templateUrl: './informacion-inmueble.component.html',
+    styleUrls: ['./informacion-inmueble.component.scss'],
 })
-export class InformacionInmuebleComponent implements OnInit {
+export class InformacionInmuebleComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
-  cargando: boolean;
-  inmueble: InmuebleInterface;
+    cargando: boolean;
+    inmueble: InmuebleInterface;
+    opciones = {
+        initialSlide: 1,
+        speed: 400
+    };
+    totalImagenes = 0;
+    imagenActual = 1;
+    subscripciones: Subscription[] = [];
 
-  constructor(
-    private readonly inmubleStore: Store<AppStateInmueble>,
-    private readonly modalController: ModalController,
-  ) {
-    this.cargando = true;
-  }
+    @ViewChild(IonSlides) ionSlides: IonSlides;
 
-  ngOnInit() {
-    this.escucharInmueble();
-  }
+    constructor(
+        private readonly inmubleStore: Store<AppStateInmueble>,
+        private readonly modalController: ModalController,
+        public loadingController: LoadingController,
+    ) {
+        this.cargando = true;
+    }
 
-  private escucharInmueble() {
-    this.inmubleStore
-    .select('inmueble')
-    .subscribe(
-      (estado) => {
-        this.inmueble = estado;
-      }
-    );
-  }
+    ngOnInit() {
+        this.loader();
+        this.escucharInmueble();
+    }
 
-  cerrarModal(): void {
-    this.modalController.dismiss();
-  }
+    private async loader() {
+        const loading = await this.loadingController.create({
+            message: 'Cargando...',
+            duration: 1000
+        });
+        await loading.present();
+    }
+
+    private escucharInmueble() {
+        const subscripcion = this.inmubleStore
+            .select('inmueble')
+            .subscribe(
+                (estado) => {
+                    this.inmueble = estado;
+                    this.totalImagenes = estado.imagenes.length;
+                    this.imagenActual = 1;
+                }
+            );
+        this.subscripciones.push(subscripcion);
+    }
+
+    cerrarModal(): void {
+        this.subscripciones.forEach(sub => sub.unsubscribe());
+        this.modalController.dismiss();
+    }
+
+    gestionarPaginacion(evento) {
+        this.imagenActual += evento;
+    }
+
+    ngOnDestroy(): void {
+    }
+
+    ngAfterViewInit(): void {
+        this.ionSlides.startAutoplay();
+    }
 
 }

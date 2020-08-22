@@ -8,8 +8,6 @@ import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
 import {of} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {AppStateInmuebles} from 'src/app/store/app.reducers';
-import {GestionInmuebleActions} from '../../../gestion-inmueble/store/gestion-inmueble.actions';
-import {AppStateGestionInmuebles} from '../../../gestion-inmueble/store/gestion-inmueble.state';
 
 @Injectable()
 export class InmuebleEffects {
@@ -17,7 +15,6 @@ export class InmuebleEffects {
         private acciones$: Actions,
         private readonly _inmuebleService: InmuebleRestService,
         private readonly inmublesStore: Store<AppStateInmuebles>,
-        private readonly gestionInmueblesStore: Store<AppStateGestionInmuebles>,
     ) {
 
     }
@@ -50,7 +47,7 @@ export class InmuebleEffects {
                     }
                 ),
                 catchError(
-                    error => of(InmueblesActions.cargarInmueblesError({error,}))
+                    error => of(InmueblesActions.cargarInmueblesError({error}))
                 ),
             );
         },

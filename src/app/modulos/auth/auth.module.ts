@@ -13,7 +13,6 @@ import { AuthService } from './servicios/auth.service';
     AuthService,
   ],
   exports: [
-    AuthService,
   ]
 })
 export class AuthModule { }
