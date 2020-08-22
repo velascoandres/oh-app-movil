@@ -11,7 +11,7 @@ export const estadoInicialInmuebles: InmuebleState = {
     descripcion: '',
     habilitado: 0,
     precio: 0,
-    pisos: 0,
+    plantas: 0,
     parqueaderos: 0,
     imagenes: [],
     categoria: null,

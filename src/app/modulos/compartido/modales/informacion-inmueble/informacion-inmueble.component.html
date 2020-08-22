@@ -1,40 +1,19 @@
 <ion-header>
     <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button
+                    icon="arrow-back-circle">
+            </ion-back-button>
+        </ion-buttons>
         <ion-title>
             {{inmueble.nombre}}
         </ion-title>
-        <ion-buttons slot="end">
-            <ion-button (click)="cerrarModal()">Cerrar</ion-button>
-        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <div class="contenedor__imagenes" *ngIf="inmueble && totalImagenes"
-    >
-        <ion-slides
-                [options]="opciones"
-                (ionSlideNextEnd)="gestionarPaginacion(+1)"
-                (ionSlidePrevEnd)="gestionarPaginacion(-1)"
-                mode="ios"
-        >
-            <ion-slide *ngFor="let imagen of inmueble.imagenes">
 
-                <div class="slide">
-                    <img [src]="imagen.url" class="imagen"/>
-                </div>
-            </ion-slide>
-        </ion-slides>
-        <div class="paginador">
-            <ion-chip outline color="primary" class="paginador__chip">
-                <ion-icon name="image">
-                </ion-icon>
-                <ion-label>
-                    {{imagenActual}} / {{totalImagenes}}
-                </ion-label>
-            </ion-chip>
-        </div>
-    </div>
+    <app-carrusel [imagenes]="inmueble.imagenes" [opciones]="opciones"></app-carrusel>
     <ion-item color="warning">
         <ion-label>$ {{inmueble.precio}}</ion-label>
     </ion-item>
@@ -61,7 +40,7 @@
                 <ion-label><strong>Tipo: </strong> {{inmueble.categoria.nombre}}</ion-label>
             </ion-item>
             <ion-item>
-                <ion-label><strong>Pisos: </strong> {{inmueble.pisos}}</ion-label>
+                <ion-label><strong>Plantas: </strong> {{inmueble.plantas}}</ion-label>
             </ion-item>
             <ion-item>
                 <ion-label><strong>Habitaciones: </strong> {{inmueble.habitaciones}}</ion-label>

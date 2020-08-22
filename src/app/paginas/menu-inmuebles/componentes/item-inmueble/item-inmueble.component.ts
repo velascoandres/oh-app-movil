@@ -1,36 +1,44 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
-import { Store } from '@ngrx/store';
-import { InmuebleState } from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/inmueble.state';
-import { ModalController } from '@ionic/angular';
-import { InformacionInmuebleComponent } from 'src/app/modulos/compartido/modales/informacion-inmueble/informacion-inmueble.component';
-import { InmuebleActions } from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/actions/inmueble.actions';
+import {Component, OnInit, Input} from '@angular/core';
+import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
+import {Store} from '@ngrx/store';
+import {InmuebleState} from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/inmueble.state';
+import {ModalController} from '@ionic/angular';
+import {InformacionInmuebleComponent} from 'src/app/modulos/compartido/modales/informacion-inmueble/informacion-inmueble.component';
+import {InmuebleActions} from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/actions/inmueble.actions';
+import {Router} from '@angular/router';
+import {OPCIONES_CARRUSEL_COVERFLOW} from '../../../../modulos/compartido/modales/informacion-inmueble/animaciones-slide/opciones-carrusel-coverflow';
+import {OPCIONES_CARRUSEL_FADE} from '../../../../modulos/compartido/modales/informacion-inmueble/animaciones-slide/opciones-carrusel-fade';
 
 @Component({
-  selector: 'app-item-inmueble',
-  templateUrl: './item-inmueble.component.html',
-  styleUrls: ['./item-inmueble.component.scss'],
+    selector: 'app-item-inmueble',
+    templateUrl: './item-inmueble.component.html',
+    styleUrls: ['./item-inmueble.component.scss'],
 })
 export class ItemInmuebleComponent implements OnInit {
 
-  @Input()
-  inmueble: InmuebleInterface;
+    @Input()
+    inmueble: InmuebleInterface;
 
-  constructor(
-    private readonly inmuebleStore: Store<InmuebleState>,
-    private readonly modalController: ModalController,
-  ) { }
 
-  ngOnInit() { }
+    constructor(
+        private readonly inmuebleStore: Store<InmuebleState>,
+        private readonly modalController: ModalController,
+        private readonly _router: Router,
+    ) {
+    }
 
-  async verInformacion() {
-    const modal = await this.modalController.create({
-      component: InformacionInmuebleComponent,
-    });
-    this.inmuebleStore.dispatch(
-      InmuebleActions.cargarInmueble({ parametros: this.inmueble }),
-    );
-    return await modal.present();
-  }
+    ngOnInit() {
+    }
+
+    async verInformacion() {
+        // const modal = await this.modalController.create({
+        //   component: InformacionInmuebleComponent,
+        // });
+        this.inmuebleStore.dispatch(
+            InmuebleActions.cargarInmueble({parametros: this.inmueble}),
+        );
+        this._router.navigate(['/', 'tabs', 'menu-inmuebles', 'detalle-inmueble']);
+        // return await modal.present();
+    }
 
 }

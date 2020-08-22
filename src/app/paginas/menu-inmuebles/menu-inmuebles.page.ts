@@ -35,12 +35,12 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
     }
 
     ionViewWillEnter(): void {
-        this.escucharFiltros();
-        this.cargarInmuebles(true);
+        // this.escucharFiltros();
     }
 
     ngOnInit() {
-       // this.cargarInmuebles();
+        this.escucharFiltros();
+        this.cargarInmuebles(true);
     }
 
 

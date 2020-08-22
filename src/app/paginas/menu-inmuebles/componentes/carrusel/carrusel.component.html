@@ -1,0 +1,25 @@
+<div class="contenedor__imagenes" *ngIf="totalImagenes"
+>
+  <ion-slides
+          [options]="opciones"
+          (ionSlideNextEnd)="gestionarPaginacion(+1)"
+          (ionSlidePrevEnd)="gestionarPaginacion(-1)"
+          mode="ios"
+  >
+    <ion-slide *ngFor="let imagen of imagenes">
+
+      <div class="slide">
+        <img [src]="imagen.url" class="imagen"/>
+      </div>
+    </ion-slide>
+  </ion-slides>
+  <div class="paginador">
+    <ion-chip  outline color="dark" class="paginador__chip">
+      <ion-icon name="image">
+      </ion-icon>
+      <ion-label>
+        {{indiceImagenActual}} / {{totalImagenes}}
+      </ion-label>
+    </ion-chip>
+  </div>
+</div>

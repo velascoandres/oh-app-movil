@@ -1,0 +1,22 @@
+img {
+  vertical-align: middle;
+  height: 21rem;
+  width: 100%;
+  /* border-style: none; */
+}
+
+.contenedor__imagenes{
+  position: relative;
+}
+
+.paginador{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 10000;
+}
+
+.paginador__chip{
+  background: #0f0b04;
+  color: #ffc107;
+}

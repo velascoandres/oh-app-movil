@@ -11,6 +11,7 @@ import {InformacionInmuebleComponent} from '../../modulos/compartido/modales/inf
 import {FiltrosInmueblesComponent} from './componentes/filtros-inmuebles/filtros-inmuebles.component';
 import {ListaInmuebleComponent} from './componentes/lista-inmueble/lista-inmueble.component';
 import {ItemInmuebleComponent} from './componentes/item-inmueble/item-inmueble.component';
+import {CarruselComponent} from './componentes/carrusel/carrusel.component';
 
 @NgModule({
     imports: [
@@ -28,6 +29,7 @@ import {ItemInmuebleComponent} from './componentes/item-inmueble/item-inmueble.c
         FiltrosInmueblesComponent,
         ListaInmuebleComponent,
         ItemInmuebleComponent,
+        CarruselComponent,
     ],
     exports: [
         ListaInmuebleComponent

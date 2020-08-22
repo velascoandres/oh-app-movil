@@ -1,10 +1,21 @@
 <div class="item">
     <div class="item__contenedor">
         <div class="item__imagen__contenedor" (click)="verInformacion()">
-            <img class="item__imagen" [src]="inmueble.imagenes[0].url" alt="imagen" />
+<!--            <img class="item__imagen" [src]="inmueble.imagenes[0].url" alt="imagen" />-->
             <div class="item__price text text__price">
                 $ {{ inmueble.precio }}
             </div>
+<!--            <ion-slides-->
+<!--                    mode="ios"-->
+<!--            >-->
+<!--                <ion-slide *ngFor="let imagen of inmueble.imagenes">-->
+
+<!--                    <div class="item__imagen">-->
+<!--                        <img [src]="imagen.url" class="imagen"/>-->
+<!--                    </div>-->
+<!--                </ion-slide>-->
+<!--            </ion-slides>-->
+            <app-carrusel [imagenes]="inmueble.imagenes"></app-carrusel>
         </div>
         <div class="item__options">
             <button type="button" class="item__option active">

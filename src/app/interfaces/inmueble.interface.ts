@@ -4,7 +4,7 @@ export interface InmuebleInterface{
     descripcion: string;
     habilitado: 0 | 1;
     precio: number;
-    pisos: number;
+    plantas: number;
     parqueaderos: number;
     imagenes: any[];
     categoria: any;
