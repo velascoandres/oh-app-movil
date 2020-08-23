@@ -35,6 +35,7 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
     objetoArreglosErrores = {
         nombre: [],
         descripcion: [],
+        direccion: [],
         precio: [],
         predio: [],
         plantas: [],
@@ -43,6 +44,7 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
         areaConstruccion: [],
         areaTerreno: [],
         imagenes: [],
+        categoria: [],
     };
     mensajesErrores = {
         nombre: {
@@ -52,12 +54,12 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
         },
         descripcion: {
             required: 'La descripcion es requerido',
-            minlength: 'La descripcion tener mínimo 4 caracteres',
+            minlength: 'La descripcion tener mínimo 10 caracteres',
             maxlength: 'La descripcion tener máximo 160 caracteres',
         },
         direccion: {
             required: 'La direccion es requerido',
-            minlength: 'La direccion tener mínimo 4 caracteres',
+            minlength: 'La direccion tener mínimo 10 caracteres',
             maxlength: 'La direccion tener máximo 160 caracteres',
         },
         categoria: {

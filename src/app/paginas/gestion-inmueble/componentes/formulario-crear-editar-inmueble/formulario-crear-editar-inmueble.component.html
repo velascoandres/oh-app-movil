@@ -31,48 +31,96 @@
                     Direccion
                 </ion-label>
                 <ion-textarea formControlName="direccion"></ion-textarea>
+                <div *ngIf="objetoArreglosErrores.direccion.length > 0" role="alert" class="alert alert-warning">
+                    <div *ngFor="let mensajeError of objetoArreglosErrores.direccion">
+                        <div>{{mensajeError}}</div>
+                    </div>
+                </div>
             </ion-item>
             <ion-item>
                 <ion-label position="floating">
                     Predio
                 </ion-label>
-                <ion-input formControlName="predio"></ion-input>
+                <ion-input formControlName="predio" type="number"></ion-input>
+                <div *ngIf="objetoArreglosErrores.predio.length > 0" role="alert" class="alert alert-warning">
+                    <div *ngFor="let mensajeError of objetoArreglosErrores.predio">
+                        <div>{{mensajeError}}</div>
+                    </div>
+                </div>
             </ion-item>
             <ion-item>
                 <ion-label position="floating">
-                    Precio del Inmueble
+                    Precio del Inmueble ($ dolares)
                 </ion-label>
-                <ion-input formControlName="precio"></ion-input>
+                <ion-input
+                        inputmode="decimal"
+                        formControlName="precio"
+                >
+                </ion-input>
+                <div *ngIf="objetoArreglosErrores.precio.length > 0" role="alert" class="alert alert-warning">
+                    <div *ngFor="let mensajeError of objetoArreglosErrores.precio">
+                        <div>{{mensajeError}}</div>
+                    </div>
+                </div>
             </ion-item>
             <ion-item>
                 <ion-label position="floating">
                     Habitaciones
                 </ion-label>
                 <ion-input type="number" min="1" formControlName="habitaciones"></ion-input>
+                <div *ngIf="objetoArreglosErrores.habitaciones.length > 0" role="alert" class="alert alert-warning">
+                    <div *ngFor="let mensajeError of objetoArreglosErrores.habitaciones">
+                        <div>{{mensajeError}}</div>
+                    </div>
+                </div>
             </ion-item>
             <ion-item>
                 <ion-label position="floating">
                     Numero de plantas
                 </ion-label>
                 <ion-input type="number" min="1" formControlName="plantas"></ion-input>
+                <div *ngIf="objetoArreglosErrores.plantas.length > 0" role="alert" class="alert alert-warning">
+                    <div *ngFor="let mensajeError of objetoArreglosErrores.plantas">
+                        <div>{{mensajeError}}</div>
+                    </div>
+                </div>
             </ion-item>
             <ion-item>
                 <ion-label position="floating">
                     Total de parqueaderos
                 </ion-label>
                 <ion-input type="number" min="0" formControlName="parqueaderos"></ion-input>
+                <div *ngIf="objetoArreglosErrores.parqueaderos.length > 0" role="alert" class="alert alert-warning">
+                    <div *ngFor="let mensajeError of objetoArreglosErrores.parqueaderos">
+                        <div>{{mensajeError}}</div>
+                    </div>
+                </div>
             </ion-item>
             <ion-item>
                 <ion-label position="floating">
-                    Area terreno
+                    Area terreno (metros cuadrados)
                 </ion-label>
-                <ion-input type="number" min="1" formControlName="areaTerreno"></ion-input>
+                <ion-input
+                        inputmode="decimal"
+                        formControlName="areaTerreno"></ion-input>
+                <div *ngIf="objetoArreglosErrores.areaTerreno.length > 0" role="alert" class="alert alert-warning">
+                    <div *ngFor="let mensajeError of objetoArreglosErrores.areaTerreno">
+                        <div>{{mensajeError}}</div>
+                    </div>
+                </div>
             </ion-item>
             <ion-item>
                 <ion-label position="floating">
-                    Area de construccion
+                    Area de construccion (metros cuadrados)
                 </ion-label>
-                <ion-input type="number" min="1" formControlName="areaConstruccion"></ion-input>
+                <ion-input inputmode="decimal"
+                           formControlName="areaConstruccion"
+                ></ion-input>
+                <div *ngIf="objetoArreglosErrores.areaConstruccion.length > 0" role="alert" class="alert alert-warning">
+                    <div *ngFor="let mensajeError of objetoArreglosErrores.areaConstruccion">
+                        <div>{{mensajeError}}</div>
+                    </div>
+                </div>
             </ion-item>
             <ion-item>
                 <ion-label position="floating">
@@ -83,6 +131,11 @@
                         {{categoria.nombre | uppercase }}
                     </ion-select-option>
                 </ion-select>
+                <div *ngIf="objetoArreglosErrores.categoria.length > 0" role="alert" class="alert alert-warning">
+                    <div *ngFor="let mensajeError of objetoArreglosErrores.categoria">
+                        <div>{{mensajeError}}</div>
+                    </div>
+                </div>
             </ion-item>
             <ion-item>
                 <ion-label>
@@ -92,23 +145,21 @@
             </ion-item>
 
             <ion-item>
-                <ion-label position="floating">
+                <ion-label class="boton__fake">
                     Imagenes del inmueble
                 </ion-label>
-                <ion-input
+                <input
                         formControlName="imagenes"
-                        class="file-upload-button"
+                        class="input-archivo"
                         type="file"
                         multiple
                         (change)="seleccionarImagen($event)">
-                </ion-input>
-                <div *ngIf="objetoArreglosErrores.imagenes.length > 0" role="alert" class="alert alert-warning">
-                    <div *ngFor="let mensajeError of objetoArreglosErrores.imagenes">
-                        <div>{{mensajeError}}</div>
-                    </div>
-                </div>
-
             </ion-item>
+            <div *ngIf="objetoArreglosErrores.imagenes.length > 0" role="alert" class="alert alert-warning">
+                <div *ngFor="let mensajeError of objetoArreglosErrores.imagenes">
+                    <div>{{mensajeError}}</div>
+                </div>
+            </div>
 
             <app-carrusel *ngIf="imagenes.length"
                           [imagenes]="imagenes | obtenerUri">

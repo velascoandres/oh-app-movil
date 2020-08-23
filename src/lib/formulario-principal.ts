@@ -63,10 +63,11 @@ export class FormularioPrincipal {
         }
     }
 
-    private async mostrarToaster(mensaje: string) {
+    private async mostrarToaster(mensaje: string, color: string) {
         const toast = await this.toaster.create({
             message: mensaje,
-            duration: 2000
+            duration: 2000,
+            color,
         });
         await toast.present();
     }
@@ -79,13 +80,13 @@ export class FormularioPrincipal {
                     const formularioValido = !this.formulario.invalid;
                     if (formularioValido) {
                         if (this.toaster) {
-                            this.mostrarToaster('Formulario Valido').then().catch();
+                            this.mostrarToaster('Formulario Valido', 'success').then().catch();
                         }
                         this.datosFormulario.emit(informacionFormulario);
                     } else {
                        // this.validarControles(this.formulario);
                         if (this.toaster) {
-                            this.mostrarToaster('Formulario Invalido').then().catch();
+                            this.mostrarToaster('Formulario Invalido', 'warning').then().catch();
                         }
                         this.datosFormulario.emit(undefined);
                     }

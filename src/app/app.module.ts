@@ -15,7 +15,6 @@ import { environment } from 'src/environments/environment';
 import { AuthModule } from './modulos/auth/auth.module';
 import { AuthService } from './modulos/auth/servicios/auth.service';
 import { EffectsModule } from '@ngrx/effects';
-import { InmuebleEffects } from './paginas/menu-inmuebles/menu-inmueble-store/effects/inmueble.effects';
 
 
 @NgModule({
