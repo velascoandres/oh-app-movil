@@ -7,7 +7,7 @@ import {MenuInmueblesPage} from './menu-inmuebles.page';
 import {CompartidoModule} from 'src/app/modulos/compartido/compartido.module';
 import {RouterModule} from '@angular/router';
 import {COMPARTIDO_STORE} from './menu-inmueble-store/constantes/store';
-import {InformacionInmuebleComponent} from '../../modulos/compartido/modales/informacion-inmueble/informacion-inmueble.component';
+import {InformacionInmuebleComponent} from './rutas/informacion-inmueble/informacion-inmueble.component';
 import {FiltrosInmueblesComponent} from './componentes/filtros-inmuebles/filtros-inmuebles.component';
 import {ListaInmuebleComponent} from './componentes/lista-inmueble/lista-inmueble.component';
 import {ItemInmuebleComponent} from './componentes/item-inmueble/item-inmueble.component';
@@ -32,11 +32,9 @@ import {CarruselComponent} from './componentes/carrusel/carrusel.component';
         CarruselComponent,
     ],
     exports: [
-        ListaInmuebleComponent
+        ListaInmuebleComponent,
+        CarruselComponent
     ],
-    entryComponents: [
-        InformacionInmuebleComponent,
-    ]
 })
 export class MenuInmueblesPageModule {
 

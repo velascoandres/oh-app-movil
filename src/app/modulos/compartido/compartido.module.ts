@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicModule } from '@ionic/angular';
 import { InmuebleEffects } from '../../paginas/menu-inmuebles/menu-inmueble-store/effects/inmueble.effects';
 import { EffectsModule } from '@ngrx/effects';
-import { CrearEditarInmuebleComponent } from './modales/crear-editar-inmueble/crear-editar-inmueble.component';
 import { MapaInmueblesComponent } from './modales/mapa-inmuebles/mapa-inmuebles.component';
 import { CategoriaRestService } from './servicios/rest/categoria-rest.service';
 import { FormsModule } from '@angular/forms';
@@ -15,7 +14,6 @@ import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     NavBarComponent,
-    CrearEditarInmuebleComponent,
     MapaInmueblesComponent,
   ],
   imports: [

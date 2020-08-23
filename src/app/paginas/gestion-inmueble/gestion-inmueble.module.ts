@@ -1,16 +1,15 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
-
 import {GestionInmueblePageRoutingModule} from './gestion-inmueble-routing.module';
-
 import {GestionInmueblePage} from './gestion-inmueble.page';
 import {CompartidoModule} from 'src/app/modulos/compartido/compartido.module';
-import {ItemInmuebleGestionComponent} from './componentes/item-inmueble-gestion/item-inmueble-gestion.component';
-import {ListaInmueblesUsuarioComponent} from './componentes/lista-inmuebles-usuario/lista-inmuebles-usuario.component';
 import {MenuInmueblesPageModule} from '../menu-inmuebles/menu-inmuebles.module';
+import {CrearEditarInmuebleComponent} from './rutas/crear-editar-inmueble/crear-editar-inmueble.component';
+import {FormularioCrearEditarInmuebleComponent} from './componentes/formulario-crear-editar-inmueble/formulario-crear-editar-inmueble.component';
+import {RouterModule} from '@angular/router';
+import { ObtenerUriPipe } from './pipes/obtener-uri.pipe';
 
 @NgModule({
     imports: [
@@ -20,11 +19,14 @@ import {MenuInmueblesPageModule} from '../menu-inmuebles/menu-inmuebles.module';
         GestionInmueblePageRoutingModule,
         CompartidoModule,
         MenuInmueblesPageModule,
+        ReactiveFormsModule,
+        RouterModule,
     ],
     declarations: [
         GestionInmueblePage,
-        ItemInmuebleGestionComponent,
-        ListaInmueblesUsuarioComponent,
+        CrearEditarInmuebleComponent,
+        FormularioCrearEditarInmuebleComponent,
+        ObtenerUriPipe,
     ]
 })
 export class GestionInmueblePageModule {

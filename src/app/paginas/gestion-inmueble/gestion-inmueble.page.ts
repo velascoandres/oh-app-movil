@@ -4,9 +4,9 @@ import {AppState, AppStateInmuebles} from '../../store/app.reducers';
 import {ViewWillEnter, ViewWillLeave} from '@ionic/angular';
 import {PerfilUsuarioInterface} from '../../interfaces/perfil-usuario.interface';
 import {Subscription} from 'rxjs';
-import {InmuebleActions} from '../menu-inmuebles/menu-inmueble-store/actions/inmueble.actions';
 import {InmuebleInterface} from '../../interfaces/inmueble.interface';
 import {InmueblesActions} from '../menu-inmuebles/menu-inmueble-store/actions/menu-inmueble.actions';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-gestion-inmueble',
@@ -22,6 +22,7 @@ export class GestionInmueblePage implements OnInit, ViewWillEnter, ViewWillLeave
     constructor(
         private readonly _inmuebleStore: Store<AppStateInmuebles>,
         private readonly _usuarioState: Store<AppState>,
+        private readonly _router: Router,
     ) {
     }
 
@@ -77,6 +78,12 @@ export class GestionInmueblePage implements OnInit, ViewWillEnter, ViewWillLeave
 
     ionViewWillLeave(): void {
         this.subscripciones.forEach(sub => sub.unsubscribe());
+    }
+
+    navegarCreacionInmueble() {
+        this._router.navigate(
+            ['/', 'tabs', 'gestion-inmueble', 'crear-inmueble'],
+        );
     }
 
 }
