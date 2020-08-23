@@ -3,9 +3,14 @@ import {FileProviderService, ObjetoArchivo} from '../../../../servicios/native/f
 import {CategoriaRestService} from '../../../../modulos/compartido/servicios/rest/categoria-rest.service';
 import {CategoriaInterface} from '../../../../interfaces/categoria.interface';
 import {FormularioPrincipal} from '../../../../../lib/formulario-principal';
-import {FormBuilder, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, ValidationErrors, Validators} from '@angular/forms';
 import {VALIDACION_SELECT} from '../../../../../lib/constantes-formulario';
 import {ToastController} from '@ionic/angular';
+import {InmuebleRestService} from '../../../../modulos/compartido/servicios/rest/inmueble-rest.service';
+import {Observable} from 'rxjs';
+import {ApiResponse} from '../../../../../lib/principal.service';
+import {InmuebleInterface} from '../../../../interfaces/inmueble.interface';
+import {debounceTime, map} from 'rxjs/operators';
 
 @Component({
     selector: 'app-formulario-crear-editar-inmueble',
@@ -22,7 +27,7 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
         descripcion: ['', [Validators.minLength(10), Validators.required, Validators.maxLength(160)]],
         direccion: ['', [Validators.minLength(10), Validators.required, Validators.maxLength(160)]],
         precio: ['', [Validators.min(1), Validators.required, Validators.pattern('[0-9]+')]],
-        predio: ['', [Validators.min(1), Validators.required, Validators.pattern('[0-9]+')]],
+        predio: ['', [Validators.min(1), Validators.required, Validators.pattern('[0-9]+')], this.validarPredioAsync.bind(this)],
         areaTerreno: ['', [Validators.min(1), Validators.required, Validators.pattern('[0-9]+')]],
         areaConstruccion: ['', [Validators.min(1), Validators.required, Validators.pattern('[0-9]+')]],
         habitaciones: ['', [Validators.min(0), Validators.required, Validators.pattern('[0-9]+')]],
@@ -73,7 +78,8 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
         predio: {
             required: 'El predio es obligatorio',
             min: 'La precio debe ser mayor a 0',
-            pattern: 'Ingresar solo numeros'
+            pattern: 'Ingresar solo numeros',
+            repetido: 'Ya existe un inmueble registrado con ese predio',
         },
         habitaciones: {
             required: 'La numero de habitaciones es obligatorio',
@@ -105,6 +111,7 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
         private _toaster: ToastController,
         private archivoService: FileProviderService,
         private readonly categoriaService: CategoriaRestService,
+        private readonly inmubleService: InmuebleRestService,
     ) {
         super(_formBuilder, _toaster);
         this.formulario = this._formBuilder.group(
@@ -140,6 +147,24 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
                     this.imagenes = respuesta;
                     this.modificarValor('imagenes', this.imagenes);
                 },
+            );
+    }
+
+    validarPredioAsync({value}: AbstractControl): Observable<ValidationErrors | null> {
+        const consulta = {
+            where: {
+                predio: value,
+            },
+        };
+        const respuestaConsulta$: Observable<ApiResponse<InmuebleInterface>> = this.inmubleService.findAll(consulta);
+        return respuestaConsulta$
+            .pipe(
+                debounceTime(500),
+                map(({total}) => {
+                        console.log(total);
+                        return total ? {repetido: true} : null;
+                    },
+                ),
             );
     }
 

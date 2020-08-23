@@ -13,7 +13,7 @@ const _inmueblesReducer = createReducer(
     estadoInicialInmuebles,
     on(
         InmueblesActions.cargarInmuebles,
-        (estado: MenuInmuebleState, {parametros, filtro}) => {
+        (estado: MenuInmuebleState, {parametros, filtro, sonDelUsuario}) => {
             return {
                 ...estado,
                 queryActual: {
@@ -22,6 +22,7 @@ const _inmueblesReducer = createReducer(
                 },
                 cargando: true,
                 filtro,
+                sonDelUsuario,
             };
         }
     ),

@@ -7,6 +7,8 @@ import {Component, OnInit} from '@angular/core';
 })
 export class CrearEditarInmuebleComponent implements OnInit {
 
+    formularioValido: boolean;
+
     constructor() {
     }
 
@@ -14,7 +16,7 @@ export class CrearEditarInmuebleComponent implements OnInit {
     }
 
     escucharInmueble(evento) {
-        console.log(evento);
+        this.formularioValido = !!evento;
     }
 
 }

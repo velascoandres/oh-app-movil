@@ -3,7 +3,6 @@ import {ViewWillEnter, ViewWillLeave} from '@ionic/angular';
 import {Store} from '@ngrx/store';
 import {AppStateInmuebles, AppState} from 'src/app/store/app.reducers';
 import {InmueblesActions} from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/actions/menu-inmueble.actions';
-import {take} from 'rxjs/operators';
 import {FiltroActions} from 'src/app/store/filtro-store/actions/filtro.actions';
 import {FiltroState} from '../../store/filtro-store/filtro.state';
 import {Subscription} from 'rxjs';
@@ -27,6 +26,7 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
         skip: 0,
         take: 10,
     };
+    cargando = false;
 
     constructor(
         private readonly inmueblesStore: Store<AppStateInmuebles>,
@@ -35,11 +35,12 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
     }
 
     ionViewWillEnter(): void {
-        // this.escucharFiltros();
+        this.escucharFiltros();
+        this.escucharInmueble();
     }
 
     ngOnInit() {
-        this.escucharFiltros();
+        // this.escucharFiltros();
         this.cargarInmuebles(true);
     }
 
@@ -61,12 +62,26 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
             );
     }
 
+    private escucharInmueble() {
+       const subscripcionInmueble =  this.inmueblesStore
+            .select('inmuebles')
+            .subscribe(
+                ({cargando, sonDelUsuario}) => {
+                    this.cargando = cargando;
+                    if (sonDelUsuario) {
+                        this.cargarInmuebles(true);
+                    }
+                },
+            );
+       this.subscripciones.push(subscripcionInmueble);
+    }
+
     private cargarInmuebles(filtro = false) {
         this
             .inmueblesStore
             .dispatch(
                 InmueblesActions.cargarInmuebles(
-                    {parametros: this.consulta, filtro}
+                    {parametros: this.consulta, filtro, sonDelUsuario: false}
                 ),
             );
     }

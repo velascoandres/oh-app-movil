@@ -61,7 +61,7 @@ export class GestionInmueblePage implements OnInit, ViewWillEnter, ViewWillLeave
             take: 10
         };
         this._inmuebleStore.dispatch(
-            InmueblesActions.cargarInmuebles({parametros: query, filtro: true})
+            InmueblesActions.cargarInmuebles({parametros: query, filtro: true, sonDelUsuario: true})
         );
     }
 

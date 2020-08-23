@@ -1,4 +1,4 @@
-import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
+import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
 
 export interface MenuInmuebleState {
     cargo: boolean;
@@ -8,4 +8,5 @@ export interface MenuInmuebleState {
     total?: number;
     queryActual?: any;
     filtro?: boolean;
+    sonDelUsuario?: boolean;
 }

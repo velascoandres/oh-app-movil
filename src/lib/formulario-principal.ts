@@ -1,6 +1,7 @@
 import {EventEmitter, Input, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {ToastController} from '@ionic/angular';
+import {debounceTime} from 'rxjs/operators';
 
 export class FormularioPrincipal {
     formulario: FormGroup;
@@ -24,9 +25,11 @@ export class FormularioPrincipal {
         const campo$ = this.formulario.get(nombreCampo);
         const subscripcionCampo = campo$
             .valueChanges
+            .pipe(
+                debounceTime(500),
+            )
             .subscribe(
                 valor => {
-                    console.log(valor);
                     this.objetoArreglosErrores[nombreCampo] = this.llenarMensajesErrorCampo(campo$, nombreCampo);
                 }
             );
@@ -47,7 +50,7 @@ export class FormularioPrincipal {
         const tieneDatosPorDefecto = this.registro !== undefined && Object.keys(this.registro).length > 0;
         if ((control.controls || (control.dirty || control.touched) || tieneDatosPorDefecto) && control.errors) {
             arregloErrores = Object.keys(control.errors).map(
-                (llave) => {
+                (llave: string) => {
                     if (llave === 'matDatepickerParse') {
                         llave = 'date';
                     }
@@ -75,6 +78,9 @@ export class FormularioPrincipal {
     escucharFormulario() {
         this.formulario
             .valueChanges
+            .pipe(
+                debounceTime(1000),
+            )
             .subscribe(
                 (informacionFormulario) => {
                     const formularioValido = !this.formulario.invalid;

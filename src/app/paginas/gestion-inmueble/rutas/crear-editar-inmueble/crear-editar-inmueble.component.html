@@ -1,11 +1,17 @@
 <ion-header>
-    <app-nav-bar></app-nav-bar>
     <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button routerLink="/tabs/gestion-inmueble">
+                <ion-icon icon="arrow-back-circle">
+                </ion-icon>
+            </ion-button>
+        </ion-buttons>
         <ion-title>Publicar Inmueble</ion-title>
     </ion-toolbar>
 </ion-header>
+
 <ion-content>
     <app-formulario-crear-editar-inmueble (datosFormulario)="escucharInmueble($event)">
-        <ion-button> Publicar </ion-button>
+        <ion-button expand="full" color="success" [disabled]="!formularioValido">Publicar</ion-button>
     </app-formulario-crear-editar-inmueble>
 </ion-content>
