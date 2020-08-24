@@ -1,16 +1,17 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {AppStateInmueble} from 'src/app/store/app.reducers';
 import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
 import {OPCIONES_CARRUSEL_COVERFLOW} from './animaciones-slide/opciones-carrusel-coverflow';
 import {Subscription} from 'rxjs';
+import {ViewWillLeave} from '@ionic/angular';
 
 @Component({
     selector: 'app-informacion-inmueble',
     templateUrl: './informacion-inmueble.component.html',
     styleUrls: ['./informacion-inmueble.component.scss'],
 })
-export class InformacionInmuebleComponent implements OnInit, OnDestroy {
+export class InformacionInmuebleComponent implements OnInit, ViewWillLeave {
 
 
     cargando: boolean;
@@ -19,7 +20,6 @@ export class InformacionInmuebleComponent implements OnInit, OnDestroy {
     totalImagenes = 0;
     imagenActual = 1;
     subscripciones: Subscription[] = [];
-
 
     constructor(
         private readonly inmubleStore: Store<AppStateInmueble>,
@@ -33,7 +33,7 @@ export class InformacionInmuebleComponent implements OnInit, OnDestroy {
 
 
     private escucharInmueble() {
-        const subscripcion = this.inmubleStore
+        const subscripcionInmueble = this.inmubleStore
             .select('inmueble')
             .subscribe(
                 (estado) => {
@@ -42,14 +42,15 @@ export class InformacionInmuebleComponent implements OnInit, OnDestroy {
                     this.imagenActual = 1;
                 }
             );
-        this.subscripciones.push(subscripcion);
+        this.subscripciones.push(subscripcionInmueble);
     }
 
     gestionarPaginacion(evento) {
         this.imagenActual += evento;
     }
 
-    ngOnDestroy(): void {
+    ionViewWillLeave(): void {
+        this.subscripciones.forEach(sub => sub.unsubscribe());
     }
 
 }

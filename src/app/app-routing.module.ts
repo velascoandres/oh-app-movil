@@ -1,28 +1,23 @@
-import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 
 const routes: Routes = [
-  {
-    path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  },
-  // {
-  //   path: 'menu-inmuebles',
-  //   loadChildren: () => import('./paginas/menu-inmuebles/menu-inmuebles.module').then( m => m.MenuInmueblesPageModule)
-  // },
-  // {
-  //   path: 'favoritos',
-  //   loadChildren: () => import('./paginas/favoritos/favoritos.module').then( m => m.FavoritosPageModule)
-  // },
-  // {
-  //   path: 'gestion-inmueble',
-  //   loadChildren: () => import('./paginas/gestion-inmueble/gestion-inmueble.module').then( m => m.GestionInmueblePageModule)
-  // }
+    {
+        path: '',
+        loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    },
+    {
+        path: 'detalle-inmueble',
+        loadChildren: () =>
+            import('./rutas-generales/informacion-inmueble/informacion-inmueble.module').then(m => m.InformacionInmuebleModule)
+    },
 ];
+
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
-  ],
-  exports: [RouterModule]
+    imports: [
+        RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})
+    ],
+    exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}

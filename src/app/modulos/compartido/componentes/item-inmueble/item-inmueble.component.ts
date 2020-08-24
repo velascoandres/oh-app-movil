@@ -3,11 +3,11 @@ import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
 import {Store} from '@ngrx/store';
 import {InmuebleState} from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/inmueble.state';
 import {ModalController} from '@ionic/angular';
-import {InformacionInmuebleComponent} from 'src/app/paginas/menu-inmuebles/rutas/informacion-inmueble/informacion-inmueble.component';
+import {InformacionInmuebleComponent} from 'src/app/rutas-generales/informacion-inmueble/informacion-inmueble.component';
 import {InmuebleActions} from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/actions/inmueble.actions';
 import {Router} from '@angular/router';
-import {OPCIONES_CARRUSEL_COVERFLOW} from '../../rutas/informacion-inmueble/animaciones-slide/opciones-carrusel-coverflow';
-import {OPCIONES_CARRUSEL_FADE} from '../../rutas/informacion-inmueble/animaciones-slide/opciones-carrusel-fade';
+import {OPCIONES_CARRUSEL_COVERFLOW} from '../../../../rutas-generales/informacion-inmueble/animaciones-slide/opciones-carrusel-coverflow';
+import {OPCIONES_CARRUSEL_FADE} from '../../../../rutas-generales/informacion-inmueble/animaciones-slide/opciones-carrusel-fade';
 
 @Component({
     selector: 'app-item-inmueble',
@@ -37,7 +37,7 @@ export class ItemInmuebleComponent implements OnInit {
         this.inmuebleStore.dispatch(
             InmuebleActions.cargarInmueble({parametros: this.inmueble}),
         );
-        this._router.navigate(['/', 'tabs', 'menu-inmuebles', 'detalle-inmueble']);
+        this._router.navigate(['/', 'detalle-inmueble']);
         // return await modal.present();
     }
 
