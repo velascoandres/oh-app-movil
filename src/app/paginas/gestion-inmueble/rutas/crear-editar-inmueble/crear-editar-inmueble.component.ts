@@ -16,6 +16,7 @@ export class CrearEditarInmuebleComponent implements OnInit {
     }
 
     escucharInmueble(evento) {
+        console.log(evento);
         this.formularioValido = !!evento;
     }
 

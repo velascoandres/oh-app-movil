@@ -144,26 +144,17 @@
                 <ion-checkbox [value]="1" formControlName="esAlquiler"></ion-checkbox>
             </ion-item>
 
-            <ion-item>
-                <ion-label class="boton__fake">
-                    Imagenes del inmueble
-                </ion-label>
-                <input
-                        formControlName="imagenes"
-                        class="input-archivo"
-                        type="file"
-                        multiple
-                        (change)="seleccionarImagen($event)">
-            </ion-item>
-            <div *ngIf="objetoArreglosErrores.imagenes.length > 0" role="alert" class="alert alert-warning">
-                <div *ngFor="let mensajeError of objetoArreglosErrores.imagenes">
-                    <div>{{mensajeError}}</div>
+            <app-inx-input
+                    label="Imagenes del inmueble"
+                    formControlName="imagenes"
+                    [multiple]="true"
+            >
+                <div *ngIf="objetoArreglosErrores.imagenes.length > 0" role="alert" class="alert alert-warning">
+                    <div *ngFor="let mensajeError of objetoArreglosErrores.imagenes">
+                        <div>{{mensajeError}}</div>
+                    </div>
                 </div>
-            </div>
-
-            <app-carrusel *ngIf="imagenes.length"
-                          [imagenes]="imagenes | obtenerUri">
-            </app-carrusel>
+            </app-inx-input>
             <ng-content>
 
             </ng-content>

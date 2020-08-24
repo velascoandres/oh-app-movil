@@ -14,6 +14,8 @@ import {FiltrosInmueblesComponent} from './componentes/filtros-inmuebles/filtros
 import {ListaInmuebleComponent} from './componentes/lista-inmueble/lista-inmueble.component';
 import {ItemInmuebleComponent} from './componentes/item-inmueble/item-inmueble.component';
 import {CarruselComponent} from './componentes/carrusel/carrusel.component';
+import {BsInputComponent} from './componentes/inx-input/inx-input.component';
+import {ObtenerUriPipe} from './pipes/obtener-uri.pipe';
 
 
 @NgModule({
@@ -24,6 +26,8 @@ import {CarruselComponent} from './componentes/carrusel/carrusel.component';
         ListaInmuebleComponent,
         ItemInmuebleComponent,
         CarruselComponent,
+        BsInputComponent,
+        ObtenerUriPipe,
     ],
     imports: [
         CommonModule,
@@ -48,6 +52,8 @@ import {CarruselComponent} from './componentes/carrusel/carrusel.component';
         ListaInmuebleComponent,
         ItemInmuebleComponent,
         CarruselComponent,
+        BsInputComponent,
+        ObtenerUriPipe,
     ],
     entryComponents: [
         MapaInmueblesComponent,

@@ -25,6 +25,7 @@ export class CarruselComponent implements OnInit {
     }
 
     gestionarPaginacion(evento) {
+        this.totalImagenes = this.imagenes.length;
         this.indiceImagenActual += evento;
     }
 

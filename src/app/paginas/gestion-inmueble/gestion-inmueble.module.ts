@@ -9,7 +9,6 @@ import {MenuInmueblesPageModule} from '../menu-inmuebles/menu-inmuebles.module';
 import {CrearEditarInmuebleComponent} from './rutas/crear-editar-inmueble/crear-editar-inmueble.component';
 import {FormularioCrearEditarInmuebleComponent} from './componentes/formulario-crear-editar-inmueble/formulario-crear-editar-inmueble.component';
 import {RouterModule} from '@angular/router';
-import { ObtenerUriPipe } from './pipes/obtener-uri.pipe';
 
 @NgModule({
     imports: [
@@ -26,7 +25,6 @@ import { ObtenerUriPipe } from './pipes/obtener-uri.pipe';
         GestionInmueblePage,
         CrearEditarInmuebleComponent,
         FormularioCrearEditarInmuebleComponent,
-        ObtenerUriPipe,
     ]
 })
 export class GestionInmueblePageModule {

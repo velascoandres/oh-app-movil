@@ -33,7 +33,7 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
         habitaciones: ['', [Validators.min(0), Validators.required, Validators.pattern('[0-9]+')]],
         parqueaderos: ['', [Validators.min(0), Validators.required, Validators.pattern('[0-9]+')]],
         plantas: ['', [Validators.min(0), Validators.required, Validators.pattern('[0-9]+')]],
-        imagenes: ['', [Validators.required]],
+        imagenes: [[], [Validators.required]],
         esAlquiler: [0],
     };
 

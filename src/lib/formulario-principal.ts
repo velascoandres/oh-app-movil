@@ -118,7 +118,8 @@ export class FormularioPrincipal {
     }
 
     protected modificarValor(controlName: string, valor: any) {
-        this.formulario.get(controlName).setValue(valor);
+        this.formulario.get(controlName).reset();
+        this.formulario.get(controlName).patchValue(valor);
     }
 
 }

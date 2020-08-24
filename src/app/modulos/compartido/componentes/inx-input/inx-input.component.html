@@ -1,0 +1,21 @@
+<ion-item>
+    <ion-label class="boton__fake">
+        {{label}}
+    </ion-label>
+    <input
+            type="file"
+            class="input-archivo"
+            id="file{{controlName}}"
+            placeholder="{{placeholder ? placeholder : ''}}"
+            [accept]='accept? accept : "*/*"'
+            (input)="onInput($event)"
+            [multiple]="multiple"
+    >
+</ion-item>
+<ng-content>
+
+</ng-content>
+
+<app-carrusel *ngIf="value.length"
+              [imagenes]="value | obtenerUri">
+</app-carrusel>
