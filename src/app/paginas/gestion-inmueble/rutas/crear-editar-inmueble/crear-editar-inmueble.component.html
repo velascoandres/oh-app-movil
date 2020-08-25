@@ -2,7 +2,7 @@
     <ion-toolbar>
         <ion-buttons slot="start">
             <ion-button routerLink="/tabs/gestion-inmueble">
-                <ion-icon icon="arrow-back-circle" slot="icon-only" >
+                <ion-icon icon="arrow-back-circle" slot="icon-only">
                 </ion-icon>
             </ion-button>
         </ion-buttons>
@@ -12,6 +12,10 @@
 
 <ion-content>
     <app-formulario-crear-editar-inmueble (datosFormulario)="escucharInmueble($event)">
-        <ion-button expand="full" color="success" [disabled]="!formularioValido">Publicar</ion-button>
+        <ion-button
+                expand="full" color="success"
+                [disabled]="!formularioValido" (click)="guardarInmueble()">
+            Publicar
+        </ion-button>
     </app-formulario-crear-editar-inmueble>
 </ion-content>

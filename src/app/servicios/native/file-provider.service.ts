@@ -126,9 +126,16 @@ export class FileProviderService {
     async seleccionarImagen(event): Promise<any> {
         const archivos: any = Object.values(event.target.files);
         const arreglo = [];
+        let indice = 0;
         for (const archivo of archivos) {
             const datos = await this.leerArchivo(archivo);
-            arreglo.push(datos);
+            arreglo.push(
+                {
+                    ...datos,
+                    raw: event.target.files[indice],
+                }
+            );
+            indice ++;
         }
         return arreglo;
     }

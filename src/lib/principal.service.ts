@@ -25,7 +25,7 @@ export interface ApiResponse<T> {
 export abstract class PrincipalRestService<T> implements HttpMethods<T>{
     private port: number = +environment.port;
     private domain: string = environment.domain;
-    private url = `${this.domain}:${this.port}/${this.segment}`;
+    protected url = `${this.domain}:${this.port}/${this.segment}`;
     constructor(
         private readonly httpClient: HttpClient,
         private readonly segment: string,

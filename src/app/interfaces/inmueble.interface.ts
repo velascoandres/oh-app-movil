@@ -1,9 +1,10 @@
-export interface InmuebleInterface{
+export interface InmuebleInterface {
     id?: number;
     nombre: string;
     descripcion: string;
     habilitado: 0 | 1;
     precio: number;
+    predio: number;
     plantas: number;
     parqueaderos: number;
     imagenes: any[];

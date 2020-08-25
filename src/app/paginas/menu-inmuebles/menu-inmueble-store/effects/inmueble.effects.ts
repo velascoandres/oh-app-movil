@@ -7,7 +7,8 @@ import {ApiResponse} from 'src/lib/principal.service';
 import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
 import {of} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {AppStateInmuebles} from 'src/app/store/app.reducers';
+import {AppStateInmueble, AppStateInmuebles} from 'src/app/store/app.reducers';
+import {InmuebleActions} from '../actions/inmueble.actions';
 
 @Injectable()
 export class InmuebleEffects {
@@ -15,6 +16,7 @@ export class InmuebleEffects {
         private acciones$: Actions,
         private readonly _inmuebleService: InmuebleRestService,
         private readonly inmublesStore: Store<AppStateInmuebles>,
+        private readonly inmubleStore: Store<AppStateInmueble>,
     ) {
 
     }
@@ -53,39 +55,31 @@ export class InmuebleEffects {
         },
     );
 
-    // cargarInmueblesGestion$ = createEffect(
-    //     () => {
-    //         // Definimos que accion va escuchar
-    //         return this.acciones$.pipe(
-    //             ofType(GestionInmuebleActions.cargarInmueblesGestion),
-    //             withLatestFrom(this.gestionInmueblesStore.select('gestionInmuebles')),
-    //             mergeMap(
-    //                 ([{parametros}, {query}]) => {
-    //                     return this._inmuebleService.findAll(
-    //                         {
-    //                             ...query,
-    //                             ...parametros,
-    //                         },
-    //                     );
-    //                 },
-    //             ),
-    //             mergeMap(
-    //                 (respuesta: ApiResponse<InmuebleInterface>) => {
-    //                     return of(GestionInmuebleActions.cargarInmueblesGestionExito(
-    //                         {
-    //                             inmuebles: respuesta.data,
-    //                             total: respuesta.total,
-    //                             nextQuery: respuesta.nextQuery,
-    //                         },
-    //                     ));
-    //                 }
-    //             ),
-    //             catchError(
-    //                 error => of(GestionInmuebleActions.cargarInmueblesGestionError({error})),
-    //             ),
-    //         );
-    //     },
-    // );
+    crearInmueble$ = createEffect(
+        () => {
+            // Definimos que accion va escuchar
+            return this.acciones$.pipe(
+                ofType(InmuebleActions.crearInmueble),
+                mergeMap(
+                    ({inmueble}) => {
+                        return this._inmuebleService.createOne(inmueble);
+                    },
+                ),
+                mergeMap(
+                    (respuesta: InmuebleInterface) => {
+                        return of(InmuebleActions.crearInmuebleExito(
+                            {
+                                inmueble: respuesta,
+                            },
+                        ));
+                    }
+                ),
+                catchError(
+                    error => of(InmuebleActions.cargarInmuebleError({error}))
+                ),
+            );
+        },
+    );
 
     // cargarInmueblesFavoritos$ = createEffect(
     //     () => {
