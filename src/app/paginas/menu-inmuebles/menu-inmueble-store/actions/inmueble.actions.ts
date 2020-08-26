@@ -1,8 +1,23 @@
-import { createAction, props } from '@ngrx/store';
-import { InmuebleInterface } from 'src/app/interfaces/inmueble.interface';
+import {createAction, props} from '@ngrx/store';
+import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
 
 
 export class InmuebleActions {
+
+    static cargarInmuebles = createAction(
+        '[Inmueble] cargar inmuebles',
+        props<{ parametros: { [k in string]: any }, filtro?: boolean, sonDelUsuario?: boolean }>()
+    );
+
+    static cargarInmueblesExito = createAction(
+        '[Inmueble] cargar inmuebles exito',
+        props<{ inmuebles: InmuebleInterface[], total: number, nextQuery: any, filtro?: boolean, sonDelUsuario?: boolean }>()
+    );
+
+    static cargarInmueblesError = createAction(
+        '[Inmueble] cargar inmuebles Error',
+        props<{ error: any }>()
+    );
     static cargarInmueble = createAction(
         '[Inmueble] cargar inmueble',
         props<{ parametros: Partial<InmuebleInterface> | any }>()

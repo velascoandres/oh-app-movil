@@ -19,7 +19,6 @@ const STORE_INMUEBLE_UNICO = StoreModule.forFeature(
 );
 
 export const COMPARTIDO_STORE = [
-    STORE_INMUEBLE,
     STORE_FAVORITO,
     STORE_INMUEBLE_UNICO,
 ];

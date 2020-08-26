@@ -1,24 +1,18 @@
-import { createReducer, on, Action } from '@ngrx/store';
-import { InmuebleState } from '../inmueble.state';
-import { InmuebleActions } from '../actions/inmueble.actions';
+import {createReducer, on, Action} from '@ngrx/store';
+import {InmuebleState} from '../inmueble.state';
+import {InmuebleActions} from '../actions/inmueble.actions';
 
 export const estadoInicialInmuebles: InmuebleState = {
     cargando: false,
     cargo: false,
     error: null,
     edito: false,
-    nombre: '',
-    descripcion: '',
-    habilitado: 0,
-    precio: 0,
-    plantas: 0,
-    parqueaderos: 0,
-    imagenes: [],
-    categoria: null,
-    esAlquiler: 0,
-    perfilUsuario: null,
-    direccion: '',
-    habitaciones: 0,
+    inmuebleSeleccionado: undefined,
+    total: 0,
+    filtro: false,
+    queryActual: undefined,
+    inmuebles: [],
+    sonDelUsuario: false,
 };
 
 const _inmuebleReducer = createReducer(
@@ -26,20 +20,21 @@ const _inmuebleReducer = createReducer(
     // Cargar
     on(
         InmuebleActions.cargarInmueble,
-        (estado: InmuebleState, { parametros }) => {
+        (estado: InmuebleState, {parametros}) => {
             return {
                 ...estado,
-                ...parametros,
+                inmuebleSeleccionado: parametros,
                 cargando: true,
+                error: undefined,
             };
         },
     ),
     on(
         InmuebleActions.cargarInmuebleExito,
-        (estado: InmuebleState, { inmueble }) => {
+        (estado: InmuebleState, {inmueble}) => {
             return {
                 ...estado,
-                ...inmueble,
+                inmuebleSeleccionado: inmueble,
                 cargando: false,
                 cargo: true,
             };
@@ -47,7 +42,177 @@ const _inmuebleReducer = createReducer(
     ),
     on(
         InmuebleActions.cargarInmuebleError,
-        (estado: InmuebleState, { error }) => {
+        (estado: InmuebleState, {error}) => {
+            return {
+                ...estado,
+                cargando: false,
+                cargo: false,
+                error,
+                inmuebleSeleccionado: undefined,
+            };
+        }
+    ),
+    // Crear
+    on(
+        InmuebleActions.crearInmueble,
+        (estado: InmuebleState, {inmueble}) => {
+            return {
+                ...estado,
+                cargando: true,
+                cargo: false,
+                error: undefined,
+                inmuebleSeleccionado: inmueble,
+            };
+        },
+    ),
+    on(
+        InmuebleActions.crearInmuebleExito,
+        (estado: InmuebleState, {inmueble}) => {
+            return {
+                ...estado,
+                inmuebleSeleccionado: inmueble,
+                cargando: false,
+                cargo: true,
+                error: undefined,
+            };
+        },
+    ),
+    on(
+        InmuebleActions.crearInmuebleError,
+        (estado: InmuebleState, {error}) => {
+            return {
+                ...estado,
+                cargando: false,
+                cargo: true,
+                error,
+                inmuebleSeleccionado: undefined,
+            };
+        },
+    ),
+    // Actualizar
+    on(
+        InmuebleActions.actualizarInmueble,
+        (estado: InmuebleState, {inmueble}) => {
+            return {
+                ...estado,
+                inmuebleSeleccionado: inmueble,
+                cargando: true,
+                cargo: false,
+                error: undefined,
+            };
+        },
+    ),
+    on(
+        InmuebleActions.actualizarInmuebleExito,
+        (estado: InmuebleState, {inmueble}) => {
+            return {
+                ...estado,
+                inmuebleSeleccionado: inmueble,
+                cargando: false,
+                cargo: true,
+            };
+        },
+    ),
+    on(
+        InmuebleActions.actualizarInmuebleError,
+        (estado: InmuebleState, {error}) => {
+            return {
+                ...estado,
+                error,
+                cargando: false,
+                cargo: false,
+                inmuebleSeleccionado: undefined,
+            };
+        },
+    ),
+    // Deshabilitar
+    on(
+        InmuebleActions.deshabilitarInmueble,
+        (estado: InmuebleState, {inmueble}) => {
+            return {
+                ...estado,
+                cargando: true,
+                cargo: false,
+                error: undefined,
+                inmuebleSeleccionado: inmueble,
+            };
+        },
+    ),
+    on(
+        InmuebleActions.deshabilitarInmuebleExito,
+        (estado: InmuebleState, {inmueble}) => {
+            return {
+                ...estado,
+                cargando: false,
+                cargo: true,
+                inmuebleSeleccionado: inmueble,
+            };
+        },
+    ),
+    on(
+        InmuebleActions.deshabilitarInmuebleError,
+        (estado: InmuebleState, {error}) => {
+            return {
+                ...estado,
+                error,
+                cargando: false,
+                cargo: false,
+                inmuebleSeleccionado: undefined,
+            };
+        },
+    ),
+    on(
+        InmuebleActions.cargarInmuebles,
+        (estado: InmuebleState, {parametros, filtro, sonDelUsuario}) => {
+            let queryNuevo = parametros;
+            if (sonDelUsuario) {
+                const queryAnterior = (estado.queryActual && estado.queryActual.where) ? estado.queryActual.where : {};
+                queryNuevo = {
+                    where: {
+                        ...queryAnterior,
+                        ...parametros.where,
+                    },
+                    skip: parametros.skip,
+                    take: parametros.take,
+                };
+            }
+            return {
+                ...estado,
+                queryActual: {
+                    ...queryNuevo,
+                },
+                cargando: true,
+                filtro,
+                sonDelUsuario,
+            };
+        }
+    ),
+    on(
+        InmuebleActions.cargarInmueblesExito,
+        (estado: InmuebleState, {inmuebles, total, nextQuery}) => {
+            let inmueblesNuevos = [];
+            if (estado.filtro) {
+                inmueblesNuevos = inmuebles;
+            } else {
+                inmueblesNuevos = [
+                    ...estado.inmuebles,
+                    ...inmuebles,
+                ];
+            }
+            return {
+                ...estado,
+                inmuebles: [
+                    ...inmueblesNuevos
+                ],
+                total,
+                cargando: false,
+                cargo: true,
+            };
+        },
+    ),
+    on(
+        InmuebleActions.cargarInmueblesError,
+        (estado: InmuebleState, {error}) => {
             return {
                 ...estado,
                 cargando: false,
@@ -56,145 +221,6 @@ const _inmuebleReducer = createReducer(
             };
         }
     ),
-    // Agregar favoritos
-    on(
-        InmuebleActions.agregarFavoritos,
-        (estado: InmuebleState, { inmueble }) => {
-            return {
-                ...estado,
-                ...inmueble,
-                cargando: true,
-                cargo: false,
-            };
-        },
-    ),
-    on(
-        InmuebleActions.agregarFavoritosInmuebleExito,
-        (estado: InmuebleState, { inmueble }) => {
-            return {
-                ...estado,
-                ...inmueble,
-                cargando: false,
-                cargo: true,
-            };
-        },
-    ),
-    on(
-        InmuebleActions.agregarFavoritosInmuebleError,
-        (estado: InmuebleState, { error }) => {
-            return {
-                ...estado,
-                cargando: false,
-                cargo: false,
-                error,
-            };
-        },
-    ),
-    // Crear
-    on(
-        InmuebleActions.crearInmueble,
-        (estado: InmuebleState, { inmueble }) => {
-            return {
-                ...estado,
-                ...inmueble,
-                cargando: true,
-                cargo: false,
-            };
-        },
-    ),
-    on(
-        InmuebleActions.crearInmuebleExito,
-        (estado: InmuebleState, { inmueble }) => {
-            return {
-                ...estado,
-                ...inmueble,
-                cargando: false,
-                cargo: true,
-            };
-        },
-    ),
-    on(
-        InmuebleActions.crearInmuebleError,
-        (estado: InmuebleState, { error }) => {
-            return {
-                ...estado,
-                cargando: false,
-                cargo: true,
-                error,
-            };
-        },
-    ),
-    // Actualizar
-    on(
-        InmuebleActions.actualizarInmueble,
-        (estado: InmuebleState, { inmueble }) => {
-            return {
-                ...estado,
-                ...inmueble,
-                cargando: true,
-                cargo: false,
-            };
-        },
-    ),
-    on(
-        InmuebleActions.actualizarInmuebleExito,
-        (estado: InmuebleState, { inmueble }) => {
-            return {
-                ...estado,
-                ...inmueble,
-                cargando: false,
-                cargo: true,
-                edito: true,
-            };
-        },
-    ),
-    on(
-        InmuebleActions.actualizarInmuebleError,
-        (estado: InmuebleState, { error }) => {
-            return {
-                ...estado,
-                error,
-                cargando: false,
-                cargo: true,
-                edito: true,
-            };
-        },
-    ),
-    // Deshabilitar
-    on(
-        InmuebleActions.deshabilitarInmueble,
-        (estado: InmuebleState, { inmueble }) => {
-            return {
-                ...estado,
-                ...inmueble,
-                cargando: true,
-                cargo: false,
-            };
-        },
-    ),
-    on(
-        InmuebleActions.deshabilitarInmuebleExito,
-        (estado: InmuebleState, { inmueble }) => {
-            return {
-                ...estado,
-                ...inmueble,
-                cargando: false,
-                cargo: true,
-            };
-        },
-    ),
-    on(
-        InmuebleActions.deshabilitarInmuebleError,
-        (estado: InmuebleState, { error }) => {
-            return {
-                ...estado,
-                error,
-                cargando: false,
-                cargo: false,
-            };
-        },
-    ),
-
 );
 
 

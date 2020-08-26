@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ViewWillEnter, ViewWillLeave} from '@ionic/angular';
 import {Store} from '@ngrx/store';
-import {AppStateInmuebles, AppState} from 'src/app/store/app.reducers';
-import {InmueblesActions} from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/actions/menu-inmueble.actions';
+import {AppState, AppStateInmueble} from 'src/app/store/app.reducers';
 import {FiltroActions} from 'src/app/store/filtro-store/actions/filtro.actions';
 import {FiltroState} from '../../store/filtro-store/filtro.state';
 import {Subscription} from 'rxjs';
+import {InmuebleActions} from './menu-inmueble-store/actions/inmueble.actions';
 
 @Component({
     selector: 'app-menu-inmuebles',
@@ -29,7 +29,7 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
     cargando = false;
 
     constructor(
-        private readonly inmueblesStore: Store<AppStateInmuebles>,
+        private readonly inmuebleStore: Store<AppStateInmueble>,
         private readonly filtrosStore: Store<AppState>,
     ) {
     }
@@ -52,8 +52,8 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
                 (estado: FiltroState) => {
                     this.estaFiltrando = estado.mostrandoFiltros;
                     if (estado.emitioFiltros) {
-                        this.inmueblesStore.dispatch(
-                            InmueblesActions.cargarInmuebles(
+                        this.inmuebleStore.dispatch(
+                            InmuebleActions.cargarInmuebles(
                                 {filtro: true, parametros: estado.query}
                             )
                         );
@@ -63,8 +63,8 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
     }
 
     private escucharInmueble() {
-       const subscripcionInmueble =  this.inmueblesStore
-            .select('inmuebles')
+       const subscripcionInmueble =  this.inmuebleStore
+            .select('inmueble')
             .subscribe(
                 ({cargando, sonDelUsuario}) => {
                     this.cargando = cargando;
@@ -78,9 +78,9 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
 
     private cargarInmuebles(filtro = false) {
         this
-            .inmueblesStore
+            .inmuebleStore
             .dispatch(
-                InmueblesActions.cargarInmuebles(
+                InmuebleActions.cargarInmuebles(
                     {parametros: this.consulta, filtro, sonDelUsuario: false}
                 ),
             );

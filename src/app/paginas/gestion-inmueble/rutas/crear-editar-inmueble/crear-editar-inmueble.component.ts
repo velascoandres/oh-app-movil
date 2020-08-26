@@ -35,8 +35,9 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave {
         const subscripcionInmueble = this._inmuebleStore
             .select('inmueble')
             .subscribe(
-                ({cargo, predio}) => {
-                    if (cargo && +predio === +this.formularioValido.predio) {
+                (
+                    {cargo, error}) => {
+                    if (cargo && !error) {
                         this.mostrarToast('Inmueble publicado con exito').then();
                     } else {
                         this.mostrarToast('Ha ocurrido un error !', 'danger').then();

@@ -36,9 +36,9 @@ export class InformacionInmuebleComponent implements OnInit, ViewWillLeave {
         const subscripcionInmueble = this.inmubleStore
             .select('inmueble')
             .subscribe(
-                (estado) => {
-                    this.inmueble = estado;
-                    this.totalImagenes = estado.imagenes.length;
+                ({inmuebleSeleccionado}) => {
+                    this.inmueble = inmuebleSeleccionado;
+                    this.totalImagenes = inmuebleSeleccionado.imagenes.length;
                     this.imagenActual = 1;
                 }
             );

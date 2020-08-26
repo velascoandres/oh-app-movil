@@ -2,6 +2,11 @@
     <app-nav-bar></app-nav-bar>
     <ion-toolbar>
         <ion-title>Tus inmuebles</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="mostrarOcultarFiltros()" color="dark">
+                <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 

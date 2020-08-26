@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {InmuebleRestService} from '../../../../modulos/compartido/servicios/rest/inmueble-rest.service';
-import {InmueblesActions} from '../actions/menu-inmueble.actions';
 import {catchError, mergeMap, withLatestFrom} from 'rxjs/operators';
 import {ApiResponse} from 'src/lib/principal.service';
 import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
 import {of} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {AppStateInmueble, AppStateInmuebles} from 'src/app/store/app.reducers';
+import {AppStateInmueble} from 'src/app/store/app.reducers';
 import {InmuebleActions} from '../actions/inmueble.actions';
 
 @Injectable()
@@ -15,8 +14,7 @@ export class InmuebleEffects {
     constructor(
         private acciones$: Actions,
         private readonly _inmuebleService: InmuebleRestService,
-        private readonly inmublesStore: Store<AppStateInmuebles>,
-        private readonly inmubleStore: Store<AppStateInmueble>,
+        private readonly inmuebleStore: Store<AppStateInmueble>,
     ) {
 
     }
@@ -25,21 +23,20 @@ export class InmuebleEffects {
         () => {
             // Definimos que accion va escuchar
             return this.acciones$.pipe(
-                ofType(InmueblesActions.cargarInmuebles),
-                withLatestFrom(this.inmublesStore.select('inmuebles')),
+                ofType(InmuebleActions.cargarInmuebles),
+                withLatestFrom(this.inmuebleStore.select('inmueble')),
                 mergeMap(
                     ([{parametros, filtro, sonDelUsuario}, {queryActual}]) => {
                         return this._inmuebleService.findAll(
                             {
                                 ...queryActual,
-                                ...parametros,
                             },
                         );
                     },
                 ),
                 mergeMap(
                     (respuesta: ApiResponse<InmuebleInterface>) => {
-                        return of(InmueblesActions.cargarInmueblesExito(
+                        return of(InmuebleActions.cargarInmueblesExito(
                             {
                                 inmuebles: respuesta.data,
                                 total: respuesta.total,
@@ -49,7 +46,7 @@ export class InmuebleEffects {
                     }
                 ),
                 catchError(
-                    error => of(InmueblesActions.cargarInmueblesError({error}))
+                    error => of(InmuebleActions.cargarInmueblesError({error}))
                 ),
             );
         },
@@ -80,34 +77,4 @@ export class InmuebleEffects {
             );
         },
     );
-
-    // cargarInmueblesFavoritos$ = createEffect(
-    //     () => {
-    //         // Definimos que accion va escuchar
-    //         const accion$ = this.acciones$.pipe(
-    //             ofType(FavoritosActions.cargarInmueblesFavoritos)
-    //         );
-    //         return accion$
-    //             .pipe(
-    //                 mergeMap(
-    //                     ({ parametros }) => {
-    //                         return this._inmuebleService.findAll(parametros);
-    //                     },
-    //                 ),
-    //                 map(
-    //                     (respuesta: ApiResponse<InmuebleInterface>) => {
-    //                         return FavoritosActions.cargarInmueblesFavoritosExito(
-    //                             {
-    //                                 inmuebles: respuesta.data,
-    //                                 total: respuesta.total,
-    //                             },
-    //                         );
-    //                     }
-    //                 ),
-    //                 catchError(
-    //                     error => of(FavoritosActions.cargarInmueblesFavoritosError({ error, }))
-    //                 ),
-    //             );
-    //     },
-    // );
 }

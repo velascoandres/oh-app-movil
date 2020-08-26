@@ -1,12 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {AppState, AppStateInmuebles} from '../../store/app.reducers';
+import {AppState, AppStateInmueble} from '../../store/app.reducers';
 import {ViewWillEnter, ViewWillLeave} from '@ionic/angular';
 import {PerfilUsuarioInterface} from '../../interfaces/perfil-usuario.interface';
 import {Subscription} from 'rxjs';
 import {InmuebleInterface} from '../../interfaces/inmueble.interface';
-import {InmueblesActions} from '../menu-inmuebles/menu-inmueble-store/actions/menu-inmueble.actions';
 import {Router} from '@angular/router';
+import {InmuebleActions} from '../menu-inmuebles/menu-inmueble-store/actions/inmueble.actions';
+import {FiltroActions} from '../../store/filtro-store/actions/filtro.actions';
+import {FiltroState} from '../../store/filtro-store/filtro.state';
 
 @Component({
     selector: 'app-gestion-inmueble',
@@ -18,17 +20,21 @@ export class GestionInmueblePage implements OnInit, ViewWillEnter, ViewWillLeave
     usuario: PerfilUsuarioInterface;
     subscripciones: Subscription[] = [];
     inmuebles: InmuebleInterface[] = [];
+    estaFiltrando = false;
 
     constructor(
-        private readonly _inmuebleStore: Store<AppStateInmuebles>,
+        private readonly _inmuebleStore: Store<AppStateInmueble>,
         private readonly _usuarioState: Store<AppState>,
         private readonly _router: Router,
+        private readonly _filtroStore: Store<AppState>,
+        private readonly filtrosStore: Store<AppState>,
     ) {
     }
 
     ngOnInit() {
         // this.escucharUsuario();
         // this.escucharInmuebles();
+        this.escucharFiltros();
     }
 
     ionViewWillEnter(): void {
@@ -41,7 +47,6 @@ export class GestionInmueblePage implements OnInit, ViewWillEnter, ViewWillLeave
             .select('usuario')
             .subscribe(
                 ({usuario}) => {
-                    console.log(usuario);
                     this.usuario = usuario;
                     this.cargarInmueblesDelUsuario(this.usuario.id);
                 }
@@ -61,13 +66,13 @@ export class GestionInmueblePage implements OnInit, ViewWillEnter, ViewWillLeave
             take: 10
         };
         this._inmuebleStore.dispatch(
-            InmueblesActions.cargarInmuebles({parametros: query, filtro: true, sonDelUsuario: true})
+            InmuebleActions.cargarInmuebles({parametros: query, filtro: true, sonDelUsuario: true})
         );
     }
 
     private escucharInmuebles() {
         const subscripcionInmueble = this._inmuebleStore
-            .select('inmuebles')
+            .select('inmueble')
             .subscribe(
                 ({inmuebles}) => {
                     this.inmuebles = inmuebles;
@@ -84,6 +89,32 @@ export class GestionInmueblePage implements OnInit, ViewWillEnter, ViewWillLeave
         this._router.navigate(
             ['/', 'tabs', 'gestion-inmueble', 'crear-inmueble'],
         );
+    }
+
+    mostrarOcultarFiltros() {
+        this
+            ._filtroStore
+            .dispatch(
+                FiltroActions.mostrarFiltros(),
+            );
+    }
+
+    private escucharFiltros() {
+        this.filtrosStore
+            .select('filtro')
+            .subscribe(
+                (estado: FiltroState) => {
+                    this.estaFiltrando = estado.mostrandoFiltros;
+                    if (estado.emitioFiltros) {
+                        console.log(estado.query);
+                        this._inmuebleStore.dispatch(
+                            InmuebleActions.cargarInmuebles(
+                                {filtro: true, parametros: estado.query, sonDelUsuario: true}
+                            )
+                        );
+                    }
+                },
+            );
     }
 
 }

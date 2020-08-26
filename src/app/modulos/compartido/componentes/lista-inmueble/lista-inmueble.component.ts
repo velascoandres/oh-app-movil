@@ -2,17 +2,18 @@ import {Component, OnInit, OnDestroy, Input, ViewChild, AfterViewInit} from '@an
 import {Store} from '@ngrx/store';
 import {MenuInmuebleState} from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/menu-inmueble.state';
 import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
-import {InmueblesActions} from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/actions/menu-inmueble.actions';
-import {AppStateInmuebles, AppState} from 'src/app/store/app.reducers';
+import {AppState, AppStateInmueble} from 'src/app/store/app.reducers';
 import {Subscription} from 'rxjs';
-import {IonInfiniteScroll, ViewDidLeave, ViewWillLeave} from '@ionic/angular';
+import {IonInfiniteScroll, ViewWillLeave} from '@ionic/angular';
+import {InmuebleActions} from '../../../../paginas/menu-inmuebles/menu-inmueble-store/actions/inmueble.actions';
+import {InmuebleState} from '../../../../paginas/menu-inmuebles/menu-inmueble-store/inmueble.state';
 
 @Component({
     selector: 'app-lista-inmueble',
     templateUrl: './lista-inmueble.component.html',
     styleUrls: ['./lista-inmueble.component.scss'],
 })
-export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit, ViewWillLeave {
 
     inmuebles: InmuebleInterface[] = [];
     subscripciones: Subscription[] = [];
@@ -30,13 +31,17 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit 
 
 
     constructor(
-        private readonly storeInmuebles: Store<AppStateInmuebles>,
+        private readonly storeInmueble: Store<AppStateInmueble>,
         private readonly filtroStore: Store<AppState>,
     ) {
         this.mostrarLista = true;
     }
 
+    ionViewWillLeave(): void {
+    }
+
     ngAfterViewInit(): void {
+        this.mostrarLista = true;
         this.inicializar();
     }
 
@@ -51,10 +56,11 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     private escucharInmuebles() {
-        const subscripcionStoreInmueble = this.storeInmuebles
-            .select('inmuebles')
+        const subscripcionStoreInmueble = this.storeInmueble
+            .select('inmueble')
             .subscribe(
-                (inmueblesState: MenuInmuebleState) => {
+                (inmueblesState: InmuebleState) => {
+                    this.mostrarLista = true;
                     this.inmuebles = inmueblesState.inmuebles;
                     this.totalInmuebles = inmueblesState.total;
                     const deberCargar = this.inmuebles.length < this.totalInmuebles;
@@ -66,6 +72,7 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     ngOnDestroy(): void {
+        console.log('me destrui');
         this.subscripciones.forEach(
             sub => sub.unsubscribe(),
         );
@@ -75,8 +82,8 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit 
         this.query.skip = this.query.skip + 10;
         const deberCargar = this.inmuebles.length < this.totalInmuebles;
         if (deberCargar) {
-            this.storeInmuebles.dispatch(
-                InmueblesActions.cargarInmuebles(
+            this.storeInmueble.dispatch(
+                InmuebleActions.cargarInmuebles(
                     {
                         parametros: {skip: this.query.skip, take: 10},
                     },

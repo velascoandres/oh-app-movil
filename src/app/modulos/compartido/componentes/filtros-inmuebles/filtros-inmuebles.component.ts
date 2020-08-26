@@ -3,9 +3,11 @@ import {CategoriaRestService} from 'src/app/modulos/compartido/servicios/rest/ca
 import {CategoriaInterface} from 'src/app/interfaces/categoria.interface';
 import {ApiResponse} from 'src/lib/principal.service';
 import {Store} from '@ngrx/store';
-import {AppState} from 'src/app/store/app.reducers';
+import {AppState, AppStateInmueble} from 'src/app/store/app.reducers';
 import {FiltroActions} from 'src/app/store/filtro-store/actions/filtro.actions';
 import {CriteroRango, FiltroInmueble} from '../../../../interfaces/filtro-inmueble.interface';
+import {inmuebleUsuarioSelector} from '../../../../paginas/menu-inmuebles/menu-inmueble-store/selectors/inmueble-usuario.selector';
+import {PerfilUsuarioInterface} from '../../../../interfaces/perfil-usuario.interface';
 
 
 @Component({
@@ -16,7 +18,8 @@ import {CriteroRango, FiltroInmueble} from '../../../../interfaces/filtro-inmueb
 export class FiltrosInmueblesComponent implements OnInit {
 
     categorias: CategoriaInterface[] = [];
-
+    estaFiltrandoUsuario = false;
+    usuario: PerfilUsuarioInterface;
 
     filtros: FiltroInmueble = {
         categorias: [],
@@ -32,6 +35,7 @@ export class FiltrosInmueblesComponent implements OnInit {
     constructor(
         private readonly categoriaService: CategoriaRestService,
         private readonly filtroStore: Store<AppState>,
+        private readonly store: Store<AppStateInmueble>,
     ) {
     }
 
@@ -52,7 +56,19 @@ export class FiltrosInmueblesComponent implements OnInit {
             );
     }
 
+    escucharInmueble() {
+        this.store
+            .select(inmuebleUsuarioSelector)
+            .subscribe(
+                ({estadoInmueble, estadoUsuario}) => {
+                    this.estaFiltrandoUsuario = estadoInmueble.sonDelUsuario;
+                    this.usuario = estadoUsuario.usuario;
+                }
+            );
+    }
+
     setearCategoria(evento) {
+        console.log(evento);
         this.filtros.categorias = evento.detail.value;
     }
 
