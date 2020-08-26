@@ -54,6 +54,7 @@ export class FiltrosInmueblesComponent implements OnInit {
                     this.categorias = respuesta.data;
                 }
             );
+        this.escucharInmueble();
     }
 
     escucharInmueble() {
@@ -68,7 +69,6 @@ export class FiltrosInmueblesComponent implements OnInit {
     }
 
     setearCategoria(evento) {
-        console.log(evento);
         this.filtros.categorias = evento.detail.value;
     }
 
@@ -98,6 +98,7 @@ export class FiltrosInmueblesComponent implements OnInit {
                 plantas: consultaPlantas,
                 habilitado: 1,
                 imagenes: {},
+                perfilUsuario: (this.estaFiltrandoUsuario ? {id: this.usuario.id} : undefined),
             },
             skip: 0,
             take: 10,

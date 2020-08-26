@@ -1,15 +1,20 @@
-import { createAction, props } from '@ngrx/store';
-import { FiltroState } from '../filtro.state';
+import {createAction, props} from '@ngrx/store';
+import {FiltroState} from '../filtro.state';
 
 
 export class FiltroActions {
 
     static emitirFiltro = createAction(
-        '[Filtro] mostrar Filtro',
-        props<{query: any}>()
+        '[Filtro] emitir Filtro',
+        props<{ query: any }>()
     );
 
     static mostrarFiltros = createAction(
-        '[Filtro] emitir Filtro',
+        '[Filtro] mostrar Filtro',
+        props<{ limpiarFiltros: boolean }>(),
+    );
+
+    static encerarFiltro = createAction(
+        '[Filtro] encerar Filtro',
     );
 }

@@ -32,8 +32,6 @@ export class GestionInmueblePage implements OnInit, ViewWillEnter, ViewWillLeave
     }
 
     ngOnInit() {
-        // this.escucharUsuario();
-        // this.escucharInmuebles();
         this.escucharFiltros();
     }
 
@@ -95,18 +93,17 @@ export class GestionInmueblePage implements OnInit, ViewWillEnter, ViewWillLeave
         this
             ._filtroStore
             .dispatch(
-                FiltroActions.mostrarFiltros(),
+                FiltroActions.mostrarFiltros({limpiarFiltros: true}),
             );
     }
 
     private escucharFiltros() {
-        this.filtrosStore
+        const subscripcionFiltros = this.filtrosStore
             .select('filtro')
             .subscribe(
                 (estado: FiltroState) => {
                     this.estaFiltrando = estado.mostrandoFiltros;
                     if (estado.emitioFiltros) {
-                        console.log(estado.query);
                         this._inmuebleStore.dispatch(
                             InmuebleActions.cargarInmuebles(
                                 {filtro: true, parametros: estado.query, sonDelUsuario: true}
@@ -115,6 +112,7 @@ export class GestionInmueblePage implements OnInit, ViewWillEnter, ViewWillLeave
                     }
                 },
             );
+        this.subscripciones.push(subscripcionFiltros);
     }
 
 }

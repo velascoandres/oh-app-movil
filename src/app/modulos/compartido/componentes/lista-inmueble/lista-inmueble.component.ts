@@ -1,6 +1,5 @@
 import {Component, OnInit, OnDestroy, Input, ViewChild, AfterViewInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {MenuInmuebleState} from 'src/app/paginas/menu-inmuebles/menu-inmueble-store/menu-inmueble.state';
 import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
 import {AppState, AppStateInmueble} from 'src/app/store/app.reducers';
 import {Subscription} from 'rxjs';
@@ -60,7 +59,6 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit,
             .select('inmueble')
             .subscribe(
                 (inmueblesState: InmuebleState) => {
-                    this.mostrarLista = true;
                     this.inmuebles = inmueblesState.inmuebles;
                     this.totalInmuebles = inmueblesState.total;
                     const deberCargar = this.inmuebles.length < this.totalInmuebles;
@@ -72,7 +70,6 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit,
     }
 
     ngOnDestroy(): void {
-        console.log('me destrui');
         this.subscripciones.forEach(
             sub => sub.unsubscribe(),
         );

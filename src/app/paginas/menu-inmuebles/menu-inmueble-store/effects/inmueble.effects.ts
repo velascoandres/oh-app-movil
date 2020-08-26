@@ -30,6 +30,7 @@ export class InmuebleEffects {
                         return this._inmuebleService.findAll(
                             {
                                 ...queryActual,
+                                ...parametros,
                             },
                         );
                     },

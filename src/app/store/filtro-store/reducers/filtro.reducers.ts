@@ -12,7 +12,7 @@ const _filtroReducer = createReducer(
     estadoInicialFiltro,
     on(
         FiltroActions.emitirFiltro,
-        (estado: FiltroState, { query }) => {
+        (estado: FiltroState, {query}) => {
             return {
                 query,
                 mostrandoFiltros: false,
@@ -22,12 +22,18 @@ const _filtroReducer = createReducer(
     ),
     on(
         FiltroActions.mostrarFiltros,
-        (estado: FiltroState) => {
+        (estado: FiltroState, {limpiarFiltros}) => {
             return {
                 ...estado,
                 mostrandoFiltros: !estado.mostrandoFiltros,
+                query: limpiarFiltros ? {} : estado.query,
+                emitioFiltros: false,
             };
         }
+    ),
+    on(
+        FiltroActions.encerarFiltro,
+        (estado: FiltroState) => estadoInicialFiltro,
     ),
 );
 

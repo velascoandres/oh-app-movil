@@ -35,6 +35,7 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
     }
 
     ionViewWillEnter(): void {
+        this.encerarFiltros();
         this.escucharFiltros();
         this.escucharInmueble();
     }
@@ -46,7 +47,7 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
 
 
     private escucharFiltros() {
-        this.filtrosStore
+       const subscripcionFiltro = this.filtrosStore
             .select('filtro')
             .subscribe(
                 (estado: FiltroState) => {
@@ -54,16 +55,17 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
                     if (estado.emitioFiltros) {
                         this.inmuebleStore.dispatch(
                             InmuebleActions.cargarInmuebles(
-                                {filtro: true, parametros: estado.query}
+                                {filtro: true, parametros: estado.query, sonDelUsuario: false}
                             )
                         );
                     }
                 },
             );
+       this.subscripciones.push(subscripcionFiltro);
     }
 
     private escucharInmueble() {
-       const subscripcionInmueble =  this.inmuebleStore
+        const subscripcionInmueble = this.inmuebleStore
             .select('inmueble')
             .subscribe(
                 ({cargando, sonDelUsuario}) => {
@@ -73,7 +75,7 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
                     }
                 },
             );
-       this.subscripciones.push(subscripcionInmueble);
+        this.subscripciones.push(subscripcionInmueble);
     }
 
     private cargarInmuebles(filtro = false) {
@@ -109,11 +111,19 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
         this
             .filtrosStore
             .dispatch(
-                FiltroActions.mostrarFiltros(),
+                FiltroActions.mostrarFiltros({limpiarFiltros: true}),
             );
     }
 
     ionViewWillLeave(): void {
         this.subscripciones.forEach(sub => sub.unsubscribe());
+    }
+
+    encerarFiltros() {
+        this
+            .filtrosStore
+            .dispatch(
+                FiltroActions.encerarFiltro(),
+            );
     }
 }

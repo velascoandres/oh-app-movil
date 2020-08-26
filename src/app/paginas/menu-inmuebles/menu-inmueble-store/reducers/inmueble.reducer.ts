@@ -164,22 +164,11 @@ const _inmuebleReducer = createReducer(
     on(
         InmuebleActions.cargarInmuebles,
         (estado: InmuebleState, {parametros, filtro, sonDelUsuario}) => {
-            let queryNuevo = parametros;
-            if (sonDelUsuario) {
-                const queryAnterior = (estado.queryActual && estado.queryActual.where) ? estado.queryActual.where : {};
-                queryNuevo = {
-                    where: {
-                        ...queryAnterior,
-                        ...parametros.where,
-                    },
-                    skip: parametros.skip,
-                    take: parametros.take,
-                };
-            }
             return {
                 ...estado,
                 queryActual: {
-                    ...queryNuevo,
+                    ...estado.queryActual,
+                    ...parametros,
                 },
                 cargando: true,
                 filtro,
