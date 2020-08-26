@@ -32,12 +32,13 @@ export class GestionInmueblePage implements OnInit, ViewWillEnter, ViewWillLeave
     }
 
     ngOnInit() {
-        this.escucharFiltros();
     }
 
     ionViewWillEnter(): void {
-        this.escucharUsuario();
+        this.escucharFiltros();
+        this.encerarFiltros();
         this.escucharInmuebles();
+        this.escucharUsuario();
     }
 
     private escucharUsuario() {
@@ -113,6 +114,14 @@ export class GestionInmueblePage implements OnInit, ViewWillEnter, ViewWillLeave
                 },
             );
         this.subscripciones.push(subscripcionFiltros);
+    }
+
+    encerarFiltros() {
+        this
+            .filtrosStore
+            .dispatch(
+                FiltroActions.encerarFiltro(),
+            );
     }
 
 }
