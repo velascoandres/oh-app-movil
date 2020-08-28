@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 import { AuthModule } from './modulos/auth/auth.module';
 import { AuthService } from './modulos/auth/servicios/auth.service';
 import { EffectsModule } from '@ngrx/effects';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { EffectsModule } from '@ngrx/effects';
         },
       ),
     AuthModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     StatusBar,

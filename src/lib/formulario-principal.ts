@@ -91,9 +91,9 @@ export class FormularioPrincipal {
                         this.datosFormulario.emit(informacionFormulario);
                     } else {
                        // this.validarControles(this.formulario);
-                        if (this.toaster) {
-                            this.mostrarToaster('Formulario Invalido', 'warning').then().catch();
-                        }
+                       //  if (this.toaster) {
+                       //      this.mostrarToaster('Formulario Invalido', 'warning').then().catch();
+                       //  }
                         this.datosFormulario.emit(undefined);
                     }
                 }

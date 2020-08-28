@@ -1,21 +1,70 @@
 <ion-content>
-    <ion-list>
-        <form
-                [formGroup]="formulario"
-                novalidate
-        >
-            <ion-item>
-                <ion-label position="floating">
-                    Nombre
-                </ion-label>
-                <ion-input formControlName="nombre"></ion-input>
-                <div *ngIf="objetoArreglosErrores.nombre.length > 0" role="alert" class="alert alert-warning">
-                    <div *ngFor="let mensajeError of objetoArreglosErrores.nombre">
-                        <div>{{mensajeError}}</div>
+    <form [formGroup]="formulario">
+
+        <mat-vertical-stepper [linear]="false" #linearVerticalStepper="matVerticalStepper">
+            <mat-step [stepControl]="formulario">
+                <ng-template matStepLabel>Ubicacion</ng-template>
+                <ion-item>
+                    <ion-label position="floating">
+                        Nombre
+                    </ion-label>
+                    <ion-input formControlName="nombre"></ion-input>
+                    <div *ngIf="objetoArreglosErrores.nombre.length > 0" role="alert" class="alert alert-warning">
+                        <div *ngFor="let mensajeError of objetoArreglosErrores.nombre">
+                            <div>{{mensajeError}}</div>
+                        </div>
                     </div>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">
+                        Direccion
+                    </ion-label>
+                    <ion-textarea formControlName="direccion"></ion-textarea>
+                    <div *ngIf="objetoArreglosErrores.direccion.length > 0" role="alert" class="alert alert-warning">
+                        <div *ngFor="let mensajeError of objetoArreglosErrores.direccion">
+                            <div>{{mensajeError}}</div>
+                        </div>
+                    </div>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">
+                        Predio
+                    </ion-label>
+                    <ion-input formControlName="predio" type="number"></ion-input>
+                    <div *ngIf="objetoArreglosErrores.predio.length > 0" role="alert" class="alert alert-warning">
+                        <div *ngFor="let mensajeError of objetoArreglosErrores.predio">
+                            <div>{{mensajeError}}</div>
+                        </div>
+                    </div>
+                </ion-item>
+                <div>
+                    <button mat-raised-button color="primary" matStepperNext>{{etiquetaSiguiente}}</button>
                 </div>
-            </ion-item>
-            <ion-item>
+            </mat-step>
+            <mat-step [stepControl]="formulario">
+                <ng-template matStepLabel>Fija un precio</ng-template>
+                <ion-item>
+                    <ion-label position="floating">
+                        Precio del Inmueble ($ dolares)
+                    </ion-label>
+                    <ion-input
+                            inputmode="decimal"
+                            formControlName="precio"
+                    >
+                    </ion-input>
+                    <div *ngIf="objetoArreglosErrores.precio.length > 0" role="alert" class="alert alert-warning">
+                        <div *ngFor="let mensajeError of objetoArreglosErrores.precio">
+                            <div>{{mensajeError}}</div>
+                        </div>
+                    </div>
+                </ion-item>
+                <div>
+                    <button mat-raised-button  matStepperNext color="primary">{{etiquetaSiguiente}}</button>
+                </div>
+            </mat-step>
+
+            <mat-step [stepControl]="formulario">
+                <ng-template matStepLabel>Descripcion general</ng-template>
                 <ion-label position="floating">
                     Descripcion
                 </ion-label>
@@ -25,141 +74,298 @@
                         <div>{{mensajeError}}</div>
                     </div>
                 </div>
-            </ion-item>
-            <ion-item>
-                <ion-label position="floating">
-                    Direccion
-                </ion-label>
-                <ion-textarea formControlName="direccion"></ion-textarea>
-                <div *ngIf="objetoArreglosErrores.direccion.length > 0" role="alert" class="alert alert-warning">
-                    <div *ngFor="let mensajeError of objetoArreglosErrores.direccion">
-                        <div>{{mensajeError}}</div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <ion-label position="floating">
-                    Predio
-                </ion-label>
-                <ion-input formControlName="predio" type="number"></ion-input>
-                <div *ngIf="objetoArreglosErrores.predio.length > 0" role="alert" class="alert alert-warning">
-                    <div *ngFor="let mensajeError of objetoArreglosErrores.predio">
-                        <div>{{mensajeError}}</div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <ion-label position="floating">
-                    Precio del Inmueble ($ dolares)
-                </ion-label>
-                <ion-input
-                        inputmode="decimal"
-                        formControlName="precio"
+                <app-inx-input
+                        label="Imagenes del inmueble"
+                        formControlName="imagenes"
+                        [multiple]="true"
                 >
-                </ion-input>
-                <div *ngIf="objetoArreglosErrores.precio.length > 0" role="alert" class="alert alert-warning">
-                    <div *ngFor="let mensajeError of objetoArreglosErrores.precio">
-                        <div>{{mensajeError}}</div>
+                    <div *ngIf="objetoArreglosErrores.imagenes.length > 0" role="alert" class="alert alert-warning">
+                        <div *ngFor="let mensajeError of objetoArreglosErrores.imagenes">
+                            <div>{{mensajeError}}</div>
+                        </div>
                     </div>
+                </app-inx-input>
+                <div>
+                    <button mat-raised-button color="primary" matStepperNext>{{etiquetaSiguiente}}</button>
                 </div>
-            </ion-item>
-            <ion-item>
-                <ion-label position="floating">
-                    Habitaciones
-                </ion-label>
-                <ion-input type="number" min="1" formControlName="habitaciones"></ion-input>
-                <div *ngIf="objetoArreglosErrores.habitaciones.length > 0" role="alert" class="alert alert-warning">
-                    <div *ngFor="let mensajeError of objetoArreglosErrores.habitaciones">
-                        <div>{{mensajeError}}</div>
+            </mat-step>
+            <mat-step [stepControl]="formulario">
+                <ng-template matStepLabel>Descripcion detallada</ng-template>
+                <ion-item>
+                    <ion-label position="floating">
+                        Habitaciones
+                    </ion-label>
+                    <ion-input type="number" min="1" formControlName="habitaciones"></ion-input>
+                    <div *ngIf="objetoArreglosErrores.habitaciones.length > 0" role="alert" class="alert alert-warning">
+                        <div *ngFor="let mensajeError of objetoArreglosErrores.habitaciones">
+                            <div>{{mensajeError}}</div>
+                        </div>
                     </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <ion-label position="floating">
-                    Numero de plantas
-                </ion-label>
-                <ion-input type="number" min="1" formControlName="plantas"></ion-input>
-                <div *ngIf="objetoArreglosErrores.plantas.length > 0" role="alert" class="alert alert-warning">
-                    <div *ngFor="let mensajeError of objetoArreglosErrores.plantas">
-                        <div>{{mensajeError}}</div>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">
+                        Numero de plantas
+                    </ion-label>
+                    <ion-input type="number" min="1" formControlName="plantas"></ion-input>
+                    <div *ngIf="objetoArreglosErrores.plantas.length > 0" role="alert" class="alert alert-warning">
+                        <div *ngFor="let mensajeError of objetoArreglosErrores.plantas">
+                            <div>{{mensajeError}}</div>
+                        </div>
                     </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <ion-label position="floating">
-                    Total de parqueaderos
-                </ion-label>
-                <ion-input type="number" min="0" formControlName="parqueaderos"></ion-input>
-                <div *ngIf="objetoArreglosErrores.parqueaderos.length > 0" role="alert" class="alert alert-warning">
-                    <div *ngFor="let mensajeError of objetoArreglosErrores.parqueaderos">
-                        <div>{{mensajeError}}</div>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">
+                        Total de parqueaderos
+                    </ion-label>
+                    <ion-input type="number" min="0" formControlName="parqueaderos"></ion-input>
+                    <div *ngIf="objetoArreglosErrores.parqueaderos.length > 0" role="alert" class="alert alert-warning">
+                        <div *ngFor="let mensajeError of objetoArreglosErrores.parqueaderos">
+                            <div>{{mensajeError}}</div>
+                        </div>
                     </div>
+                </ion-item>
+                <div>
+                    <button mat-raised-button color="primary" matStepperNext>{{etiquetaSiguiente}}</button>
                 </div>
-            </ion-item>
-            <ion-item>
-                <ion-label position="floating">
-                    Area terreno (metros cuadrados)
-                </ion-label>
-                <ion-input
-                        inputmode="decimal"
-                        formControlName="areaTerreno"></ion-input>
-                <div *ngIf="objetoArreglosErrores.areaTerreno.length > 0" role="alert" class="alert alert-warning">
-                    <div *ngFor="let mensajeError of objetoArreglosErrores.areaTerreno">
-                        <div>{{mensajeError}}</div>
+            </mat-step>
+            <mat-step [stepControl]="formulario">
+                <ng-template matStepLabel>Detalles de superficie</ng-template>
+                <ion-item>
+                    <ion-label position="floating">
+                        Area terreno (metros cuadrados)
+                    </ion-label>
+                    <ion-input
+                            inputmode="decimal"
+                            formControlName="areaTerreno"></ion-input>
+                    <div *ngIf="objetoArreglosErrores.areaTerreno.length > 0" role="alert" class="alert alert-warning">
+                        <div *ngFor="let mensajeError of objetoArreglosErrores.areaTerreno">
+                            <div>{{mensajeError}}</div>
+                        </div>
                     </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <ion-label position="floating">
-                    Area de construccion (metros cuadrados)
-                </ion-label>
-                <ion-input inputmode="decimal"
-                           formControlName="areaConstruccion"
-                ></ion-input>
-                <div *ngIf="objetoArreglosErrores.areaConstruccion.length > 0" role="alert" class="alert alert-warning">
-                    <div *ngFor="let mensajeError of objetoArreglosErrores.areaConstruccion">
-                        <div>{{mensajeError}}</div>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">
+                        Area de construccion (metros cuadrados)
+                    </ion-label>
+                    <ion-input inputmode="decimal"
+                               formControlName="areaConstruccion"
+                    ></ion-input>
+                    <div *ngIf="objetoArreglosErrores.areaConstruccion.length > 0" role="alert"
+                         class="alert alert-warning">
+                        <div *ngFor="let mensajeError of objetoArreglosErrores.areaConstruccion">
+                            <div>{{mensajeError}}</div>
+                        </div>
                     </div>
+                </ion-item>
+                <div>
+                    <button mat-raised-button color="primary" matStepperNext>{{etiquetaSiguiente}}</button>
                 </div>
-            </ion-item>
-            <ion-item>
-                <ion-label position="floating">
-                    Categoria o tipo de inmueble
-                </ion-label>
-                <ion-select formControlName="categoria">
-                    <ion-select-option *ngFor="let categoria of categorias" [value]="categoria.id">
-                        {{categoria.nombre | uppercase }}
-                    </ion-select-option>
-                </ion-select>
-                <div *ngIf="objetoArreglosErrores.categoria.length > 0" role="alert" class="alert alert-warning">
-                    <div *ngFor="let mensajeError of objetoArreglosErrores.categoria">
-                        <div>{{mensajeError}}</div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <ion-label>
-                    Es para alquiler
-                </ion-label>
-                <ion-checkbox [value]="1" formControlName="esAlquiler"></ion-checkbox>
-            </ion-item>
+            </mat-step>
 
-            <app-inx-input
-                    label="Imagenes del inmueble"
-                    formControlName="imagenes"
-                    [multiple]="true"
-            >
-                <div *ngIf="objetoArreglosErrores.imagenes.length > 0" role="alert" class="alert alert-warning">
-                    <div *ngFor="let mensajeError of objetoArreglosErrores.imagenes">
-                        <div>{{mensajeError}}</div>
+            <mat-step [stepControl]="formulario">
+                <ng-template matStepLabel>Informacion adicional</ng-template>
+                <ion-item>
+                    <ion-label position="floating">
+                        Categoria o tipo de inmueble
+                    </ion-label>
+                    <ion-select formControlName="categoria">
+                        <ion-select-option *ngFor="let categoria of categorias" [value]="categoria.id">
+                            {{categoria.nombre | uppercase }}
+                        </ion-select-option>
+                    </ion-select>
+                    <div *ngIf="objetoArreglosErrores.categoria.length > 0" role="alert" class="alert alert-warning">
+                        <div *ngFor="let mensajeError of objetoArreglosErrores.categoria">
+                            <div>{{mensajeError}}</div>
+                        </div>
                     </div>
+                </ion-item>
+                <ion-item>
+                    <ion-label>
+                        Es para alquiler
+                    </ion-label>
+                    <ion-checkbox [value]="1" formControlName="esAlquiler"></ion-checkbox>
+                </ion-item>
+                <div>
+                    <button mat-raised-button color="primary" color="primary" matStepperNext>{{etiquetaSiguiente}}</button>
                 </div>
-            </app-inx-input>
-            <ng-content>
+            </mat-step>
 
-            </ng-content>
-        </form>
-    </ion-list>
+            <mat-step>
+                <ng-template matStepLabel>Confirma tu información</ng-template>
+                <span *ngIf="formulario.invalid">
+                    Al parecer algo esta mal, recuerda llenar todos los campos correctamente
+                </span>
+                <ng-content>
+
+                </ng-content>
+                <div>
+                </div>
+            </mat-step>
+        </mat-vertical-stepper>
+    </form>
+
+
+    <!--    <ion-list>-->
+    <!--        <form-->
+    <!--                [formGroup]="formulario"-->
+    <!--                novalidate-->
+    <!--        >-->
+    <!--            <ion-item>-->
+    <!--                <ion-label position="floating">-->
+    <!--                    Nombre-->
+    <!--                </ion-label>-->
+    <!--                <ion-input formControlName="nombre"></ion-input>-->
+    <!--                <div *ngIf="objetoArreglosErrores.nombre.length > 0" role="alert" class="alert alert-warning">-->
+    <!--                    <div *ngFor="let mensajeError of objetoArreglosErrores.nombre">-->
+    <!--                        <div>{{mensajeError}}</div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </ion-item>-->
+    <!--            <ion-item>-->
+    <!--                <ion-label position="floating">-->
+    <!--                    Descripcion-->
+    <!--                </ion-label>-->
+    <!--                <ion-textarea formControlName="descripcion"></ion-textarea>-->
+    <!--                <div *ngIf="objetoArreglosErrores.descripcion.length > 0" role="alert" class="alert alert-warning">-->
+    <!--                    <div *ngFor="let mensajeError of objetoArreglosErrores.descripcion">-->
+    <!--                        <div>{{mensajeError}}</div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </ion-item>-->
+    <!--            <ion-item>-->
+    <!--                <ion-label position="floating">-->
+    <!--                    Direccion-->
+    <!--                </ion-label>-->
+    <!--                <ion-textarea formControlName="direccion"></ion-textarea>-->
+    <!--                <div *ngIf="objetoArreglosErrores.direccion.length > 0" role="alert" class="alert alert-warning">-->
+    <!--                    <div *ngFor="let mensajeError of objetoArreglosErrores.direccion">-->
+    <!--                        <div>{{mensajeError}}</div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </ion-item>-->
+    <!--            <ion-item>-->
+    <!--                <ion-label position="floating">-->
+    <!--                    Predio-->
+    <!--                </ion-label>-->
+    <!--                <ion-input formControlName="predio" type="number"></ion-input>-->
+    <!--                <div *ngIf="objetoArreglosErrores.predio.length > 0" role="alert" class="alert alert-warning">-->
+    <!--                    <div *ngFor="let mensajeError of objetoArreglosErrores.predio">-->
+    <!--                        <div>{{mensajeError}}</div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </ion-item>-->
+    <!--            <ion-item>-->
+    <!--                <ion-label position="floating">-->
+    <!--                    Precio del Inmueble ($ dolares)-->
+    <!--                </ion-label>-->
+    <!--                <ion-input-->
+    <!--                        inputmode="decimal"-->
+    <!--                        formControlName="precio"-->
+    <!--                >-->
+    <!--                </ion-input>-->
+    <!--                <div *ngIf="objetoArreglosErrores.precio.length > 0" role="alert" class="alert alert-warning">-->
+    <!--                    <div *ngFor="let mensajeError of objetoArreglosErrores.precio">-->
+    <!--                        <div>{{mensajeError}}</div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </ion-item>-->
+    <!--            <ion-item>-->
+    <!--                <ion-label position="floating">-->
+    <!--                    Habitaciones-->
+    <!--                </ion-label>-->
+    <!--                <ion-input type="number" min="1" formControlName="habitaciones"></ion-input>-->
+    <!--                <div *ngIf="objetoArreglosErrores.habitaciones.length > 0" role="alert" class="alert alert-warning">-->
+    <!--                    <div *ngFor="let mensajeError of objetoArreglosErrores.habitaciones">-->
+    <!--                        <div>{{mensajeError}}</div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </ion-item>-->
+    <!--            <ion-item>-->
+    <!--                <ion-label position="floating">-->
+    <!--                    Numero de plantas-->
+    <!--                </ion-label>-->
+    <!--                <ion-input type="number" min="1" formControlName="plantas"></ion-input>-->
+    <!--                <div *ngIf="objetoArreglosErrores.plantas.length > 0" role="alert" class="alert alert-warning">-->
+    <!--                    <div *ngFor="let mensajeError of objetoArreglosErrores.plantas">-->
+    <!--                        <div>{{mensajeError}}</div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </ion-item>-->
+    <!--            <ion-item>-->
+    <!--                <ion-label position="floating">-->
+    <!--                    Total de parqueaderos-->
+    <!--                </ion-label>-->
+    <!--                <ion-input type="number" min="0" formControlName="parqueaderos"></ion-input>-->
+    <!--                <div *ngIf="objetoArreglosErrores.parqueaderos.length > 0" role="alert" class="alert alert-warning">-->
+    <!--                    <div *ngFor="let mensajeError of objetoArreglosErrores.parqueaderos">-->
+    <!--                        <div>{{mensajeError}}</div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </ion-item>-->
+    <!--            <ion-item>-->
+    <!--                <ion-label position="floating">-->
+    <!--                    Area terreno (metros cuadrados)-->
+    <!--                </ion-label>-->
+    <!--                <ion-input-->
+    <!--                        inputmode="decimal"-->
+    <!--                        formControlName="areaTerreno"></ion-input>-->
+    <!--                <div *ngIf="objetoArreglosErrores.areaTerreno.length > 0" role="alert" class="alert alert-warning">-->
+    <!--                    <div *ngFor="let mensajeError of objetoArreglosErrores.areaTerreno">-->
+    <!--                        <div>{{mensajeError}}</div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </ion-item>-->
+    <!--            <ion-item>-->
+    <!--                <ion-label position="floating">-->
+    <!--                    Area de construccion (metros cuadrados)-->
+    <!--                </ion-label>-->
+    <!--                <ion-input inputmode="decimal"-->
+    <!--                           formControlName="areaConstruccion"-->
+    <!--                ></ion-input>-->
+    <!--                <div *ngIf="objetoArreglosErrores.areaConstruccion.length > 0" role="alert" class="alert alert-warning">-->
+    <!--                    <div *ngFor="let mensajeError of objetoArreglosErrores.areaConstruccion">-->
+    <!--                        <div>{{mensajeError}}</div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </ion-item>-->
+    <!--            <ion-item>-->
+    <!--                <ion-label position="floating">-->
+    <!--                    Categoria o tipo de inmueble-->
+    <!--                </ion-label>-->
+    <!--                <ion-select formControlName="categoria">-->
+    <!--                    <ion-select-option *ngFor="let categoria of categorias" [value]="categoria.id">-->
+    <!--                        {{categoria.nombre | uppercase }}-->
+    <!--                    </ion-select-option>-->
+    <!--                </ion-select>-->
+    <!--                <div *ngIf="objetoArreglosErrores.categoria.length > 0" role="alert" class="alert alert-warning">-->
+    <!--                    <div *ngFor="let mensajeError of objetoArreglosErrores.categoria">-->
+    <!--                        <div>{{mensajeError}}</div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </ion-item>-->
+    <!--            <ion-item>-->
+    <!--                <ion-label>-->
+    <!--                    Es para alquiler-->
+    <!--                </ion-label>-->
+    <!--                <ion-checkbox [value]="1" formControlName="esAlquiler"></ion-checkbox>-->
+    <!--            </ion-item>-->
+
+    <!--            <app-inx-input-->
+    <!--                    label="Imagenes del inmueble"-->
+    <!--                    formControlName="imagenes"-->
+    <!--                    [multiple]="true"-->
+    <!--            >-->
+    <!--                <div *ngIf="objetoArreglosErrores.imagenes.length > 0" role="alert" class="alert alert-warning">-->
+    <!--                    <div *ngFor="let mensajeError of objetoArreglosErrores.imagenes">-->
+    <!--                        <div>{{mensajeError}}</div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </app-inx-input>-->
+    <!--            <ng-content>-->
+
+    <!--            </ng-content>-->
+    <!--        </form>-->
+    <!--    </ion-list>-->
 
 </ion-content>
 

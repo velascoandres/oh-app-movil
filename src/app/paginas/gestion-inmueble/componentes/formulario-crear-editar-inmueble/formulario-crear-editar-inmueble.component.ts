@@ -20,6 +20,7 @@ import {debounceTime, map} from 'rxjs/operators';
 export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal implements OnInit {
     imagenes: ObjetoArchivo[] = [];
     categorias: CategoriaInterface[] = [];
+    etiquetaSiguiente = 'SIGUIENTE PASO';
     controles = {
         id: [0, ''],
         nombre: ['', [Validators.minLength(4), Validators.required, Validators.maxLength(30)]],
