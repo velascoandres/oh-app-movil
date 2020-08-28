@@ -10,8 +10,6 @@ import {CrearEditarInmuebleComponent} from './rutas/crear-editar-inmueble/crear-
 import {FormularioCrearEditarInmuebleComponent} from './componentes/formulario-crear-editar-inmueble/formulario-crear-editar-inmueble.component';
 import {RouterModule} from '@angular/router';
 import {MatStepperModule} from '@angular/material/stepper';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
@@ -25,8 +23,6 @@ import {MatButtonModule} from '@angular/material/button';
         ReactiveFormsModule,
         RouterModule,
         MatStepperModule,
-        MatFormFieldModule,
-        MatInputModule,
         MatButtonModule,
     ],
     declarations: [
