@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, Input, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, OnInit, OnDestroy, Input, ViewChild, AfterViewInit, TemplateRef, ContentChild} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
 import {AppState, AppStateInmueble} from 'src/app/store/app.reducers';
@@ -18,7 +18,7 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit,
     subscripciones: Subscription[] = [];
     totalInmuebles: number;
     mostrarLista: boolean;
-
+    @ContentChild('itemInmueble') templateRef: TemplateRef<any>;
 
     @Input()
     query = {

@@ -1,17 +1,19 @@
 <div class="lista">
-  <div class="container" [hidden]="!mostrarLista">
-    <div class="row">
-      <div class="col-md-4" *ngFor="let inmueble of inmuebles">
-        <app-item-inmueble [inmueble]="inmueble">
-        </app-item-inmueble>
-      </div>
+    <div class="container" [hidden]="!mostrarLista">
+        <div class="row" *ngIf="inmuebles.length; else noRegistros">
+            <div class="col-md-4" *ngFor="let inmueble of inmuebles">
+                <ng-container [ngTemplateOutlet]="templateRef" [ngTemplateOutletContext]="{$implicit: (inmueble)}"></ng-container>
+            </div>
+        </div>
+        <ng-template #noRegistros>
+            No se encontraron registros....
+        </ng-template>
+        <ion-infinite-scroll #scroll threshold="100px" (ionInfinite)="cargarMasInmuebles($event)">
+            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando mas datos...">
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
     </div>
-    <ion-infinite-scroll #scroll  threshold="100px" (ionInfinite)="cargarMasInmuebles($event)">
-      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
-      </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-  </div>
-  <div [hidden]="mostrarLista">
-    <app-filtros-inmuebles></app-filtros-inmuebles>
-  </div>
+    <div [hidden]="mostrarLista">
+        <app-filtros-inmuebles></app-filtros-inmuebles>
+    </div>
 </div>

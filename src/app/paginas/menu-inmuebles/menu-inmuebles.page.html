@@ -28,5 +28,12 @@
 
 <ion-content>
     <app-lista-inmueble>
+        <ng-template let-inmueble #itemInmueble>
+            <app-item-inmueble [inmueble]="inmueble">
+            </app-item-inmueble>
+        </ng-template>
+        <ng-template #titulo>
+            <h1>Hola soy el titulo</h1>
+        </ng-template>
     </app-lista-inmueble>
 </ion-content>
