@@ -21,7 +21,10 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
             nombre: undefined,
             habilitado: 1,
             imagenes: {},
-            categoria: {}
+            categoria: {},
+            precio: {
+                tipoMoneda: {},
+            },
         },
         skip: 0,
         take: 10,
@@ -47,7 +50,7 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
 
 
     private escucharFiltros() {
-       const subscripcionFiltro = this.filtrosStore
+        const subscripcionFiltro = this.filtrosStore
             .select('filtro')
             .subscribe(
                 (estado: FiltroState) => {
@@ -61,7 +64,7 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
                     }
                 },
             );
-       this.subscripciones.push(subscripcionFiltro);
+        this.subscripciones.push(subscripcionFiltro);
     }
 
     private escucharInmueble() {
@@ -96,7 +99,10 @@ export class MenuInmueblesPage implements OnInit, ViewWillEnter, ViewWillLeave {
                     nombre: {$like: `%${valor}%`},
                     habilitado: 1,
                     imagenes: {},
-                    categoria: {}
+                    categoria: {},
+                    precio: {
+                        tipoMoneda: {},
+                    },
                 },
                 skip: 0,
                 take: 10

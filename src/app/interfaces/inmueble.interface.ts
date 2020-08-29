@@ -1,9 +1,11 @@
+import {PrecioInterface} from './precio.interface';
+
 export interface InmuebleInterface {
     id?: number;
     nombre: string;
     descripcion: string;
     habilitado: 0 | 1;
-    precio: number;
+    precio: PrecioInterface;
     predio: number;
     plantas: number;
     parqueaderos: number;

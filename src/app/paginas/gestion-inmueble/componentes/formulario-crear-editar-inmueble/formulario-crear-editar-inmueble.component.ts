@@ -11,6 +11,8 @@ import {Observable} from 'rxjs';
 import {ApiResponse} from '../../../../../lib/principal.service';
 import {InmuebleInterface} from '../../../../interfaces/inmueble.interface';
 import {debounceTime, map} from 'rxjs/operators';
+import {TipoMonedaService} from '../../../../modulos/compartido/servicios/rest/tipo-moneda.service';
+import {TipoMonedaInterface} from '../../../../interfaces/tipo-moneda.interface';
 
 @Component({
     selector: 'app-formulario-crear-editar-inmueble',
@@ -20,6 +22,7 @@ import {debounceTime, map} from 'rxjs/operators';
 export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal implements OnInit {
     imagenes: ObjetoArchivo[] = [];
     categorias: CategoriaInterface[] = [];
+    tiposMonedas: TipoMonedaInterface[] = [];
     etiquetaSiguiente = 'SIGUIENTE PASO';
     controles = {
         id: [0, ''],
@@ -34,6 +37,7 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
         habitaciones: ['', [Validators.min(0), Validators.required, Validators.pattern('[0-9]+')]],
         parqueaderos: ['', [Validators.min(0), Validators.required, Validators.pattern('[0-9]+')]],
         plantas: ['', [Validators.min(0), Validators.required, Validators.pattern('[0-9]+')]],
+        tipoMoneda: ['', [Validators.required]],
         imagenes: [[], [Validators.required]],
         esAlquiler: [0],
     };
@@ -51,6 +55,7 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
         areaTerreno: [],
         imagenes: [],
         categoria: [],
+        tipoMoneda: [],
     };
     mensajesErrores = {
         nombre: {
@@ -105,6 +110,9 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
         imagenes: {
             required: 'Las imagenes son requeridas',
         },
+        tipoMoneda: {
+            required: 'El tipo de moneda es obligatorio',
+        },
     };
 
     constructor(
@@ -113,12 +121,14 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
         private archivoService: FileProviderService,
         private readonly categoriaService: CategoriaRestService,
         private readonly inmubleService: InmuebleRestService,
+        private readonly tipoMonedaService: TipoMonedaService,
     ) {
         super(_formBuilder, _toaster);
         this.formulario = this._formBuilder.group(
             this.controles,
         );
         this.obtenerCategorias();
+        this.obtenerTipoMoneda();
     }
 
     ngOnInit(): void {
@@ -137,6 +147,19 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
         };
         this.categoriaService.findAll(query).subscribe(
             ({data}) => this.categorias = data,
+        );
+    }
+
+    private obtenerTipoMoneda() {
+        const query = {
+            where: {
+                habilitado: 1,
+            },
+            skip: 0,
+            take: 30,
+        };
+        this.tipoMonedaService.findAll(query).subscribe(
+            ({data}) => this.tiposMonedas = data,
         );
     }
 

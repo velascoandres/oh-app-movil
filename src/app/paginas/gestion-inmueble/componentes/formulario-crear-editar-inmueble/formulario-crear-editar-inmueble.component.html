@@ -45,7 +45,22 @@
                 <ng-template matStepLabel>Fija un precio</ng-template>
                 <ion-item>
                     <ion-label position="floating">
-                        Precio del Inmueble ($ dolares)
+                        Tipo de moneda
+                    </ion-label>
+                    <ion-select formControlName="tipoMoneda">
+                        <ion-select-option *ngFor="let tipoMoneda of tiposMonedas" [value]="tipoMoneda.id">
+                             {{tipoMoneda.nombre | uppercase }} ({{tipoMoneda.simbolo}})
+                        </ion-select-option>
+                    </ion-select>
+                    <div *ngIf="objetoArreglosErrores.categoria.length > 0" role="alert" class="alert alert-warning">
+                        <div *ngFor="let mensajeError of objetoArreglosErrores.categoria">
+                            <div>{{mensajeError}}</div>
+                        </div>
+                    </div>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">
+                        Precio del Inmueble
                     </ion-label>
                     <ion-input
                             inputmode="decimal"

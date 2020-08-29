@@ -16,6 +16,7 @@ import {ItemInmuebleComponent} from './componentes/item-inmueble/item-inmueble.c
 import {CarruselComponent} from './componentes/carrusel/carrusel.component';
 import {BsInputComponent} from './componentes/inx-input/inx-input.component';
 import {ObtenerUriPipe} from './pipes/obtener-uri.pipe';
+import {TipoMonedaService} from './servicios/rest/tipo-moneda.service';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import {ObtenerUriPipe} from './pipes/obtener-uri.pipe';
     providers: [
         InmuebleRestService,
         CategoriaRestService,
+        TipoMonedaService,
     ],
     exports: [
         NavBarComponent,

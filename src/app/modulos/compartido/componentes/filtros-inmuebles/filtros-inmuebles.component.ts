@@ -91,7 +91,9 @@ export class FiltrosInmueblesComponent implements OnInit {
                 categoria: consultaCategoria,
                 enAlquiler: this.filtros.esAlquiler ? 1 : 0,
                 habitaciones: consultaHabitaciones,
-                precio: consultaPrecio,
+                precio: {
+                    valor: consultaPrecio,
+                },
                 parqueaderos: consultaParqueaderos,
                 areaConstruccion: consultaAreaConstruccion,
                 areaTerreno: consultaAreaTerreno,
