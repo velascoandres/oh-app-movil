@@ -17,6 +17,7 @@ import {CarruselComponent} from './componentes/carrusel/carrusel.component';
 import {BsInputComponent} from './componentes/inx-input/inx-input.component';
 import {ObtenerUriPipe} from './pipes/obtener-uri.pipe';
 import {TipoMonedaService} from './servicios/rest/tipo-moneda.service';
+import {GaleriaImagenesComponent} from './componentes/galeria-imagenes/galeria-imagenes.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import {TipoMonedaService} from './servicios/rest/tipo-moneda.service';
         CarruselComponent,
         BsInputComponent,
         ObtenerUriPipe,
+        GaleriaImagenesComponent,
     ],
     imports: [
         CommonModule,
@@ -56,6 +58,7 @@ import {TipoMonedaService} from './servicios/rest/tipo-moneda.service';
         CarruselComponent,
         BsInputComponent,
         ObtenerUriPipe,
+        GaleriaImagenesComponent,
     ],
     entryComponents: [
         MapaInmueblesComponent,

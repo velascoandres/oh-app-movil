@@ -1,4 +1,4 @@
-import {Component, forwardRef, Input, OnInit} from '@angular/core';
+import {Component, ContentChild, forwardRef, Input, OnInit, TemplateRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {FileProviderService, ObjetoArchivo} from '../../../../servicios/native/file-provider.service';
 
@@ -34,6 +34,8 @@ export class BsInputComponent implements OnInit, ControlValueAccessor {
     value: ObjetoArchivo[] = [];
     listaObjetosArchivos = [];
     isDisabled: boolean;
+
+    @ContentChild('galeria') galeria: TemplateRef<any>;
 
     constructor(
         private readonly archivoService: FileProviderService,

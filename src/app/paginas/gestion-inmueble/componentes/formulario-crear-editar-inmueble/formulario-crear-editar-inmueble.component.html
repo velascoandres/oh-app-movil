@@ -49,7 +49,7 @@
                     </ion-label>
                     <ion-select formControlName="tipoMoneda">
                         <ion-select-option *ngFor="let tipoMoneda of tiposMonedas" [value]="tipoMoneda.id">
-                             {{tipoMoneda.nombre | uppercase }} ({{tipoMoneda.simbolo}})
+                            {{tipoMoneda.nombre | uppercase }} ({{tipoMoneda.simbolo}})
                         </ion-select-option>
                     </ion-select>
                     <div *ngIf="objetoArreglosErrores.categoria.length > 0" role="alert" class="alert alert-warning">
@@ -74,7 +74,7 @@
                     </div>
                 </ion-item>
                 <div>
-                    <button mat-raised-button  matStepperNext color="primary">{{etiquetaSiguiente}}</button>
+                    <button mat-raised-button matStepperNext color="primary">{{etiquetaSiguiente}}</button>
                 </div>
             </mat-step>
 
@@ -98,6 +98,11 @@
                         <div *ngFor="let mensajeError of objetoArreglosErrores.imagenes">
                             <div>{{mensajeError}}</div>
                         </div>
+                    </div>
+                    <div *ngIf="!registro">
+                        <ng-template #galeria let-imagenes>
+                            <app-galeria-imagenes [imagenes]="imagenes"></app-galeria-imagenes>
+                        </ng-template>
                     </div>
                 </app-inx-input>
                 <div>
@@ -201,7 +206,8 @@
                     <ion-checkbox [value]="1" formControlName="esAlquiler"></ion-checkbox>
                 </ion-item>
                 <div>
-                    <button mat-raised-button color="primary" color="primary" matStepperNext>{{etiquetaSiguiente}}</button>
+                    <button mat-raised-button color="primary" color="primary"
+                            matStepperNext>{{etiquetaSiguiente}}</button>
                 </div>
             </mat-step>
 
