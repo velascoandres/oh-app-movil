@@ -1,0 +1,30 @@
+.item-gestion {
+  margin: 1rem;
+  border-radius: 10px;
+  background: #fcfcfc;
+  box-shadow: 20px 20px 60px #d6d6d6,
+  -20px -20px 60px #ffffff;
+  height: 8rem;
+}
+
+.cabecera {
+  border-bottom: 3px solid #fdd835;
+
+}
+
+.contenido {
+  padding-top: 1rem;
+}
+
+.imagen{
+  height: 8rem;
+}
+
+.precio{
+  text-align: center;
+  background-color: #fdd835;
+  color: black;
+  border-radius: 10px;
+  box-shadow: 10px 10px 10px #d6d6d6,
+  -10px -10px 10px #ffffff;
+}

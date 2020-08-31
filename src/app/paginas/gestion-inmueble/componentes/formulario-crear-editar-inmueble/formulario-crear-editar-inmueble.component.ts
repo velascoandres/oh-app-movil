@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FileProviderService, ObjetoArchivo} from '../../../../servicios/native/file-provider.service';
+import {FileProviderService, ObjetoArchivo} from '../../../../servicios/utilitarios/file-provider.service';
 import {CategoriaRestService} from '../../../../modulos/compartido/servicios/rest/categoria-rest.service';
 import {CategoriaInterface} from '../../../../interfaces/categoria.interface';
 import {FormularioPrincipal} from '../../../../../lib/formulario-principal';
@@ -152,8 +152,7 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
 
     private obtenerTipoMoneda() {
         const query = {
-            where: {
-            },
+            where: {},
             skip: 0,
             take: 30,
         };
@@ -189,6 +188,13 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
                     },
                 ),
             );
+    }
+
+
+    limpiarFormulario() {
+        this.formulario.reset();
+        this.formulario.markAsUntouched();
+        this.formulario.get('imagenes').setValue([]);
     }
 
 }

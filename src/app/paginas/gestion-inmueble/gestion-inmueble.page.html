@@ -17,5 +17,8 @@
         </ion-fab-button>
     </ion-fab>
     <app-lista-inmueble>
+        <ng-template let-inmueble #itemInmueble>
+            <app-item-inmueble-gestion [inmueble]="inmueble"></app-item-inmueble-gestion>
+        </ng-template>
     </app-lista-inmueble>
 </ion-content>

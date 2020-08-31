@@ -11,7 +11,7 @@
 </ion-header>
 
 <ion-content>
-    <app-formulario-crear-editar-inmueble (datosFormulario)="escucharInmueble($event)">
+    <app-formulario-crear-editar-inmueble #formulario (datosFormulario)="escucharInmueble($event)">
         <ion-button
                 expand="full" color="success"
                 [disabled]="!formularioValido" (click)="guardarInmueble()">

@@ -20,6 +20,6 @@
     <ng-container [ngTemplateOutlet]="galeria" [ngTemplateOutletContext]="{$implicit: (value)}"></ng-container>
 </div>
 
-<app-carrusel *ngIf="value.length"
+<app-carrusel *ngIf="value.length > 0"
               [imagenes]="value | obtenerUri">
 </app-carrusel>

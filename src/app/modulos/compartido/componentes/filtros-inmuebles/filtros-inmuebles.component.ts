@@ -93,6 +93,7 @@ export class FiltrosInmueblesComponent implements OnInit {
                 habitaciones: consultaHabitaciones,
                 precio: {
                     valor: consultaPrecio,
+                    tipoMoneda: {},
                 },
                 parqueaderos: consultaParqueaderos,
                 areaConstruccion: consultaAreaConstruccion,

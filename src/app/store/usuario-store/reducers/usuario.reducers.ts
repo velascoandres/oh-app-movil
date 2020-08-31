@@ -7,7 +7,7 @@ export const estadoInicialUsuario: UsuarioState = {
     cargo: false,
     error: null,
     usuario: {
-        id: 1,
+        id: 74,
         correo: 'velasco.andrs@gmail.com',
     },
 };

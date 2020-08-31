@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ObjetoArchivo} from '../../../../servicios/native/file-provider.service';
+import {ObjetoArchivo} from '../../../../servicios/utilitarios/file-provider.service';
 
 @Component({
     selector: 'app-galeria-imagenes',

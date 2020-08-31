@@ -11,6 +11,9 @@ import {FormularioCrearEditarInmuebleComponent} from './componentes/formulario-c
 import {RouterModule} from '@angular/router';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatButtonModule} from '@angular/material/button';
+import {ItemInmuebleGestionComponent} from './componentes/item-inmueble-gestion/item-inmueble-gestion.component';
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
     imports: [
@@ -24,11 +27,14 @@ import {MatButtonModule} from '@angular/material/button';
         RouterModule,
         MatStepperModule,
         MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
     ],
     declarations: [
         GestionInmueblePage,
         CrearEditarInmuebleComponent,
         FormularioCrearEditarInmuebleComponent,
+        ItemInmuebleGestionComponent,
     ]
 })
 export class GestionInmueblePageModule {

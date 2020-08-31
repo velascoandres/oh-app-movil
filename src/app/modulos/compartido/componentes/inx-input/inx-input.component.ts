@@ -1,6 +1,6 @@
 import {Component, ContentChild, forwardRef, Input, OnInit, TemplateRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {FileProviderService, ObjetoArchivo} from '../../../../servicios/native/file-provider.service';
+import {FileProviderService, ObjetoArchivo} from '../../../../servicios/utilitarios/file-provider.service';
 
 @Component({
     selector: 'app-inx-input',
@@ -49,7 +49,10 @@ export class BsInputComponent implements OnInit, ControlValueAccessor {
     }
 
     onInput(value) {
-        this.value.pop();
+        console.log(this.value);
+        if (this.value.length > 0){
+            this.value.pop();
+        }
         this.archivoService
             .obtenerDatosArchivo(value)
             .subscribe(res => {
@@ -75,7 +78,7 @@ export class BsInputComponent implements OnInit, ControlValueAccessor {
     }
 
     writeValue(obj: any): void {
-        if (obj.length) {
+        if (obj && obj.length) {
             this.value.pop();
             this.archivoService
                 .obtenerDatosArchivo(obj)

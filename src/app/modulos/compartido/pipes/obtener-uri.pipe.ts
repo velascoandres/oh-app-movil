@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {ObjetoArchivo} from '../../../servicios/native/file-provider.service';
+import {ObjetoArchivo} from '../../../servicios/utilitarios/file-provider.service';
 
 @Pipe({
     name: 'obtenerUri'

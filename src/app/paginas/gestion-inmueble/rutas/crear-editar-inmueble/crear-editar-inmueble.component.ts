@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {InmuebleRestService} from '../../../../modulos/compartido/servicios/rest/inmueble-rest.service';
 import {InmuebleInterface} from '../../../../interfaces/inmueble.interface';
 import {ToastController, ViewWillEnter, ViewWillLeave} from '@ionic/angular';
@@ -8,17 +8,20 @@ import {Subscription} from 'rxjs';
 import {InmuebleActions} from '../../../menu-inmuebles/menu-inmueble-store/actions/inmueble.actions';
 import {Router} from '@angular/router';
 import {PerfilUsuarioInterface} from '../../../../interfaces/perfil-usuario.interface';
+import {FormularioCrearEditarInmuebleComponent} from '../../componentes/formulario-crear-editar-inmueble/formulario-crear-editar-inmueble.component';
+import {CargandoService} from '../../../../servicios/utilitarios/cargando.service';
 
 @Component({
     selector: 'app-crear-editar-inmueble',
     templateUrl: './crear-editar-inmueble.component.html',
     styleUrls: ['./crear-editar-inmueble.component.scss'],
 })
-export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, ViewWillEnter {
+export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, ViewWillEnter, AfterViewInit {
 
     formularioValido: InmuebleInterface & { tipoMoneda: number, precio: number };
     subscripciones: Subscription[] = [];
     usuario: PerfilUsuarioInterface;
+    @ViewChild('formulario') formularioInmueble: FormularioCrearEditarInmuebleComponent;
 
     constructor(
         private readonly _inmuebleRestService: InmuebleRestService,
@@ -26,19 +29,23 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
         private readonly _inmuebleStore: Store<AppStateInmueble>,
         private readonly _router: Router,
         private readonly _usuarioState: Store<AppState>,
+        private readonly _cargandoService: CargandoService,
     ) {
     }
 
     ionViewWillEnter(): void {
+        this.formularioInmueble.limpiarFormulario();
         this.escucharUsuario();
     }
 
     ionViewWillLeave(): void {
         this.subscripciones.forEach(sub => sub.unsubscribe());
+        this._cargandoService.ocultarCargando().then();
     }
 
     ngOnInit() {
         this.escucharUsuario();
+        this.escucharInmuebleStore();
     }
 
     private escucharUsuario() {
@@ -57,15 +64,20 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
             .select('inmueble')
             .subscribe(
                 (
-                    {cargo, error}) => {
-                    if (cargo && !error) {
+                    {cargo, error, cargando}) => {
+                    if (cargando) {
+                        this._cargandoService.mostrarCargando('publicando...').then();
+                    }
+                    if (cargo && !error && this.formularioValido) {
                         this.mostrarToast('Inmueble publicado con exito').then();
+                        this.formularioInmueble.limpiarFormulario();
                         this._router.navigate(['', 'tabs', 'gestion-inmueble']);
                     } else {
                         if (error) {
                             this.mostrarToast('Ha ocurrido un error !', 'danger').then();
-                            this.formularioValido = undefined;
+                            this._cargandoService.ocultarCargando().then();
                             console.error(error);
+                            this.formularioValido = undefined;
                         }
                     }
                 }
@@ -102,6 +114,10 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
 
     escucharInmueble(evento: (InmuebleInterface & { tipoMoneda: number, precio: number }) | undefined) {
         this.formularioValido = evento;
+    }
+
+    ngAfterViewInit(): void {
+        this.formularioInmueble.limpiarFormulario();
     }
 
 }
