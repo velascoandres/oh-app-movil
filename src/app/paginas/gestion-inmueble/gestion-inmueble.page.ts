@@ -60,6 +60,9 @@ export class GestionInmueblePage implements OnInit, ViewWillEnter, ViewWillLeave
                 imagenes: {},
                 perfilUsuario: {id: idUsuario},
                 categoria: {},
+                precio: {
+                    tipoMoneda: {},
+                },
             },
             skip: 0,
             take: 10

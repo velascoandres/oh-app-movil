@@ -12,6 +12,7 @@ export class FormularioPrincipal {
     datosFormulario: EventEmitter<object | boolean> = new EventEmitter<object | boolean>();
     controles = {};
     objetoArreglosErrores: {};
+
     constructor(
         private formBuilder: FormBuilder,
         private toaster: ToastController
@@ -60,6 +61,7 @@ export class FormularioPrincipal {
         }
         return arregloErrores;
     }
+
     llenarFormulario() {
         if (this.registro) {
             this.formulario.setValue(this.registro);
@@ -88,12 +90,13 @@ export class FormularioPrincipal {
                         if (this.toaster) {
                             this.mostrarToaster('Formulario Valido', 'success').then().catch();
                         }
-                        this.datosFormulario.emit(informacionFormulario);
+                        const informacionParaSerEnviada = this.prepararRegistroParaEnvio(informacionFormulario);
+                        this.datosFormulario.emit(informacionParaSerEnviada);
                     } else {
-                       // this.validarControles(this.formulario);
-                       //  if (this.toaster) {
-                       //      this.mostrarToaster('Formulario Invalido', 'warning').then().catch();
-                       //  }
+                        // this.validarControles(this.formulario);
+                        //  if (this.toaster) {
+                        //      this.mostrarToaster('Formulario Invalido', 'warning').then().catch();
+                        //  }
                         this.datosFormulario.emit(undefined);
                     }
                 }
@@ -120,6 +123,10 @@ export class FormularioPrincipal {
     protected modificarValor(controlName: string, valor: any) {
         this.formulario.get(controlName).reset();
         this.formulario.get(controlName).patchValue(valor);
+    }
+
+    protected prepararRegistroParaEnvio(registro: any) {
+        return registro;
     }
 
 }

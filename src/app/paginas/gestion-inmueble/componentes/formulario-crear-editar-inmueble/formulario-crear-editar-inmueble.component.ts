@@ -39,7 +39,7 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
         plantas: ['', [Validators.min(0), Validators.required, Validators.pattern('[0-9]+')]],
         tipoMoneda: ['', [Validators.required]],
         imagenes: [[], [Validators.required]],
-        esAlquiler: [0],
+        enAlquiler: [0],
     };
 
     objetoArreglosErrores = {
@@ -153,7 +153,6 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
     private obtenerTipoMoneda() {
         const query = {
             where: {
-                habilitado: 1,
             },
             skip: 0,
             take: 30,

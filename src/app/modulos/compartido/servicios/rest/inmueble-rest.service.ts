@@ -3,6 +3,7 @@ import {PrincipalRestService} from 'src/lib/principal.service';
 import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {PrecioInterface} from '../../../../interfaces/precio.interface';
 
 @Injectable()
 export class InmuebleRestService extends PrincipalRestService<InmuebleInterface> {
@@ -15,8 +16,14 @@ export class InmuebleRestService extends PrincipalRestService<InmuebleInterface>
         );
     }
 
-    createOne(body: InmuebleInterface): Observable<InmuebleInterface> {
+    crearInmueble(body: InmuebleInterface, precio: PrecioInterface): Observable<InmuebleInterface> {
         const formData = new FormData();
+        body = {
+            ...body,
+            ...precio,
+        };
+        delete body.id;
+        body.enAlquiler = body.enAlquiler ? 1 : 0;
         const imagenesRaw: File[] = body.imagenes.map(img => img.raw);
         // delete body.imagenes;
         const atributos = Object.keys(body);
@@ -34,6 +41,6 @@ export class InmuebleRestService extends PrincipalRestService<InmuebleInterface>
                 formData.append('imagenes[]', imagenRaw);
             }
         );
-        return this._httpClient.post(this.url, formData) as Observable<InmuebleInterface>;
+        return this._httpClient.post(this.url + '/publicar-inmueble', formData) as Observable<InmuebleInterface>;
     }
 }

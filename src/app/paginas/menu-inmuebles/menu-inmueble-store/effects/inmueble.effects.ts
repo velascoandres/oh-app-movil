@@ -59,12 +59,13 @@ export class InmuebleEffects {
             return this.acciones$.pipe(
                 ofType(InmuebleActions.crearInmueble),
                 mergeMap(
-                    ({inmueble}) => {
-                        return this._inmuebleService.createOne(inmueble);
+                    ({inmueble, precio}) => {
+                        return this._inmuebleService.crearInmueble(inmueble, precio);
                     },
                 ),
                 mergeMap(
                     (respuesta: InmuebleInterface) => {
+                        console.log(respuesta);
                         return of(InmuebleActions.crearInmuebleExito(
                             {
                                 inmueble: respuesta,

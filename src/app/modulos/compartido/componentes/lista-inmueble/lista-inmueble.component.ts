@@ -59,11 +59,13 @@ export class ListaInmuebleComponent implements OnInit, OnDestroy, AfterViewInit,
             .select('inmueble')
             .subscribe(
                 (inmueblesState: InmuebleState) => {
-                    this.inmuebles = inmueblesState.inmuebles;
-                    this.totalInmuebles = inmueblesState.total;
-                    const deberCargar = this.inmuebles.length < this.totalInmuebles;
-                    this.infiniteScroll.disabled = !deberCargar;
-                    this.query.skip = inmueblesState.queryActual ? inmueblesState.queryActual.skip : 0;
+                    if (inmueblesState.cargo) {
+                        this.inmuebles = inmueblesState.inmuebles;
+                        this.totalInmuebles = inmueblesState.total;
+                        const deberCargar = this.inmuebles.length < this.totalInmuebles;
+                        this.infiniteScroll.disabled = !deberCargar;
+                        this.query.skip = inmueblesState.queryActual ? inmueblesState.queryActual.skip : 0;
+                    }
                 }
             );
         this.subscripciones.push(subscripcionStoreInmueble);

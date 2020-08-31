@@ -68,12 +68,14 @@ const _inmuebleReducer = createReducer(
     on(
         InmuebleActions.crearInmuebleExito,
         (estado: InmuebleState, {inmueble}) => {
+            const inmueblesAlterados = [...estado.inmuebles, inmueble];
+            console.log(inmueblesAlterados);
             return {
-                ...estado,
-                inmuebleSeleccionado: inmueble,
+                inmuebleSeleccionado: null,
                 cargando: false,
                 cargo: true,
                 error: undefined,
+                inmuebles: inmueblesAlterados,
             };
         },
     ),

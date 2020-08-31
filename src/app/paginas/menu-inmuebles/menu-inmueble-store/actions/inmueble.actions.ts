@@ -1,5 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
+import {PrecioInterface} from '../../../../interfaces/precio.interface';
 
 
 export class InmuebleActions {
@@ -45,7 +46,7 @@ export class InmuebleActions {
 
     static crearInmueble = createAction(
         '[Inmueble] crear inmueble',
-        props<{ inmueble: InmuebleInterface }>()
+        props<{ inmueble: InmuebleInterface, precio: PrecioInterface }>()
     );
 
     static actualizarInmueble = createAction(
