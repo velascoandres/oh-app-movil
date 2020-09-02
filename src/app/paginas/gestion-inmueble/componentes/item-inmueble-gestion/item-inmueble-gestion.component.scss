@@ -37,3 +37,17 @@
   padding-left: 1rem;
   padding-right: 1rem;
 }
+
+.paginador-gestion{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+}
+
+.paginador__chip__gestion{
+  background: #0f0b04;
+  color: #ffc107;
+  padding: 0.3rem;
+  border-bottom-right-radius: 5px;
+}

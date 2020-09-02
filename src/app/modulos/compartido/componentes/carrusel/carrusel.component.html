@@ -2,14 +2,14 @@
 >
   <ion-slides
           [options]="opciones"
-          (ionSlideNextEnd)="gestionarPaginacion(+1)"
-          (ionSlidePrevEnd)="gestionarPaginacion(-1)"
+          (ionSlideNextEnd)="gestionarPaginacionAdelante()"
+          (ionSlidePrevEnd)="gestionarPaginacionAtras()"
           mode="ios"
   >
-    <ion-slide *ngFor="let imagen of imagenes">
+    <ion-slide *ngFor="let imagen of imagenes;let indice = index">
 
       <div class="slide">
-        <img [src]="imagen.url" class="imagen"/>
+        <img [id]="indice" [src]="imagen.url" class="imagen"/>
       </div>
     </ion-slide>
   </ion-slides>

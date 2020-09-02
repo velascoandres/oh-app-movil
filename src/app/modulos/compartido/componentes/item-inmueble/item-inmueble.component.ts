@@ -31,14 +31,10 @@ export class ItemInmuebleComponent implements OnInit {
     }
 
     async verInformacion() {
-        // const modal = await this.modalController.create({
-        //   component: InformacionInmuebleComponent,
-        // });
         this.inmuebleStore.dispatch(
             InmuebleActions.cargarInmueble({parametros: this.inmueble}),
         );
         this._router.navigate(['/', 'detalle-inmueble']);
-        // return await modal.present();
     }
 
 }

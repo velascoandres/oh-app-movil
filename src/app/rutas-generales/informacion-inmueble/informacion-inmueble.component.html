@@ -15,7 +15,7 @@
 
     <app-carrusel [imagenes]="inmueble.imagenes" [opciones]="opciones"></app-carrusel>
     <ion-item color="warning">
-        <ion-label>$ {{inmueble.precio}}</ion-label>
+        <ion-label>{{inmueble.precio.tipoMoneda.simbolo}} {{inmueble.precio.valor}}</ion-label>
     </ion-item>
     <ion-card>
         <ion-card-content>
