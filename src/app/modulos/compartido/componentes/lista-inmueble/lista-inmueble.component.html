@@ -1,8 +1,11 @@
 <div class="lista">
     <div class="container" [hidden]="!mostrarLista">
         <div class="row" *ngIf="inmuebles.length; else noRegistros">
-            <div class="col-md-4" *ngFor="let inmueble of inmuebles">
-                <ng-container [ngTemplateOutlet]="templateRef" [ngTemplateOutletContext]="{$implicit: (inmueble)}"></ng-container>
+            <div
+                    [ngClass]="{'col-md-12': inmuebles.length === 1, 'col-md-6': inmuebles.length === 2, 'col-md-4': inmuebles.length > 2}"
+                    *ngFor="let inmueble of inmuebles">
+                <ng-container [ngTemplateOutlet]="templateRef"
+                              [ngTemplateOutletContext]="{$implicit: (inmueble)}"></ng-container>
             </div>
         </div>
         <ng-template #noRegistros>

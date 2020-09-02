@@ -36,3 +36,13 @@ ion-slides {
   text-align: center !important;
   width: 100%;
 }
+
+.mat-mini-fab.mat-primary {
+  background-color: #ffd740 !important;
+  color: black !important;
+}
+
+
+::ng-deep .mat-mini-fab {
+  display: none !important;
+}
