@@ -1,6 +1,7 @@
 <div class="row item-gestion">
     <div class="col-5 contenedor-imagen">
-        <img [src]="inmueble.imagenes[0].url" alt="" class="img-fluid imagen">
+<!--        <img [src]="inmueble.imagenes[0].url" alt="" class="img-fluid imagen">-->
+        <app-img-loader [imagen]="inmueble.imagenes[0].url" [estilo]="{height: '8rem', width: 'auto'}"></app-img-loader>
 
         <div class="paginador-gestion">
             <div class="paginador__chip__gestion">
