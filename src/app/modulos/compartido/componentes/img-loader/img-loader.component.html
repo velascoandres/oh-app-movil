@@ -1,0 +1,2 @@
+<img *ngIf="!cargoImagen" src="assets/loaders/bloques-transparente.svg" alt="" [ngStyle]="estilo">
+<img [hidden]="!cargoImagen" [src]="imagen" (load)="cargoImagen = true" [ngStyle]="estilo" alt=""/>

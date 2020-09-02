@@ -18,6 +18,7 @@ import {BsInputComponent} from './componentes/inx-input/inx-input.component';
 import {ObtenerUriPipe} from './pipes/obtener-uri.pipe';
 import {TipoMonedaService} from './servicios/rest/tipo-moneda.service';
 import {GaleriaImagenesComponent} from './componentes/galeria-imagenes/galeria-imagenes.component';
+import {ImgLoaderComponent} from './componentes/img-loader/img-loader.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import {GaleriaImagenesComponent} from './componentes/galeria-imagenes/galeria-i
         BsInputComponent,
         ObtenerUriPipe,
         GaleriaImagenesComponent,
+        ImgLoaderComponent,
     ],
     imports: [
         CommonModule,
@@ -59,6 +61,7 @@ import {GaleriaImagenesComponent} from './componentes/galeria-imagenes/galeria-i
         BsInputComponent,
         ObtenerUriPipe,
         GaleriaImagenesComponent,
+        ImgLoaderComponent,
     ],
     entryComponents: [
         MapaInmueblesComponent,

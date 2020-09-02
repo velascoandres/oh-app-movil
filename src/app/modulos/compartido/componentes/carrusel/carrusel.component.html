@@ -1,25 +1,28 @@
 <div class="contenedor__imagenes" *ngIf="totalImagenes"
 >
-  <ion-slides
-          [options]="opciones"
-          (ionSlideNextEnd)="gestionarPaginacionAdelante()"
-          (ionSlidePrevEnd)="gestionarPaginacionAtras()"
-          mode="ios"
-  >
-    <ion-slide *ngFor="let imagen of imagenes;let indice = index">
+    <ion-slides
+            [options]="opciones"
+            (ionSlideNextEnd)="gestionarPaginacionAdelante()"
+            (ionSlidePrevEnd)="gestionarPaginacionAtras()"
+            mode="ios"
+    >
+        <ion-slide *ngFor="let imagen of imagenes;let indice = index">
 
-      <div class="slide">
-        <img [id]="indice" [src]="imagen.url" class="imagen"/>
-      </div>
-    </ion-slide>
-  </ion-slides>
-  <div class="paginador">
-    <ion-chip  outline color="dark" class="paginador__chip">
-      <ion-icon name="image">
-      </ion-icon>
-      <ion-label>
-        {{indiceImagenActual}} / {{totalImagenes}}
-      </ion-label>
-    </ion-chip>
-  </div>
+            <div class="slide">
+                <!--        <img [id]="indice" [src]="imagen.url" class="imagen"/>-->
+                <app-img-loader [imagen]="imagen.url"
+                                [estilo]="{'vertical-align': 'middle', 'height': '21rem', 'width': 'auto'}">
+                </app-img-loader>
+            </div>
+        </ion-slide>
+    </ion-slides>
+    <div class="paginador">
+        <ion-chip outline color="dark" class="paginador__chip">
+            <ion-icon name="image">
+            </ion-icon>
+            <ion-label>
+                {{indiceImagenActual}} / {{totalImagenes}}
+            </ion-label>
+        </ion-chip>
+    </div>
 </div>
