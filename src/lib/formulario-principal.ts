@@ -64,7 +64,12 @@ export class FormularioPrincipal {
 
     llenarFormulario() {
         if (this.registro) {
-            this.formulario.setValue(this.registro);
+            const controles = Object.keys(this.formulario.controls);
+            controles.forEach(
+                (control: string) => {
+                    this.formulario.controls[control].setValue(this.registro[control]);
+                }
+            );
         }
     }
 
@@ -91,7 +96,7 @@ export class FormularioPrincipal {
                             this.mostrarToaster('Formulario Valido', 'success').then().catch();
                         }
                         const informacionParaSerEnviada = this.prepararRegistroParaEnvio(informacionFormulario);
-                        this.datosFormulario.emit(informacionParaSerEnviada);
+                        this.emitirDatos(informacionParaSerEnviada);
                     } else {
                         // this.validarControles(this.formulario);
                         //  if (this.toaster) {
@@ -101,6 +106,10 @@ export class FormularioPrincipal {
                     }
                 }
             );
+    }
+
+    protected emitirDatos(informacionParaSerEnviada) {
+        this.datosFormulario.emit(informacionParaSerEnviada);
     }
 
     protected validarControlesSincrono(formulario) {

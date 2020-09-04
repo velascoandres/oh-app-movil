@@ -13,6 +13,9 @@ import {InmuebleInterface} from '../../../../interfaces/inmueble.interface';
 import {debounceTime, map} from 'rxjs/operators';
 import {TipoMonedaService} from '../../../../modulos/compartido/servicios/rest/tipo-moneda.service';
 import {TipoMonedaInterface} from '../../../../interfaces/tipo-moneda.interface';
+import {Store} from '@ngrx/store';
+import {AppStateFormularioInmueble} from '../../store/formulario-inmueble.store';
+import {FormularioInmuebleActions} from '../../store/formulario-inmueble.actions';
 
 @Component({
     selector: 'app-formulario-crear-editar-inmueble',
@@ -122,6 +125,7 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
         private readonly categoriaService: CategoriaRestService,
         private readonly inmubleService: InmuebleRestService,
         private readonly tipoMonedaService: TipoMonedaService,
+        private readonly _formularioInmuebleStore: Store<AppStateFormularioInmueble>
     ) {
         super(_formBuilder, _toaster);
         this.formulario = this._formBuilder.group(
@@ -183,7 +187,6 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
             .pipe(
                 debounceTime(500),
                 map(({total}) => {
-                        console.log(total);
                         return total ? {repetido: true} : null;
                     },
                 ),
@@ -195,6 +198,14 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
         this.formulario.reset();
         this.formulario.markAsUntouched();
         this.formulario.get('imagenes').setValue([]);
+    }
+
+    protected emitirDatos(informacionParaSerEnviada) {
+        this._formularioInmuebleStore.dispatch(
+            FormularioInmuebleActions.emitirInmueble(
+                {inmueble: informacionParaSerEnviada}
+            ),
+        );
     }
 
 }

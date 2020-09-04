@@ -4,6 +4,8 @@ import {InmuebleActions} from '../../../menu-inmuebles/menu-inmueble-store/actio
 import {Store} from '@ngrx/store';
 import {AppStateInmueble} from '../../../../store/app.reducers';
 import {Router} from '@angular/router';
+import {AppStateFormularioInmueble} from '../../store/formulario-inmueble.store';
+import {FormularioInmuebleActions} from '../../store/formulario-inmueble.actions';
 
 @Component({
     selector: 'app-item-inmueble-gestion',
@@ -17,6 +19,7 @@ export class ItemInmuebleGestionComponent implements OnInit {
     constructor(
         private readonly inmuebleStore: Store<AppStateInmueble>,
         private readonly _router: Router,
+        private readonly formularioInmuebleStore: Store<AppStateFormularioInmueble>,
     ) {
     }
 
@@ -28,6 +31,15 @@ export class ItemInmuebleGestionComponent implements OnInit {
             InmuebleActions.cargarInmueble({parametros: this.inmueble}),
         );
         this._router.navigate(['/', 'detalle-inmueble']);
+    }
+
+    async editarInmueble(inmueble: InmuebleInterface) {
+        this.formularioInmuebleStore.dispatch(
+            FormularioInmuebleActions.llenarFormulario({inmueble}),
+        );
+        this._router.navigate(
+            ['/', 'tabs', 'gestion-inmueble', 'crear-inmueble'],
+        );
     }
 
 }

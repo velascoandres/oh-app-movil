@@ -14,6 +14,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {ItemInmuebleGestionComponent} from './componentes/item-inmueble-gestion/item-inmueble-gestion.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
+import {StoreModule} from '@ngrx/store';
+import {formularioInmuebleReducer} from './store/formulario-inmueble.reducers';
 
 @NgModule({
     imports: [
@@ -29,6 +31,10 @@ import {MatMenuModule} from '@angular/material/menu';
         MatButtonModule,
         MatIconModule,
         MatMenuModule,
+        StoreModule.forFeature(
+            'formularioInmueble',
+            formularioInmuebleReducer,
+        ),
     ],
     declarations: [
         GestionInmueblePage,

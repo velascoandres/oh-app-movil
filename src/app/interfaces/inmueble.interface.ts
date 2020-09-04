@@ -22,13 +22,13 @@ export interface InmuebleFormulario {
     nombre: string;
     descripcion: string;
     habilitado: 0 | 1;
-    valor: number;
+    precio: number;
     predio: number;
     plantas: number;
     parqueaderos: number;
     imagenes: any[];
     categoria: any;
-    esAlquiler: 0 | 1;
+    enAlquiler: 0 | 1;
     perfilUsuario: any;
     habitaciones: number;
     direccion: string;

@@ -15,39 +15,6 @@ export class FileProviderService {
 
     private manegarSeleccionImagenes(event: any, lista?: any): any {
         const archivos: any = Object.values(event.target.files);
-        // return of(...archivos)
-        //     .pipe(
-        //         reduce(
-        //             (acumulador: ObjetoArchivo[], archivo) => {
-        //                 const reader = new FileReader();
-        //                 if (archivo) {
-        //                     reader.readAsDataURL(archivo);
-        //                 }
-        //                 reader.onloadend = () => {
-        //                     console.log(typeof reader.result);
-        //                     const cargoArchivo = typeof reader.result === 'string';
-        //                     if (cargoArchivo) {
-        //                         const nuevoArchivo: ObjetoArchivo = {
-        //                             datos: reader.result,
-        //                             nombreArchivo: archivo.name,
-        //                             formato: archivo.type,
-        //                         };
-        //                         acumulador = [...acumulador, nuevoArchivo];
-        //                     }
-        //                 };
-        //                 return acumulador;
-        //             },
-        //             [],
-        //         )
-        //     );
-        // if (cargoArchivo) {
-        //     const nuevoArchivo: ObjetoArchivo = {
-        //         datos: reader.result,
-        //         nombreArchivo: archivo.name,
-        //         formato: archivo.type,
-        //     };
-        //     acumulador = [...acumulador, nuevoArchivo];
-        // }
         return archivos.map(
             (archivo) => {
                 return new Promise(
@@ -66,43 +33,6 @@ export class FileProviderService {
                 );
             }
         );
-        // return archivos.map(
-        //     (archivo) => {
-        //         const reader = new FileReader();
-        //         if (archivo) {
-        //             reader.readAsDataURL(archivo);
-        //         }
-        //         return new Observable(
-        //             (subs) => {
-        //                 reader.onloadend = () => {
-        //                     const cargoArchivo = typeof reader.result === 'string';
-        //                     subs.next(reader.result);
-        //                     subs.complete();
-        //                 };
-        //             }
-        //         );
-        //     }
-        // );
-        // return of(...archivos)
-        //     .pipe(
-        //         map(
-        //             (archivo: File) => {
-        //                 const reader = new FileReader();
-        //                 if (archivo) {
-        //                     reader.readAsDataURL(archivo);
-        //                 }
-        //                 return new Observable(
-        //                     (subs) => {
-        //                         reader.onloadend = () => {
-        //                             const cargoArchivo = typeof reader.result === 'string';
-        //                             subs.next(reader.result);
-        //                             subs.complete();
-        //                         };
-        //                     }
-        //                 );
-        //             }
-        //         ),
-        //     );
     }
 
 
@@ -124,20 +54,25 @@ export class FileProviderService {
     }
 
     async seleccionarImagen(event): Promise<any> {
-        const archivos: any = Object.values(event.target.files);
-        const arreglo = [];
-        let indice = 0;
-        for (const archivo of archivos) {
-            const datos = await this.leerArchivo(archivo);
-            arreglo.push(
-                {
-                    ...datos,
-                    raw: event.target.files[indice],
-                }
-            );
-            indice ++;
+        if (event.target && event.target.files) {
+            const archivos: any = Object.values(event.target.files);
+            const arreglo = [];
+            let indice = 0;
+            for (const archivo of archivos) {
+                const datos = await this.leerArchivo(archivo);
+                arreglo.push(
+                    {
+                        ...datos,
+                        raw: event.target.files[indice],
+                    }
+                );
+                indice++;
+            }
+            return arreglo;
+        } else {
+            return [];
         }
-        return arreglo;
+
     }
 
     obtenerDatosArchivo(event) {
