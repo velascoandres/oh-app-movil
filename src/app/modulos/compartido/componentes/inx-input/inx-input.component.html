@@ -1,3 +1,8 @@
+
+<div *ngIf="galeria">
+    <ng-container [ngTemplateOutlet]="galeria" [ngTemplateOutletContext]="{$implicit: (value)}"></ng-container>
+</div>
+
 <ion-item>
     <ion-label class="boton__fake">
         {{label}}
@@ -16,10 +21,7 @@
 
 </ng-content>
 
-<div *ngIf="galeria">
-    <ng-container [ngTemplateOutlet]="galeria" [ngTemplateOutletContext]="{$implicit: (value)}"></ng-container>
-</div>
 
-<app-carrusel *ngIf="value.length > 0"
+<app-carrusel *ngIf="value.length > 0 && !galeria"
               [imagenes]="value | obtenerUri">
 </app-carrusel>

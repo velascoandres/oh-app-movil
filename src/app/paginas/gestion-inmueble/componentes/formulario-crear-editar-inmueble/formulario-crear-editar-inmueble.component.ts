@@ -150,9 +150,11 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal<
         const subStoreFormulario = this._formularioInmuebleStore
             .select('formularioInmueble').subscribe(
                 ({inmueble}) => {
-                    console.log('aqui estoy', inmueble);
                     if (inmueble) {
-                        this.registro = inmueble;
+                        this.registro = {
+                            ...inmueble,
+                            categoria: inmueble.categoria.id,
+                        };
                         this.llenarFormulario();
                     } else {
                         this.limpiarFormulario();

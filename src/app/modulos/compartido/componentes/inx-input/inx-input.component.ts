@@ -49,8 +49,7 @@ export class BsInputComponent implements OnInit, ControlValueAccessor {
     }
 
     onInput(value) {
-        console.log(this.value);
-        if (this.value.length > 0){
+        if (this.value.length > 0) {
             this.value.pop();
         }
         this.archivoService
@@ -79,10 +78,14 @@ export class BsInputComponent implements OnInit, ControlValueAccessor {
 
     writeValue(obj: any): void {
         if (obj && obj.length) {
-            this.value.pop();
-            this.archivoService
-                .obtenerDatosArchivo(obj)
-                .subscribe(res => this.value = res);
+            if (obj.target) {
+                this.value.pop();
+                this.archivoService
+                    .obtenerDatosArchivo(obj)
+                    .subscribe(res => this.value = res);
+            } else {
+                this.value = obj;
+            }
         }
     }
 

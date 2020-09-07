@@ -90,7 +90,7 @@
                     </div>
                 </div>
                 <app-inx-input
-                        label="Imagenes del inmueble"
+                        [label]="registro ? 'Reemplazar seleccionadas' :'Imagenes del inmueble'"
                         formControlName="imagenes"
                         [multiple]="true"
                 >
@@ -101,6 +101,7 @@
                     </div>
                     <div *ngIf="registro">
                         <ng-template #galeria let-imagenes>
+                            <ion-label>Imagenes Actuales: </ion-label>
                             <app-galeria-imagenes [imagenes]="imagenes"></app-galeria-imagenes>
                         </ng-template>
                     </div>
@@ -188,9 +189,14 @@
                     <ion-label position="floating">
                         Categoria o tipo de inmueble
                     </ion-label>
-                    <ion-select formControlName="categoria" [value]="registro.categoria.id">
-                        <ion-select-option *ngFor="let categoria of categorias.reverse()" [value]="categoria.id">
+                    <ion-select formControlName="categoria" [value]="+registro.categoria.id" *ngIf="registro">
+                        <ion-select-option *ngFor="let categoria of categorias.reverse()" [value]="+categoria.id">
                             {{categoria.nombre | uppercase }}
+                        </ion-select-option>
+                    </ion-select>
+                    <ion-select formControlName="categoria" *ngIf="!registro">
+                        <ion-select-option *ngFor="let categoria of categorias.reverse()" [value]="+categoria.id">
+                            {{categoria.nombre }}
                         </ion-select-option>
                     </ion-select>
                     <div *ngIf="objetoArreglosErrores.categoria.length > 0" role="alert" class="alert alert-warning">
