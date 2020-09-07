@@ -7,7 +7,7 @@ import {ObjetoArchivo} from '../../../servicios/utilitarios/file-provider.servic
 export class ObtenerUriPipe implements PipeTransform {
 
     transform(archivos: ObjetoArchivo[]): any[] {
-        return archivos.map(archivo => ({url: archivo.datos}));
+        return archivos.map(archivo => ({url: archivo.url}));
     }
 
 }

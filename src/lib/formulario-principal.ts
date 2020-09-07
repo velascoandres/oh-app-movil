@@ -2,12 +2,14 @@ import {EventEmitter, Input, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {ToastController} from '@ionic/angular';
 import {debounceTime} from 'rxjs/operators';
+import {AppStateFormularioInmueble} from '../app/paginas/gestion-inmueble/store/formulario-inmueble.store';
+import {Store} from '@ngrx/store';
+import {InmuebleFormulario} from '../app/interfaces/inmueble.interface';
 
-export class FormularioPrincipal {
+export class FormularioPrincipal<T = any> {
     formulario: FormGroup;
     mensajesErrores = {};
-    @Input()
-    registro = undefined;
+    registro: T = undefined;
     @Output()
     datosFormulario: EventEmitter<object | boolean> = new EventEmitter<object | boolean>();
     controles = {};
@@ -15,7 +17,7 @@ export class FormularioPrincipal {
 
     constructor(
         private formBuilder: FormBuilder,
-        private toaster: ToastController
+        private toaster: ToastController,
     ) {
         this.formulario = this.formBuilder.group(
             this.controles,

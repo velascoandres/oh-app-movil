@@ -22,7 +22,7 @@ export class FileProviderService {
                         const reader = new FileReader();
                         reader.onloadend = () => {
                             const nuevoArchivo: ObjetoArchivo = {
-                                datos: reader.result,
+                                url: reader.result,
                                 nombreArchivo: archivo.name,
                                 formato: archivo.type,
                             };
@@ -42,7 +42,7 @@ export class FileProviderService {
                 const reader = new FileReader();
                 reader.onloadend = () => {
                     const nuevoArchivo: ObjetoArchivo = {
-                        datos: reader.result,
+                        url: reader.result,
                         nombreArchivo: archivo.name,
                         formato: archivo.type,
                     };
@@ -81,7 +81,7 @@ export class FileProviderService {
 }
 
 export interface ObjetoArchivo {
-    datos: any;
-    nombreArchivo: string;
-    formato: string;
+    url: any;
+    nombreArchivo?: string;
+    formato?: string;
 }

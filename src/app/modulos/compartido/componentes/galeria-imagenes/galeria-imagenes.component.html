@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row" *ngIf="imagenes.length">
         <div class="col-sm-2 contendor" *ngFor="let imagen of imagenes;let indice = index">
-            <img [src]="imagen.datos" alt="" class="img-fluid full-imagen">
+            <img [src]="imagen.url" alt="" class="img-fluid full-imagen">
             <ion-checkbox #checkImagen type="checkbox" (click)="emitirImagenes()" class="check-imagen"
                           [(ngModel)]="imagenes[indice].seleccionado"> </ion-checkbox>
         </div>

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FileProviderService, ObjetoArchivo} from '../../../../servicios/utilitarios/file-provider.service';
 import {CategoriaRestService} from '../../../../modulos/compartido/servicios/rest/categoria-rest.service';
 import {CategoriaInterface} from '../../../../interfaces/categoria.interface';
@@ -7,26 +7,28 @@ import {AbstractControl, FormBuilder, ValidationErrors, Validators} from '@angul
 import {VALIDACION_SELECT} from '../../../../../lib/constantes-formulario';
 import {ToastController} from '@ionic/angular';
 import {InmuebleRestService} from '../../../../modulos/compartido/servicios/rest/inmueble-rest.service';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {ApiResponse} from '../../../../../lib/principal.service';
-import {InmuebleInterface} from '../../../../interfaces/inmueble.interface';
+import {InmuebleFormulario, InmuebleInterface} from '../../../../interfaces/inmueble.interface';
 import {debounceTime, map} from 'rxjs/operators';
 import {TipoMonedaService} from '../../../../modulos/compartido/servicios/rest/tipo-moneda.service';
 import {TipoMonedaInterface} from '../../../../interfaces/tipo-moneda.interface';
 import {Store} from '@ngrx/store';
 import {AppStateFormularioInmueble} from '../../store/formulario-inmueble.store';
 import {FormularioInmuebleActions} from '../../store/formulario-inmueble.actions';
+import {MENSAJES_ERRORES, OBJETO_ARREGLOS_ERRORES} from './constantes';
 
 @Component({
     selector: 'app-formulario-crear-editar-inmueble',
     templateUrl: './formulario-crear-editar-inmueble.component.html',
     styleUrls: ['./formulario-crear-editar-inmueble.component.scss'],
 })
-export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal implements OnInit {
+export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal<InmuebleFormulario> implements OnInit, OnDestroy {
     imagenes: ObjetoArchivo[] = [];
     categorias: CategoriaInterface[] = [];
     tiposMonedas: TipoMonedaInterface[] = [];
     etiquetaSiguiente = 'SIGUIENTE PASO';
+    subs: Subscription[] = [];
     controles = {
         id: [0, ''],
         nombre: ['', [Validators.minLength(4), Validators.required, Validators.maxLength(30)]],
@@ -46,76 +48,10 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
     };
 
     objetoArreglosErrores = {
-        nombre: [],
-        descripcion: [],
-        direccion: [],
-        precio: [],
-        predio: [],
-        plantas: [],
-        parqueaderos: [],
-        habitaciones: [],
-        areaConstruccion: [],
-        areaTerreno: [],
-        imagenes: [],
-        categoria: [],
-        tipoMoneda: [],
+        ...OBJETO_ARREGLOS_ERRORES,
     };
     mensajesErrores = {
-        nombre: {
-            required: 'El nombre es requerido',
-            minlength: 'El nombre debe tener mínimo 4 caracteres',
-            maxlength: 'El nombre debe tener máximo 30 caracteres',
-        },
-        descripcion: {
-            required: 'La descripcion es requerido',
-            minlength: 'La descripcion tener mínimo 10 caracteres',
-            maxlength: 'La descripcion tener máximo 160 caracteres',
-        },
-        direccion: {
-            required: 'La direccion es requerido',
-            minlength: 'La direccion tener mínimo 10 caracteres',
-            maxlength: 'La direccion tener máximo 160 caracteres',
-        },
-        categoria: {
-            required: 'La categoria es obligatoria',
-        },
-        precio: {
-            required: 'El precio es obligatorio',
-            min: 'La precio debe ser mayor a 0',
-            pattern: 'Ingresar solo numeros'
-        },
-        predio: {
-            required: 'El predio es obligatorio',
-            min: 'La precio debe ser mayor a 0',
-            pattern: 'Ingresar solo numeros',
-            repetido: 'Ya existe un inmueble registrado con ese predio',
-        },
-        habitaciones: {
-            required: 'La numero de habitaciones es obligatorio',
-            pattern: 'Ingresar solo numeros'
-        },
-        plantas: {
-            required: 'EL numero de plantas es obligatorio',
-            pattern: 'Ingresar solo numeros'
-        },
-        parqueaderos: {
-            required: 'El numero de parqueaderos es obligatorio',
-            pattern: 'Ingresar solo numeros'
-        },
-        areaConstruccion: {
-            required: 'El area de construccion es obligatorio',
-            pattern: 'Ingresar solo numeros'
-        },
-        areaTerreno: {
-            required: 'El area del terreno es obligatorio',
-            pattern: 'Ingresar solo numeros'
-        },
-        imagenes: {
-            required: 'Las imagenes son requeridas',
-        },
-        tipoMoneda: {
-            required: 'El tipo de moneda es obligatorio',
-        },
+        ...MENSAJES_ERRORES,
     };
 
     constructor(
@@ -139,6 +75,7 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
         this.escucharFormulario();
         this.escucharCampos();
         this.llenarFormulario();
+        this.escucharStoreFormulario();
     }
 
     private obtenerCategorias() {
@@ -205,6 +142,29 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal 
             FormularioInmuebleActions.emitirInmueble(
                 {inmueble: informacionParaSerEnviada}
             ),
+        );
+    }
+
+
+    escucharStoreFormulario() {
+        const subStoreFormulario = this._formularioInmuebleStore
+            .select('formularioInmueble').subscribe(
+                ({inmueble}) => {
+                    console.log('aqui estoy', inmueble);
+                    if (inmueble) {
+                        this.registro = inmueble;
+                        this.llenarFormulario();
+                    } else {
+                        this.limpiarFormulario();
+                    }
+                }
+            );
+        this.subs.push(subStoreFormulario);
+    }
+
+    ngOnDestroy(): void {
+        this.subs.forEach(
+            sub => sub.unsubscribe(),
         );
     }
 

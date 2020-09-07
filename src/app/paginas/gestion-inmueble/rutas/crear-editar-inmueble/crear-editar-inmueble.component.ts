@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {InmuebleRestService} from '../../../../modulos/compartido/servicios/rest/inmueble-rest.service';
-import {InmuebleFormulario, InmuebleInterface} from '../../../../interfaces/inmueble.interface';
+import {InmuebleFormulario} from '../../../../interfaces/inmueble.interface';
 import {ToastController, ViewWillEnter, ViewWillLeave} from '@ionic/angular';
 import {Store} from '@ngrx/store';
 import {AppState, AppStateInmueble} from '../../../../store/app.reducers';
@@ -8,7 +8,6 @@ import {Subscription} from 'rxjs';
 import {InmuebleActions} from '../../../menu-inmuebles/menu-inmueble-store/actions/inmueble.actions';
 import {Router} from '@angular/router';
 import {PerfilUsuarioInterface} from '../../../../interfaces/perfil-usuario.interface';
-import {FormularioCrearEditarInmuebleComponent} from '../../componentes/formulario-crear-editar-inmueble/formulario-crear-editar-inmueble.component';
 import {AppStateFormularioInmueble} from '../../store/formulario-inmueble.store';
 
 @Component({
@@ -16,12 +15,12 @@ import {AppStateFormularioInmueble} from '../../store/formulario-inmueble.store'
     templateUrl: './crear-editar-inmueble.component.html',
     styleUrls: ['./crear-editar-inmueble.component.scss'],
 })
-export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, ViewWillEnter, AfterViewInit {
+export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, ViewWillEnter {
 
     formularioValido: InmuebleFormulario;
     subscripciones: Subscription[] = [];
     usuario: PerfilUsuarioInterface;
-    @ViewChild('formulario') formularioInmueble: FormularioCrearEditarInmuebleComponent;
+    cargando: boolean;
 
     constructor(
         private readonly _inmuebleRestService: InmuebleRestService,
@@ -34,7 +33,6 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
     }
 
     ionViewWillEnter(): void {
-        // this.formularioInmueble.limpiarFormulario();
         this.escucharUsuario();
     }
 
@@ -43,8 +41,7 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
     }
 
     ngOnInit() {
-        this.escucharUsuario();
-        this.escucharInmuebleStore();
+        // this.escucharInmuebleStore();
         this.escucharFormularioStore();
     }
 
@@ -63,11 +60,10 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
         const subscripcionFormulario = this._formularioInmuebleStore
             .select('formularioInmueble')
             .subscribe(
-                ({inmueble}) => {
-                    if (inmueble) {
+                ({inmueble, estaValido}) => {
+                    this.formularioValido = undefined;
+                    if (inmueble && estaValido) {
                         this.formularioValido = inmueble;
-                    } else {
-                        // this.formularioInmueble.limpiarFormulario();
                     }
                 }
             );
@@ -80,17 +76,14 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
             .subscribe(
                 (
                     {cargo, error, cargando}) => {
-                    if (cargando) {
-                        // Agregar un loader
-                    }
-                    if (cargo && !error && this.formularioValido) {
+                    this.cargando = cargando;
+                    if (cargo && !error) {
                         this.mostrarToast('Inmueble publicado con exito').then();
                         // this.formularioInmueble.limpiarFormulario();
                         this._router.navigate(['', 'tabs', 'gestion-inmueble']);
                     } else {
                         if (error) {
                             this.mostrarToast('Ha ocurrido un error !', 'danger').then();
-                            console.error(error);
                             this.formularioValido = undefined;
                         }
                     }
@@ -111,6 +104,7 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
 
 
     guardarInmueble(): void {
+        this.escucharInmuebleStore();
         const precio = {
             valor: +this.formularioValido.precio,
             tipoMoneda: this.formularioValido.tipoMoneda,
@@ -124,15 +118,6 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
                 {inmueble: datosInmueble, precio},
             ),
         );
-        this.escucharInmuebleStore();
-    }
-
-    escucharInmueble(evento: (InmuebleInterface & { tipoMoneda: number, precio: number }) | undefined) {
-        this.formularioValido = evento;
-    }
-
-    ngAfterViewInit(): void {
-        // this.formularioInmueble.limpiarFormulario();
     }
 
 }

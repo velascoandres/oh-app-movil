@@ -19,6 +19,7 @@ import {ObtenerUriPipe} from './pipes/obtener-uri.pipe';
 import {TipoMonedaService} from './servicios/rest/tipo-moneda.service';
 import {GaleriaImagenesComponent} from './componentes/galeria-imagenes/galeria-imagenes.component';
 import {ImgLoaderComponent} from './componentes/img-loader/img-loader.component';
+import {LoaderFormularioComponent} from './componentes/loader-formulario/loader-formulario.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import {ImgLoaderComponent} from './componentes/img-loader/img-loader.component'
         ObtenerUriPipe,
         GaleriaImagenesComponent,
         ImgLoaderComponent,
+        LoaderFormularioComponent,
     ],
     imports: [
         CommonModule,
@@ -62,6 +64,7 @@ import {ImgLoaderComponent} from './componentes/img-loader/img-loader.component'
         ObtenerUriPipe,
         GaleriaImagenesComponent,
         ImgLoaderComponent,
+        LoaderFormularioComponent,
     ],
     entryComponents: [
         MapaInmueblesComponent,

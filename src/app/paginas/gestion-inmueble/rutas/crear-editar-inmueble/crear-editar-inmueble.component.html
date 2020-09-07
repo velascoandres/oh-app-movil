@@ -11,15 +11,12 @@
 </ion-header>
 
 <ion-content>
-    <app-formulario-crear-editar-inmueble
-        #formulario
-        (datosFormulario)="escucharInmueble($event)"
-        [registro]="formularioValido"
-    >
+    <app-formulario-crear-editar-inmueble [hidden]="cargando">
         <ion-button
                 expand="full" color="success"
                 [disabled]="!formularioValido" (click)="guardarInmueble()">
             Publicar
         </ion-button>
     </app-formulario-crear-editar-inmueble>
+    <app-loader-formulario [hidden]="!cargando"></app-loader-formulario>
 </ion-content>

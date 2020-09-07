@@ -188,7 +188,7 @@
                     <ion-label position="floating">
                         Categoria o tipo de inmueble
                     </ion-label>
-                    <ion-select formControlName="categoria">
+                    <ion-select formControlName="categoria" [value]="registro.categoria.id">
                         <ion-select-option *ngFor="let categoria of categorias.reverse()" [value]="categoria.id">
                             {{categoria.nombre | uppercase }}
                         </ion-select-option>
