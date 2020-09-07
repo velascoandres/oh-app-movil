@@ -20,6 +20,7 @@ import {TipoMonedaService} from './servicios/rest/tipo-moneda.service';
 import {GaleriaImagenesComponent} from './componentes/galeria-imagenes/galeria-imagenes.component';
 import {ImgLoaderComponent} from './componentes/img-loader/img-loader.component';
 import {LoaderFormularioComponent} from './componentes/loader-formulario/loader-formulario.component';
+import { ItemGaleriaPipe } from './pipes/item-galeria.pipe';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import {LoaderFormularioComponent} from './componentes/loader-formulario/loader-
         GaleriaImagenesComponent,
         ImgLoaderComponent,
         LoaderFormularioComponent,
+        ItemGaleriaPipe,
     ],
     imports: [
         CommonModule,
