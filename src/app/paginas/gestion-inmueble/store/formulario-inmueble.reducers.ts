@@ -7,11 +7,13 @@ import {InmuebleFormulario} from '../../../interfaces/inmueble.interface';
 export interface FormularioInmuebleState {
     estaValido: boolean;
     inmueble: InmuebleFormulario;
+    sonEdicion: boolean;
 }
 
 export const initialFormularioInmuebleState: FormularioInmuebleState = {
     estaValido: false,
     inmueble: undefined,
+    sonEdicion: false,
 };
 
 const _formularioInmuebleReducer = createReducer(
@@ -28,6 +30,7 @@ const _formularioInmuebleReducer = createReducer(
             return {
                 estaValido: false,
                 inmueble: inmuebleCasteado,
+                sonEdicion: true,
             };
         },
     ),
@@ -38,6 +41,7 @@ const _formularioInmuebleReducer = createReducer(
             return {
                 estaValido: true,
                 inmueble,
+                sonEdicion: false,
             };
         },
     ),
@@ -47,6 +51,7 @@ const _formularioInmuebleReducer = createReducer(
             return {
                 estaValido: false,
                 inmueble: undefined,
+                sonEdicion: false,
             };
         },
     ),

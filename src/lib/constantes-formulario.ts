@@ -1,4 +1,5 @@
 import {Validators} from '@angular/forms';
+
 export const VALIDACION_LETRAS = [
     Validators.required,
     Validators.minLength(4),
@@ -13,6 +14,10 @@ export const VALIDACION_CAMPO_GENERICO = [
 
 export const VALIDACION_SELECT = [
     Validators.required,
+];
+
+export const VALIDACION_NUMEROS_ENTEROS = [
+    Validators.min(0), Validators.required, Validators.pattern('[0-9]+'),
 ];
 
 export const VALIDACION_NUMERO_TELEFONO = [

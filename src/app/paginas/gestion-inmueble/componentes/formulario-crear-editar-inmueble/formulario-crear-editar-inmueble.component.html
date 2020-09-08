@@ -30,7 +30,8 @@
                     <ion-label position="floating">
                         Predio
                     </ion-label>
-                    <ion-input formControlName="predio" type="number"></ion-input>
+                    <ion-input formControlName="predio" type="number"
+                               [disabled]="!!registro"></ion-input>
                     <div *ngIf="objetoArreglosErrores.predio.length > 0" role="alert" class="alert alert-warning">
                         <div *ngFor="let mensajeError of objetoArreglosErrores.predio">
                             <div>{{mensajeError}}</div>
@@ -101,7 +102,7 @@
                     </div>
                     <div *ngIf="registro">
                         <ng-template #galeria let-imagenes>
-                            <ion-label>Imagenes Actuales: </ion-label>
+                            <ion-label>Imagenes Actuales:</ion-label>
                             <app-galeria-imagenes [imagenes]="imagenes"></app-galeria-imagenes>
                         </ng-template>
                     </div>
@@ -189,14 +190,14 @@
                     <ion-label position="floating">
                         Categoria o tipo de inmueble
                     </ion-label>
-                    <ion-select formControlName="categoria" [value]="+registro.categoria.id" *ngIf="registro">
+                    <ion-select formControlName="categoria"  *ngIf="registro" [value]="+registro.categoria.id">
                         <ion-select-option *ngFor="let categoria of categorias.reverse()" [value]="+categoria.id">
                             {{categoria.nombre | uppercase }}
                         </ion-select-option>
                     </ion-select>
                     <ion-select formControlName="categoria" *ngIf="!registro">
                         <ion-select-option *ngFor="let categoria of categorias.reverse()" [value]="+categoria.id">
-                            {{categoria.nombre }}
+                            {{categoria.nombre | uppercase }}
                         </ion-select-option>
                     </ion-select>
                     <div *ngIf="objetoArreglosErrores.categoria.length > 0" role="alert" class="alert alert-warning">

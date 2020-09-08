@@ -4,7 +4,7 @@ import {CategoriaRestService} from '../../../../modulos/compartido/servicios/res
 import {CategoriaInterface} from '../../../../interfaces/categoria.interface';
 import {FormularioPrincipal} from '../../../../../lib/formulario-principal';
 import {AbstractControl, FormBuilder, ValidationErrors, Validators} from '@angular/forms';
-import {VALIDACION_SELECT} from '../../../../../lib/constantes-formulario';
+import {VALIDACION_NUMEROS_ENTEROS, VALIDACION_SELECT} from '../../../../../lib/constantes-formulario';
 import {ToastController} from '@ionic/angular';
 import {InmuebleRestService} from '../../../../modulos/compartido/servicios/rest/inmueble-rest.service';
 import {Observable, Subscription} from 'rxjs';
@@ -35,13 +35,13 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal<
         categoria: ['', VALIDACION_SELECT],
         descripcion: ['', [Validators.minLength(10), Validators.required, Validators.maxLength(160)]],
         direccion: ['', [Validators.minLength(10), Validators.required, Validators.maxLength(160)]],
-        precio: ['', [Validators.min(1), Validators.required, Validators.pattern('[0-9]+')]],
-        predio: ['', [Validators.min(1), Validators.required, Validators.pattern('[0-9]+')], this.validarPredioAsync.bind(this)],
-        areaTerreno: ['', [Validators.min(1), Validators.required, Validators.pattern('[0-9]+')]],
-        areaConstruccion: ['', [Validators.min(1), Validators.required, Validators.pattern('[0-9]+')]],
-        habitaciones: ['', [Validators.min(0), Validators.required, Validators.pattern('[0-9]+')]],
-        parqueaderos: ['', [Validators.min(0), Validators.required, Validators.pattern('[0-9]+')]],
-        plantas: ['', [Validators.min(0), Validators.required, Validators.pattern('[0-9]+')]],
+        precio: ['', [Validators.min(1), Validators.required, Validators.pattern(/^[.\d]+$/)]],
+        predio: ['', [Validators.min(1), Validators.required, Validators.pattern('[0-9]+')], /* this.validarPredioAsync.bind(this) */],
+        areaTerreno: ['', [Validators.min(1), Validators.max(5000), Validators.required, Validators.pattern(/^[.\d]+$/)]],
+        areaConstruccion: ['', [Validators.min(1), Validators.max(5000), Validators.required, Validators.pattern(/^[.\d]+$/)]],
+        habitaciones: ['', VALIDACION_NUMEROS_ENTEROS],
+        parqueaderos: ['', VALIDACION_NUMEROS_ENTEROS],
+        plantas: ['', VALIDACION_NUMEROS_ENTEROS],
         tipoMoneda: ['', [Validators.required]],
         imagenes: [[], [Validators.required]],
         enAlquiler: [0],
@@ -149,15 +149,18 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal<
     escucharStoreFormulario() {
         const subStoreFormulario = this._formularioInmuebleStore
             .select('formularioInmueble').subscribe(
-                ({inmueble}) => {
-                    if (inmueble) {
+                ({inmueble, sonEdicion}) => {
+                    if (inmueble && sonEdicion) {
+                        this.formulario.get('predio').clearAsyncValidators();
                         this.registro = {
                             ...inmueble,
-                            categoria: inmueble.categoria.id,
+                            categoria: inmueble.categoria.id ? inmueble.categoria.id : inmueble.categoria,
                         };
                         this.llenarFormulario();
-                    } else {
+                    }
+                    if (!inmueble) {
                         this.limpiarFormulario();
+                        this.formulario.get('predio').setAsyncValidators(this.validarPredioAsync.bind(this));
                     }
                 }
             );

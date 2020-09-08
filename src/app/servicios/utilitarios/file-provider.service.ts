@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
-import {from, Observable, of} from 'rxjs';
-import {map, reduce} from 'rxjs/operators';
+import {from} from 'rxjs';
 
 @Injectable(
     {
@@ -9,33 +7,6 @@ import {map, reduce} from 'rxjs/operators';
     }
 )
 export class FileProviderService {
-    constructor(
-        private sanitizer: DomSanitizer) {
-    }
-
-    private manegarSeleccionImagenes(event: any, lista?: any): any {
-        const archivos: any = Object.values(event.target.files);
-        return archivos.map(
-            (archivo) => {
-                return new Promise(
-                    (resolve, _) => {
-                        const reader = new FileReader();
-                        reader.onloadend = () => {
-                            const nuevoArchivo: ObjetoArchivo = {
-                                url: reader.result,
-                                nombreArchivo: archivo.name,
-                                formato: archivo.type,
-                            };
-                            resolve(nuevoArchivo);
-                        };
-                        reader.readAsDataURL(archivo);
-                    }
-                );
-            }
-        );
-    }
-
-
     leerArchivo(archivo): Promise<any> {
         return new Promise(
             (resolve, _) => {
