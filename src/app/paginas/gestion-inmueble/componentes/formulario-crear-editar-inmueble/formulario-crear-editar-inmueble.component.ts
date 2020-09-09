@@ -86,9 +86,11 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal<
             skip: 0,
             take: 30,
         };
-        this.categoriaService.findAll(query).subscribe(
-            ({data}) => this.categorias = data,
-        );
+        this.categoriaService
+            .findAll(query)
+            .subscribe(
+                ({data}) => this.categorias = data,
+            );
     }
 
     private obtenerTipoMoneda() {
@@ -97,9 +99,11 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal<
             skip: 0,
             take: 30,
         };
-        this.tipoMonedaService.findAll(query).subscribe(
-            ({data}) => this.tiposMonedas = data,
-        );
+        this.tipoMonedaService
+            .findAll(query)
+            .subscribe(
+                ({data}) => this.tiposMonedas = data,
+            );
     }
 
     seleccionarImagen(event) {
@@ -149,8 +153,9 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal<
     escucharStoreFormulario() {
         const subStoreFormulario = this._formularioInmuebleStore
             .select('formularioInmueble').subscribe(
-                ({inmueble, sonEdicion}) => {
-                    if (inmueble && sonEdicion) {
+                ({inmueble, sonEdicion, estaValido}) => {
+                    console.log(inmueble, estaValido);
+                    if (inmueble && sonEdicion && !estaValido) {
                         this.formulario.get('predio').clearAsyncValidators();
                         this.registro = {
                             ...inmueble,

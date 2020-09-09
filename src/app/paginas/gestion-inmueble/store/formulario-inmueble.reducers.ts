@@ -39,9 +39,9 @@ const _formularioInmuebleReducer = createReducer(
         (state: FormularioInmuebleState, {inmueble}) => {
             // Realizar el casteo
             return {
+                ...state,
                 estaValido: true,
                 inmueble,
-                sonEdicion: false,
             };
         },
     ),

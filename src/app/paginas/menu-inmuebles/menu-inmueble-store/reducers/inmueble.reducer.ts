@@ -1,6 +1,7 @@
 import {createReducer, on, Action} from '@ngrx/store';
 import {InmuebleState} from '../inmueble.state';
 import {InmuebleActions} from '../actions/inmueble.actions';
+import {InmuebleInterface} from '../../../../interfaces/inmueble.interface';
 
 export const estadoInicialInmuebles: InmuebleState = {
     cargando: false,
@@ -35,6 +36,20 @@ const _inmuebleReducer = createReducer(
             return {
                 ...estado,
                 inmuebleSeleccionado: inmueble,
+                cargando: false,
+                cargo: true,
+            };
+        },
+    ),
+    on(
+        InmuebleActions.cargarInmuebleLocalPorId,
+        (estado: InmuebleState, {id}) => {
+            const inmuebleSeleccionado = estado.inmuebles.find(
+                (inmueble: InmuebleInterface) => +inmueble.id === +id,
+            );
+            return {
+                ...estado,
+                inmuebleSeleccionado,
                 cargando: false,
                 cargo: true,
             };

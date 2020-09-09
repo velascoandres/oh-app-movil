@@ -23,6 +23,10 @@ export class InmuebleActions {
         '[Inmueble] cargar inmueble',
         props<{ parametros: Partial<InmuebleInterface> | any }>()
     );
+    static cargarInmuebleLocalPorId = createAction(
+        '[Inmueble] cargar inmueble por id',
+        props<{ id: number | any }>()
+    );
 
     static agregarFavoritos = createAction(
         '[Inmueble] abregar favoritos',

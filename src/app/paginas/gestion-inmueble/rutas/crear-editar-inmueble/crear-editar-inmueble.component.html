@@ -17,6 +17,11 @@
                 [disabled]="!formularioValido" (click)="guardarInmueble()">
             Publicar
         </ion-button>
+        <ion-button *ngIf="formularioValido"
+                expand="full" color="success"
+                [disabled]="!formularioValido" (click)="guardarInmueble()">
+            Editar Publicacion
+        </ion-button>
     </app-formulario-crear-editar-inmueble>
     <app-loader-formulario [hidden]="!cargando"></app-loader-formulario>
 </ion-content>

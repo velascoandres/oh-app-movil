@@ -34,11 +34,13 @@ export class ItemInmuebleGestionComponent implements OnInit {
     }
 
     async editarInmueble(inmueble: InmuebleInterface) {
-        this.formularioInmuebleStore.dispatch(
-            FormularioInmuebleActions.llenarFormulario({inmueble}),
-        );
         this._router.navigate(
-            ['/', 'tabs', 'gestion-inmueble', 'crear-inmueble'],
+            ['/', 'tabs', 'gestion-inmueble', 'editar-inmueble'],
+            {
+                queryParams: {
+                    inmueble: JSON.stringify(inmueble),
+                }
+            }
         );
     }
 

@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {InmuebleRestService} from '../../../../modulos/compartido/servicios/rest/inmueble-rest.service';
-import {InmuebleFormulario} from '../../../../interfaces/inmueble.interface';
+import {InmuebleFormulario, InmuebleInterface} from '../../../../interfaces/inmueble.interface';
 import {ToastController, ViewWillEnter, ViewWillLeave} from '@ionic/angular';
 import {Store} from '@ngrx/store';
 import {AppState, AppStateInmueble} from '../../../../store/app.reducers';
 import {Subscription} from 'rxjs';
 import {InmuebleActions} from '../../../menu-inmuebles/menu-inmueble-store/actions/inmueble.actions';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {PerfilUsuarioInterface} from '../../../../interfaces/perfil-usuario.interface';
 import {AppStateFormularioInmueble} from '../../store/formulario-inmueble.store';
+import {FormularioInmuebleActions} from '../../store/formulario-inmueble.actions';
 
 @Component({
     selector: 'app-crear-editar-inmueble',
@@ -21,6 +22,7 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
     subscripciones: Subscription[] = [];
     usuario: PerfilUsuarioInterface;
     cargando: boolean;
+    estaEditando: boolean;
 
     constructor(
         private readonly _inmuebleRestService: InmuebleRestService,
@@ -29,6 +31,7 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
         private readonly _router: Router,
         private readonly _usuarioState: Store<AppState>,
         private readonly _formularioInmuebleStore: Store<AppStateFormularioInmueble>,
+        private readonly _activateRoute: ActivatedRoute,
     ) {
     }
 
@@ -41,8 +44,32 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
     }
 
     ngOnInit() {
-        // this.escucharInmuebleStore();
-        this.escucharFormularioStore();
+        this._activateRoute
+            .queryParams
+            .subscribe(
+                (parametros: { inmueble: string }) => {
+                    this.estaEditando = !!parametros.inmueble;
+                    if (this.estaEditando) {
+                        try {
+                            const inmueble = JSON.parse(parametros.inmueble);
+                            this._inmuebleStore
+                                .dispatch(
+                                    FormularioInmuebleActions.llenarFormulario({inmueble})
+                                );
+                        } catch (e) {
+                            this.estaEditando = false;
+                            this._formularioInmuebleStore.dispatch(
+                                FormularioInmuebleActions.vaciarFormulario()
+                            );
+                        }
+                    } else {
+                        this._formularioInmuebleStore.dispatch(
+                            FormularioInmuebleActions.vaciarFormulario()
+                        );
+                    }
+                    this.escucharFormularioStore();
+                }
+            );
     }
 
     private escucharUsuario() {

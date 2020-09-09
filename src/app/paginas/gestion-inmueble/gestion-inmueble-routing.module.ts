@@ -13,7 +13,7 @@ const routes: Routes = [
         component: CrearEditarInmuebleComponent,
     },
     {
-        path: 'editar-inmueble/:idInmueble',
+        path: 'editar-inmueble',
         component: CrearEditarInmuebleComponent,
     },
 ];
