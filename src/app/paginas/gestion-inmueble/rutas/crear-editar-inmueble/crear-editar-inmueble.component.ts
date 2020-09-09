@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {InmuebleRestService} from '../../../../modulos/compartido/servicios/rest/inmueble-rest.service';
-import {InmuebleFormulario, InmuebleInterface} from '../../../../interfaces/inmueble.interface';
+import {InmuebleFormulario} from '../../../../interfaces/inmueble.interface';
 import {ToastController, ViewWillEnter, ViewWillLeave} from '@ionic/angular';
 import {Store} from '@ngrx/store';
 import {AppState, AppStateInmueble} from '../../../../store/app.reducers';
@@ -142,6 +142,23 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
         };
         this._inmuebleStore.dispatch(
             InmuebleActions.crearInmueble(
+                {inmueble: datosInmueble, precio},
+            ),
+        );
+    }
+
+    editarInmueble(): void {
+        this.escucharInmuebleStore();
+        const precio = {
+            valor: +this.formularioValido.precio,
+            tipoMoneda: this.formularioValido.tipoMoneda,
+        };
+        const datosInmueble = {
+            ...this.formularioValido,
+            perfilUsuario: this.usuario.id,
+        };
+        this._inmuebleStore.dispatch(
+            InmuebleActions.actualizarInmueble(
                 {inmueble: datosInmueble, precio},
             ),
         );

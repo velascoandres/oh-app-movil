@@ -6,21 +6,23 @@
                 </ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title>Publicar Inmueble</ion-title>
+        <ion-title>
+            {{ estaEditando ? 'Editar Inmueble' : 'Crear Inmueble'}}
+        </ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <app-formulario-crear-editar-inmueble [hidden]="cargando">
-        <ion-button
+        <ion-button *ngIf="!estaEditando"
                 expand="full" color="success"
                 [disabled]="!formularioValido" (click)="guardarInmueble()">
             Publicar
         </ion-button>
-        <ion-button *ngIf="formularioValido"
+        <ion-button *ngIf="estaEditando"
                 expand="full" color="success"
-                [disabled]="!formularioValido" (click)="guardarInmueble()">
-            Editar Publicacion
+                [disabled]="!formularioValido" (click)="editarInmueble()">
+            Guardar Cambios
         </ion-button>
     </app-formulario-crear-editar-inmueble>
     <app-loader-formulario [hidden]="!cargando"></app-loader-formulario>

@@ -55,7 +55,7 @@ export class InmuebleActions {
 
     static actualizarInmueble = createAction(
         '[Inmueble] actualizar inmueble',
-        props<{ inmueble: InmuebleInterface }>()
+        props<{ inmueble: Omit<InmuebleInterface, 'precio'>, precio: PrecioInterface }>()
     );
 
     static cargarInmuebleExito = createAction(
