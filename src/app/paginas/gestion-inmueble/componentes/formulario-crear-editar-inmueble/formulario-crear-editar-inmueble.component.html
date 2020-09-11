@@ -103,7 +103,10 @@
                     <div *ngIf="registro">
                         <ng-template #galeria let-imagenes>
                             <ion-label>Imagenes Actuales:</ion-label>
-                            <app-galeria-imagenes [imagenes]="imagenes"></app-galeria-imagenes>
+                            <app-galeria-imagenes
+                                    (imagenesSeleccionadas)="establecerImagenesSeleccionadas($event)"
+                                    [imagenes]="imagenes">
+                            </app-galeria-imagenes>
                         </ng-template>
                     </div>
                 </app-inx-input>

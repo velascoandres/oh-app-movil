@@ -33,4 +33,5 @@ export interface InmuebleFormulario {
     habitaciones: number;
     direccion: string;
     tipoMoneda: number;
+    imagenesEliminar?: number[];
 }

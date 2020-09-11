@@ -14,14 +14,17 @@
 
 <ion-content>
     <app-formulario-crear-editar-inmueble [hidden]="cargando">
-        <ion-button *ngIf="!estaEditando"
+        <ion-button
+                *ngIf="!estaEditando"
                 expand="full" color="success"
-                [disabled]="!formularioValido" (click)="guardarInmueble()">
+                [disabled]="!formularioValido"
+                (click)="guardarInmueble()"
+        >
             Publicar
         </ion-button>
         <ion-button *ngIf="estaEditando"
-                expand="full" color="success"
-                [disabled]="!formularioValido" (click)="editarInmueble()">
+                    expand="full" color="success"
+                    [disabled]="!formularioValido" (click)="editarInmueble()">
             Guardar Cambios
         </ion-button>
     </app-formulario-crear-editar-inmueble>

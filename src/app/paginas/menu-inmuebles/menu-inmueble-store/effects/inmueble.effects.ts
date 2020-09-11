@@ -79,4 +79,30 @@ export class InmuebleEffects {
             );
         },
     );
+    editarInmueble$ = createEffect(
+        () => {
+            // Definimos que accion va escuchar
+            return this.acciones$.pipe(
+                ofType(InmuebleActions.actualizarInmueble),
+                mergeMap(
+                    ({inmueble, precio}) => {
+                        return this._inmuebleService.editarInmueble(inmueble, precio);
+                    },
+                ),
+                mergeMap(
+                    (respuesta: InmuebleInterface) => {
+                        console.log(respuesta);
+                        return of(InmuebleActions.actualizarInmuebleExito(
+                            {
+                                inmueble: respuesta,
+                            },
+                        ));
+                    }
+                ),
+                catchError(
+                    error => of(InmuebleActions.actualizarInmuebleError({error}))
+                ),
+            );
+        },
+    );
 }

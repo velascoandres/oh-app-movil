@@ -44,6 +44,7 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal<
         plantas: ['', VALIDACION_NUMEROS_ENTEROS],
         tipoMoneda: ['', [Validators.required]],
         imagenes: [[], [Validators.required]],
+        imagenesEliminar: [[], []],
         enAlquiler: [0],
     };
 
@@ -176,6 +177,11 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal<
         this.subs.forEach(
             sub => sub.unsubscribe(),
         );
+    }
+
+    establecerImagenesSeleccionadas(imagenesSeleccionadas: (ObjetoArchivo & { seleccionado: boolean })[]) {
+        const idsImagenes = imagenesSeleccionadas.map(imagen => imagen.id);
+        this.formulario.get('imagenesEliminar').patchValue(idsImagenes);
     }
 
 }

@@ -16,7 +16,7 @@ export class InmuebleRestService extends PrincipalRestService<InmuebleInterface>
         );
     }
 
-    crearInmueble(body: InmuebleInterface, precio: PrecioInterface): Observable<InmuebleInterface> {
+    static establecerFormdataInmueble(body: InmuebleInterface, precio: PrecioInterface) {
         const formData = new FormData();
         body = {
             ...body,
@@ -41,6 +41,16 @@ export class InmuebleRestService extends PrincipalRestService<InmuebleInterface>
                 formData.append('imagenes[]', imagenRaw);
             }
         );
+        return formData;
+    }
+
+    crearInmueble(body: InmuebleInterface, precio: PrecioInterface): Observable<InmuebleInterface> {
+        const formData = InmuebleRestService.establecerFormdataInmueble(body, precio);
         return this._httpClient.post(this.url + '/publicar-inmueble', formData) as Observable<InmuebleInterface>;
+    }
+
+    editarInmueble(body: InmuebleInterface, precio: PrecioInterface): Observable<InmuebleInterface> {
+        const formData = InmuebleRestService.establecerFormdataInmueble(body, precio);
+        return this._httpClient.put(`${this.url}l/editar-publicacion-inmueble/${body.id}`, formData) as Observable<InmuebleInterface>;
     }
 }

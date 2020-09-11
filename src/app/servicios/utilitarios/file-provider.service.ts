@@ -55,4 +55,5 @@ export interface ObjetoArchivo {
     url: any;
     nombreArchivo?: string;
     formato?: string;
+    id?: number;
 }
