@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {InmuebleRestService} from '../../../../modulos/compartido/servicios/rest/inmueble-rest.service';
-import {InmuebleFormulario} from '../../../../interfaces/inmueble.interface';
+import {InmuebleFormulario, InmuebleInterface} from '../../../../interfaces/inmueble.interface';
 import {ToastController, ViewWillEnter, ViewWillLeave} from '@ionic/angular';
 import {Store} from '@ngrx/store';
 import {AppState, AppStateInmueble} from '../../../../store/app.reducers';
@@ -10,6 +10,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {PerfilUsuarioInterface} from '../../../../interfaces/perfil-usuario.interface';
 import {AppStateFormularioInmueble} from '../../store/formulario-inmueble.store';
 import {FormularioInmuebleActions} from '../../store/formulario-inmueble.actions';
+import {eliminarPropiedadesObjeto} from '../../../../../lib/eliminar-propiedades-objeto';
 
 @Component({
     selector: 'app-crear-editar-inmueble',
@@ -157,13 +158,18 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
             valor: +this.formularioValido.precio,
             tipoMoneda: this.formularioValido.tipoMoneda,
         };
-        const datosInmueble = {
+        const datosInmueble: InmuebleFormulario = {
             ...this.formularioValido,
             perfilUsuario: this.usuario.id,
+            habilitado: 1
         };
+        const inmuebleParaEditar = eliminarPropiedadesObjeto(
+            datosInmueble,
+            ['precio', 'tipoMoneda', 'valor'],
+        ) as InmuebleInterface;
         this._inmuebleStore.dispatch(
             InmuebleActions.actualizarInmueble(
-                {inmueble: datosInmueble, precio},
+                {inmueble: inmuebleParaEditar, precio},
             ),
         );
     }

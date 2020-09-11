@@ -112,7 +112,7 @@ const _inmuebleReducer = createReducer(
     on(
         InmuebleActions.actualizarInmueble,
         (estado: InmuebleState, {inmueble}) => {
-            console.log(inmueble);
+            // Creamos el inmueble solo
             return {
                 ...estado,
                 inmuebleSeleccionado: inmueble,
@@ -130,6 +130,7 @@ const _inmuebleReducer = createReducer(
                 inmuebleSeleccionado: inmueble,
                 cargando: false,
                 cargo: true,
+                error: undefined,
             };
         },
     ),

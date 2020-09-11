@@ -100,7 +100,10 @@ export class InmuebleEffects {
                     }
                 ),
                 catchError(
-                    error => of(InmuebleActions.actualizarInmuebleError({error}))
+                    error => {
+                        console.error(error);
+                        return of(InmuebleActions.actualizarInmuebleError({error}));
+                    }
                 ),
             );
         },

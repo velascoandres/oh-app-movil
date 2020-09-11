@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
+import {InmuebleFormulario, InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
 import {PrecioInterface} from '../../../../interfaces/precio.interface';
 
 

@@ -9,7 +9,7 @@ export interface InmuebleInterface {
     predio: number;
     plantas: number;
     parqueaderos: number;
-    imagenes: any[];
+    imagenes?: any[];
     categoria: any;
     enAlquiler: 0 | 1;
     perfilUsuario: any;
@@ -26,7 +26,7 @@ export interface InmuebleFormulario {
     predio: number;
     plantas: number;
     parqueaderos: number;
-    imagenes: any[];
+    imagenes?: any[];
     categoria: any;
     enAlquiler: 0 | 1;
     perfilUsuario: any;
@@ -34,4 +34,5 @@ export interface InmuebleFormulario {
     direccion: string;
     tipoMoneda: number;
     imagenesEliminar?: number[];
+    valor?: number;
 }
