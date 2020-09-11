@@ -67,6 +67,7 @@ import { ItemGaleriaPipe } from './pipes/item-galeria.pipe';
         GaleriaImagenesComponent,
         ImgLoaderComponent,
         LoaderFormularioComponent,
+        ItemGaleriaPipe,
     ],
     entryComponents: [
         MapaInmueblesComponent,

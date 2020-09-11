@@ -21,16 +21,21 @@ export class CarruselComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.recalcularTotal();
+    }
+
+    recalcularTotal() {
         this.totalImagenes = this.imagenes.length;
+        return this.totalImagenes;
     }
 
     gestionarPaginacionAdelante() {
-        this.totalImagenes = this.imagenes.length;
+        this.recalcularTotal();
         this.indiceImagenActual += 1;
     }
 
     gestionarPaginacionAtras() {
-        this.totalImagenes = this.imagenes.length;
+        this.recalcularTotal();
         this.indiceImagenActual += -1;
     }
 

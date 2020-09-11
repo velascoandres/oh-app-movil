@@ -4,10 +4,12 @@
 </ion-item>
 <div class="container">
     <div class="row" *ngIf="imagenes.length">
-        <div class="col-sm-2 contendor" *ngFor="let imagen of (imagenes | itemGaleria);let indice = index">
+        <div class="col-sm-2 contendor" *ngFor="let imagen of (imagenes);let indice = index">
             <img [src]="imagen.url" alt="" class="img-fluid full-imagen">
-            <ion-checkbox #checkImagen type="checkbox" (click)="emitirImagenes()" class="check-imagen"
-                          [(ngModel)]="imagenes[indice].seleccionado"> </ion-checkbox>
+            <ion-checkbox #checkImagen type="checkbox"
+                          [(ngModel)]="imagenes[indice].seleccionado"
+                          (ngModelChange)="emitirImagenes()" class="check-imagen"
+                          > </ion-checkbox>
         </div>
     </div>
 </div>

@@ -105,7 +105,7 @@
                             <ion-label>Imagenes Actuales:</ion-label>
                             <app-galeria-imagenes
                                     (imagenesSeleccionadas)="establecerImagenesSeleccionadas($event)"
-                                    [imagenes]="imagenes">
+                                    [imagenes]="imagenes | itemGaleria">
                             </app-galeria-imagenes>
                         </ng-template>
                     </div>

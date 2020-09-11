@@ -105,7 +105,11 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
                     {cargo, error, cargando}) => {
                     this.cargando = cargando;
                     if (cargo && !error) {
-                        this.mostrarToast('Inmueble publicado con exito').then();
+                        if (this.estaEditando) {
+                            this.mostrarToast('Publicacion editada con exito').then();
+                        } else {
+                            this.mostrarToast('Publicacion guardada con exito').then();
+                        }
                         // this.formularioInmueble.limpiarFormulario();
                         this._router.navigate(['', 'tabs', 'gestion-inmueble']);
                     } else {

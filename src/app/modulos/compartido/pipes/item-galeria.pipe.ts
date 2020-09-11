@@ -6,7 +6,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class ItemGaleriaPipe implements PipeTransform {
 
     transform(value: any[], ...args: unknown[]): unknown {
-        return value.map(val => ({...val, seleccionado: true}));
+        return value.map(val => ({...val, seleccionado: false}));
     }
 
 }

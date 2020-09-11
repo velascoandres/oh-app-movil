@@ -24,7 +24,7 @@ export class InmuebleRestService extends PrincipalRestService<InmuebleInterface>
         };
         delete body.id;
         body.enAlquiler = body.enAlquiler ? 1 : 0;
-        const imagenesRaw: File[] = body.imagenes.map(img => img.raw);
+        const imagenesRaw: File[] = body.imagenes.filter(img => img.raw);
         // delete body.imagenes;
         const atributos = Object.keys(body);
         // armamos con los otros campos
@@ -36,11 +36,13 @@ export class InmuebleRestService extends PrincipalRestService<InmuebleInterface>
             }
         );
         // armamos con las imagenes
-        imagenesRaw.forEach(
-            (imagenRaw: File) => {
-                formData.append('imagenes[]', imagenRaw);
-            }
-        );
+        if (imagenesRaw.length) {
+            imagenesRaw.forEach(
+                (imagenRaw: File) => {
+                    formData.append('imagenes[]', imagenRaw);
+                }
+            );
+        }
         return formData;
     }
 
@@ -51,6 +53,6 @@ export class InmuebleRestService extends PrincipalRestService<InmuebleInterface>
 
     editarInmueble(body: InmuebleInterface, precio: PrecioInterface): Observable<InmuebleInterface> {
         const formData = InmuebleRestService.establecerFormdataInmueble(body, precio);
-        return this._httpClient.put(`${this.url}l/editar-publicacion-inmueble/${body.id}`, formData) as Observable<InmuebleInterface>;
+        return this._httpClient.put(`${this.url}/editar-publicacion-inmueble/${body.id}`, formData) as Observable<InmuebleInterface>;
     }
 }

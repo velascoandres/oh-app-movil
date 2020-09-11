@@ -1,6 +1,6 @@
 
 <div *ngIf="galeria">
-    <ng-container [ngTemplateOutlet]="galeria" [ngTemplateOutletContext]="{$implicit: (value)}"></ng-container>
+    <ng-container [ngTemplateOutlet]="galeria" [ngTemplateOutletContext]="{$implicit: clonValor}"></ng-container>
 </div>
 
 <ion-item>
@@ -22,6 +22,6 @@
 </ng-content>
 
 
-<app-carrusel *ngIf="value.length > 0 && !galeria"
+<app-carrusel *ngIf="value.length > 0 && mostrarCarrusel"
               [imagenes]="value | obtenerUri">
 </app-carrusel>

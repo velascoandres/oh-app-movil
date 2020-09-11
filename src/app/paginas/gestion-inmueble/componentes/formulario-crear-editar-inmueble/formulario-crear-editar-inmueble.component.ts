@@ -43,7 +43,7 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal<
         parqueaderos: ['', VALIDACION_NUMEROS_ENTEROS],
         plantas: ['', VALIDACION_NUMEROS_ENTEROS],
         tipoMoneda: ['', [Validators.required]],
-        imagenes: [[], [Validators.required]],
+        imagenes: [[], []],
         imagenesEliminar: [[], []],
         enAlquiler: [0],
     };
@@ -158,6 +158,8 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal<
                     console.log(inmueble, estaValido);
                     if (inmueble && sonEdicion && !estaValido) {
                         this.formulario.get('predio').clearAsyncValidators();
+                        // this.formulario.get('imagenes').reset([]);
+                        this.formulario.get('imagenes').clearValidators();
                         this.registro = {
                             ...inmueble,
                             categoria: inmueble.categoria.id ? inmueble.categoria.id : inmueble.categoria,
@@ -167,6 +169,7 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal<
                     if (!inmueble) {
                         this.limpiarFormulario();
                         this.formulario.get('predio').setAsyncValidators(this.validarPredioAsync.bind(this));
+                        this.formulario.get('imagenes').setValidators([Validators.required]);
                     }
                 }
             );
@@ -181,7 +184,7 @@ export class FormularioCrearEditarInmuebleComponent extends FormularioPrincipal<
 
     establecerImagenesSeleccionadas(imagenesSeleccionadas: (ObjetoArchivo & { seleccionado: boolean })[]) {
         const idsImagenes = imagenesSeleccionadas.map(imagen => imagen.id);
-        this.formulario.get('imagenesEliminar').patchValue(idsImagenes);
+        this.formulario.get('imagenesEliminar').setValue(idsImagenes);
     }
 
 }

@@ -19,11 +19,12 @@ export class GaleriaImagenesComponent implements OnInit {
 
     emitirImagenes() {
         const imagenes = this.imagenes.filter(img => img.seleccionado);
+        console.log(imagenes);
         this.imagenesSeleccionadas.emit(imagenes);
     }
 
     seleccionarTodas(event) {
-        const estaSeleccionado = !event.target.checked;
+        const estaSeleccionado = event.target.checked;
         this.imagenes = this.imagenes.map(
             imagen => ({...imagen, seleccionado: estaSeleccionado})
         );

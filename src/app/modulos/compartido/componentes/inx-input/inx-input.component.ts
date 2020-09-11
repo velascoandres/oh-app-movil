@@ -34,6 +34,8 @@ export class BsInputComponent implements OnInit, ControlValueAccessor {
     value: ObjetoArchivo[] = [];
     listaObjetosArchivos = [];
     isDisabled: boolean;
+    mostrarCarrusel: boolean;
+    clonValor: ObjetoArchivo[] = this.value;
 
     @ContentChild('galeria') galeria: TemplateRef<any>;
 
@@ -49,16 +51,22 @@ export class BsInputComponent implements OnInit, ControlValueAccessor {
     }
 
     onInput(value) {
-        if (this.value.length > 0) {
-            this.value.pop();
-        }
+        this.clonValor = [
+            ...this.value,
+        ];
+        // if (this.value.length > 0) {
+        //     this.value.pop();
+        // }
+        // this.value = [];
         this.archivoService
             .obtenerDatosArchivo(value)
             .subscribe(res => {
-                this.value = res;
-                this.onTouch();
-                this.onChange(this.value);
-            });
+                    this.value = res;
+                    this.mostrarCarrusel = !!this.value;
+                    this.onTouch();
+                    this.onChange(this.value);
+                },
+            );
     }
 
     ngOnInit() {
@@ -85,6 +93,9 @@ export class BsInputComponent implements OnInit, ControlValueAccessor {
                     .subscribe(res => this.value = res);
             } else {
                 this.value = obj;
+                this.clonValor = [
+                    ...this.value,
+                ];
             }
         }
     }
