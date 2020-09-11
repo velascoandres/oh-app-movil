@@ -112,6 +112,7 @@ const _inmuebleReducer = createReducer(
     on(
         InmuebleActions.actualizarInmueble,
         (estado: InmuebleState, {inmueble}) => {
+            console.log(inmueble);
             return {
                 ...estado,
                 inmuebleSeleccionado: inmueble,

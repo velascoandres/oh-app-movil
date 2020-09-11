@@ -24,7 +24,8 @@ export class InmuebleRestService extends PrincipalRestService<InmuebleInterface>
         };
         delete body.id;
         body.enAlquiler = body.enAlquiler ? 1 : 0;
-        const imagenesRaw: File[] = body.imagenes.filter(img => img.raw);
+        const imagenesRaw: File[] = body.imagenes.map(img => img.raw);
+        console.log('raw', imagenesRaw);
         // delete body.imagenes;
         const atributos = Object.keys(body);
         // armamos con los otros campos

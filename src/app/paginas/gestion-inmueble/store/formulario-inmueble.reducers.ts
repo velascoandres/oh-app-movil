@@ -24,7 +24,7 @@ const _formularioInmuebleReducer = createReducer(
             // Realizar el casteo
             const inmuebleCasteado: InmuebleFormulario = {
                 ...inmueble,
-                precio: 23,
+                precio: inmueble.precio.valor,
                 tipoMoneda: (inmueble.precio.tipoMoneda as TipoMonedaInterface).id,
             };
             return {
