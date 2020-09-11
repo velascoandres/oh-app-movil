@@ -103,14 +103,17 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
             .select('inmueble')
             .subscribe(
                 (
-                    {cargo, error, cargando}) => {
+                    {cargo, error, cargando, inmuebleSeleccionado}) => {
                     this.cargando = cargando;
-                    if (cargo && !error) {
+                    if (cargo && !error && !cargando) {
                         if (this.estaEditando) {
                             this.mostrarToast('Publicacion editada con exito').then();
                         } else {
                             this.mostrarToast('Publicacion guardada con exito').then();
                         }
+                        this._formularioInmuebleStore.dispatch(
+                            FormularioInmuebleActions.vaciarFormulario(),
+                        );
                         // this.formularioInmueble.limpiarFormulario();
                         this._router.navigate(['', 'tabs', 'gestion-inmueble']);
                     } else {
@@ -153,7 +156,6 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
     }
 
     editarInmueble(): void {
-        this.escucharInmuebleStore();
         const precio = {
             valor: +this.formularioValido.precio,
             tipoMoneda: this.formularioValido.tipoMoneda,
@@ -172,6 +174,7 @@ export class CrearEditarInmuebleComponent implements OnInit, ViewWillLeave, View
                 {inmueble: inmuebleParaEditar, precio},
             ),
         );
+        this.escucharInmuebleStore();
     }
 
 }
