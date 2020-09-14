@@ -16,6 +16,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {StoreModule} from '@ngrx/store';
 import {formularioInmuebleReducer} from './store/formulario-inmueble.reducers';
+import {MapaModule} from '../../modulos/mapa/mapa.module';
 
 @NgModule({
     imports: [
@@ -35,6 +36,7 @@ import {formularioInmuebleReducer} from './store/formulario-inmueble.reducers';
             'formularioInmueble',
             formularioInmuebleReducer,
         ),
+        MapaModule,
     ],
     declarations: [
         GestionInmueblePage,
