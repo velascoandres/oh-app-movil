@@ -4,6 +4,8 @@ import {StoreModule} from '@ngrx/store';
 import {mapaReducer} from './store/mapa.reducers';
 import {MapaComponent} from './componentes/mapa/mapa.component';
 import {MapaService} from './servicios/mapa.service';
+import {IonicModule} from '@ionic/angular';
+import {CompartidoModule} from '../compartido/compartido.module';
 
 
 @NgModule({
@@ -16,6 +18,8 @@ import {MapaService} from './servicios/mapa.service';
             'mapa',
             mapaReducer,
         ),
+        IonicModule,
+        CompartidoModule,
     ],
     providers: [
         MapaService,

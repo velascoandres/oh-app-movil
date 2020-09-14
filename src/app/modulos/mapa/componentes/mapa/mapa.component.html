@@ -1,3 +1,20 @@
-<div id="mapa_contenedor">
+<ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="centrarMapa()">
+        <ion-icon name="locate"></ion-icon>
+    </ion-fab-button>
+</ion-fab>
+
+<div class="contenedor-mapa">
+    <div id="mapa_contenedor" class="mapa">
+    </div>
 </div>
 
+<div class="background" [hidden]="cargoMapa">
+    <app-img-loader
+            imagen="/assets/loaders/girasol.svg"
+            [estilo]="{'vertical-align': 'middle', 'height': '21rem', 'width': '100%'}">
+    </app-img-loader>
+    <p>
+        Cargando Mapa...
+    </p>
+</div>

@@ -1,4 +1,39 @@
-#mapa_contenedor {
+//#mapa_contenedor {
+//  height: 100%;
+//  width: 100%;
+//  overflow: hidden;
+//  position: relative;
+//}
+
+.centrar{
+  position: absolute;
+  top: 0;
+  left: 1rem;
+}
+
+.background {
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  //z-index: -1;
+  //overflow: hidden;
+}
+
+.mapa {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  //background-color: #0bb8cc;
+  // border: solid #000000 1px;
+}
+.contenedor-mapa {
   height: 100%;
   width: 100%;
+  z-index: 1000;
 }
+
+
