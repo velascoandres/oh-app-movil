@@ -41,6 +41,9 @@
               },
               {
                 "input": "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              },
+              {
+                "input": "src/assets/css/ol.css"
               }
             ],
             "scripts": []
