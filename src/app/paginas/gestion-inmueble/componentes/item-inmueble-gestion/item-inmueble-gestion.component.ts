@@ -44,4 +44,15 @@ export class ItemInmuebleGestionComponent implements OnInit {
         );
     }
 
+    async gestionarUbicacionGeografica(inmueble: InmuebleInterface) {
+        await this._router.navigate(
+            ['/', 'tabs', 'gestion-inmueble', 'gestion-ubicacion-geografica', inmueble.id],
+            {
+                queryParams: {
+                    nombre: inmueble.nombre,
+                }
+            }
+        );
+    }
+
 }

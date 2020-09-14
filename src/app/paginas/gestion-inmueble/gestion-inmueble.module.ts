@@ -17,6 +17,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {StoreModule} from '@ngrx/store';
 import {formularioInmuebleReducer} from './store/formulario-inmueble.reducers';
 import {MapaModule} from '../../modulos/mapa/mapa.module';
+import {GestionarUbicacionGeograficaComponent} from './rutas/gestionar-ubicacion-geografica/gestionar-ubicacion-geografica.component';
 
 @NgModule({
     imports: [
@@ -43,6 +44,7 @@ import {MapaModule} from '../../modulos/mapa/mapa.module';
         CrearEditarInmuebleComponent,
         FormularioCrearEditarInmuebleComponent,
         ItemInmuebleGestionComponent,
+        GestionarUbicacionGeograficaComponent,
     ]
 })
 export class GestionInmueblePageModule {
