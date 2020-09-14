@@ -21,6 +21,7 @@ import {GaleriaImagenesComponent} from './componentes/galeria-imagenes/galeria-i
 import {ImgLoaderComponent} from './componentes/img-loader/img-loader.component';
 import {LoaderFormularioComponent} from './componentes/loader-formulario/loader-formulario.component';
 import { ItemGaleriaPipe } from './pipes/item-galeria.pipe';
+import {MapaComponent} from './componentes/mapa/mapa.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { ItemGaleriaPipe } from './pipes/item-galeria.pipe';
         ImgLoaderComponent,
         LoaderFormularioComponent,
         ItemGaleriaPipe,
+        MapaComponent,
     ],
     imports: [
         CommonModule,
@@ -68,6 +70,7 @@ import { ItemGaleriaPipe } from './pipes/item-galeria.pipe';
         ImgLoaderComponent,
         LoaderFormularioComponent,
         ItemGaleriaPipe,
+        MapaComponent,
     ],
     entryComponents: [
         MapaInmueblesComponent,
