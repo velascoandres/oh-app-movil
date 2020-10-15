@@ -13,12 +13,13 @@ import {Coordinate} from 'ol/coordinate';
 import XYZ from 'ol/source/XYZ';
 import {MapaAppState} from '../../store/mapa.store';
 import {Store} from '@ngrx/store';
-import {Draw, Interaction, Modify, Snap} from 'ol/interaction';
+import {Draw, Interaction, Modify} from 'ol/interaction';
 import {Fill, Icon, Stroke, Style} from 'ol/style';
 import GeometryType from 'ol/geom/GeometryType';
-import BaseEvent from 'ol/events/Event';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import CircleStyle from 'ol/style/Circle';
+import {MapaAcciones} from '../../store/mapa.actions';
+import {MAPA_HELPER} from '../../helpers/mapa-helpers';
 
 
 @Component({
@@ -182,12 +183,34 @@ export class MapaComponent implements OnInit {
             type: tipo,
         });
         this.mapa.addInteraction(this.dibujarInteraccion);
-        this.snapInteraccion = new Snap({source: this.lienzo});
+        // this.snapInteraccion = new Snap({source: this.lienzo});
+        this.snapInteraccion = new Modify({source: this.lienzo});
         this.mapa.addInteraction(this.snapInteraccion);
+        this.snapInteraccion.on(
+            'modifyend', (event: any) => {
+                // Emitir coordenadas al store
+                const coordenadas = MAPA_HELPER.obtenerCoordenasDesdeEvento(event, 'modifyend');
+                this.mapaStore.dispatch(
+                    MapaAcciones.almacenarInformacion(
+                        {
+                            puntos: [coordenadas],
+                        },
+                    )
+                );
+            }
+        );
         this.dibujarInteraccion.on(
             'drawend',
-            (evento: BaseEvent) => {
+            (evento: any) => {
+                const coordenadas = MAPA_HELPER.obtenerCoordenasDesdeEvento(evento);
                 // Emitir coordenadas al store
+                this.mapaStore.dispatch(
+                    MapaAcciones.almacenarInformacion(
+                        {
+                            puntos: [coordenadas],
+                        },
+                    )
+                );
                 if (this.dibujarSoloUnaFigura) {
                     this.mapa.removeInteraction(this.dibujarInteraccion);
                 }

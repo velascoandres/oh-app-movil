@@ -12,6 +12,15 @@ const emitirInformacionGeografica = createAction(
     '[Mapa] Emitir informacion geografica',
 );
 
+const almacenarInformacion = createAction(
+    '[Mapa] Almacenar informacion geografica',
+    props<{
+        puntos?: Coordenada[];
+        rutas?: Ruta[];
+        poligonos?: Poligono[];
+    }>(),
+);
+
 const cargarModoLectura = createAction(
     '[Mapa] Cargar modo lectura',
 );
@@ -30,4 +39,5 @@ export const MapaAcciones = {
     emitirInformacionGeografica,
     cargarModoLectura,
     cargarModoEdicion,
+    almacenarInformacion,
 };
