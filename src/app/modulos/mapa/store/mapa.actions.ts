@@ -34,7 +34,7 @@ const cargarModoEdicion = createAction(
     }>(),
 );
 
-export const MapaAcciones = {
+export const MAPA_ACCIONES = {
     dibujarPuntos,
     emitirInformacionGeografica,
     cargarModoLectura,

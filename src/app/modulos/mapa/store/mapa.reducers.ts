@@ -1,6 +1,6 @@
 import {Action, createReducer, on} from '@ngrx/store';
 import {MapaState} from './mapa.state';
-import {MapaAcciones} from './mapa.actions';
+import {MAPA_ACCIONES} from './mapa.actions';
 
 
 export const initialMapaState: MapaState = {
@@ -16,7 +16,7 @@ export const initialMapaState: MapaState = {
 const _mapaReducer = createReducer(
     initialMapaState,
     on(
-        MapaAcciones.almacenarInformacion,
+        MAPA_ACCIONES.almacenarInformacion,
         (state: MapaState, {puntos, poligonos, rutas}) => {
             const nuevosPuntos = puntos && puntos.length ? puntos : state.puntos;
             const nuevasRutas = rutas && rutas.length ? rutas : state.rutas;

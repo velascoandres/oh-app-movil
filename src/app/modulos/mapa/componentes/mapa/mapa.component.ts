@@ -18,7 +18,7 @@ import {Fill, Icon, Stroke, Style} from 'ol/style';
 import GeometryType from 'ol/geom/GeometryType';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import CircleStyle from 'ol/style/Circle';
-import {MapaAcciones} from '../../store/mapa.actions';
+import {MAPA_ACCIONES} from '../../store/mapa.actions';
 import {MAPA_HELPER} from '../../helpers/mapa-helpers';
 
 
@@ -191,7 +191,7 @@ export class MapaComponent implements OnInit {
                 // Emitir coordenadas al store
                 const coordenadas = MAPA_HELPER.obtenerCoordenasDesdeEvento(event, 'modifyend');
                 this.mapaStore.dispatch(
-                    MapaAcciones.almacenarInformacion(
+                    MAPA_ACCIONES.almacenarInformacion(
                         {
                             puntos: [coordenadas],
                         },
@@ -205,7 +205,7 @@ export class MapaComponent implements OnInit {
                 const coordenadas = MAPA_HELPER.obtenerCoordenasDesdeEvento(evento);
                 // Emitir coordenadas al store
                 this.mapaStore.dispatch(
-                    MapaAcciones.almacenarInformacion(
+                    MAPA_ACCIONES.almacenarInformacion(
                         {
                             puntos: [coordenadas],
                         },

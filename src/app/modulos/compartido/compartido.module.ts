@@ -21,6 +21,7 @@ import {GaleriaImagenesComponent} from './componentes/galeria-imagenes/galeria-i
 import {ImgLoaderComponent} from './componentes/img-loader/img-loader.component';
 import {LoaderFormularioComponent} from './componentes/loader-formulario/loader-formulario.component';
 import { ItemGaleriaPipe } from './pipes/item-galeria.pipe';
+import {EntidadCoordenadaRestService} from './servicios/rest/entidad-coordenada-rest.service';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { ItemGaleriaPipe } from './pipes/item-galeria.pipe';
         InmuebleRestService,
         CategoriaRestService,
         TipoMonedaService,
+        EntidadCoordenadaRestService,
     ],
     exports: [
         NavBarComponent,
