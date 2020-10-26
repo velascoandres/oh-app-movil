@@ -15,9 +15,12 @@ import {ItemInmuebleGestionComponent} from './componentes/item-inmueble-gestion/
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {StoreModule} from '@ngrx/store';
-import {formularioInmuebleReducer} from './store/formulario-inmueble.reducers';
+import {formularioInmuebleReducer} from './store/formulario-inmueble-store/formulario-inmueble.reducers';
 import {MapaModule} from '../../modulos/mapa/mapa.module';
 import {GestionarUbicacionGeograficaComponent} from './rutas/gestionar-ubicacion-geografica/gestionar-ubicacion-geografica.component';
+import {entidadCoordenadaReducer} from './store/entidad-coordenada-store/entidad-coordenada.reducers';
+import {EntidadCoordenadaEffects} from './store/entidad-coordenada-store/entidad-coordenada.effects';
+import {EffectsModule} from '@ngrx/effects';
 
 @NgModule({
     imports: [
@@ -37,7 +40,17 @@ import {GestionarUbicacionGeograficaComponent} from './rutas/gestionar-ubicacion
             'formularioInmueble',
             formularioInmuebleReducer,
         ),
+        StoreModule.forFeature(
+            'entidadCoordenada',
+            entidadCoordenadaReducer,
+        ),
         MapaModule,
+        EffectsModule
+            .forFeature(
+                [
+                    EntidadCoordenadaEffects,
+                ],
+            ),
     ],
     declarations: [
         GestionInmueblePage,

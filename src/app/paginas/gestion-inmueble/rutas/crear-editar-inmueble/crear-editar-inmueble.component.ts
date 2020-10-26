@@ -8,8 +8,8 @@ import {Subscription} from 'rxjs';
 import {InmuebleActions} from '../../../menu-inmuebles/menu-inmueble-store/actions/inmueble.actions';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PerfilUsuarioInterface} from '../../../../interfaces/perfil-usuario.interface';
-import {AppStateFormularioInmueble} from '../../store/formulario-inmueble.store';
-import {FormularioInmuebleActions} from '../../store/formulario-inmueble.actions';
+import {AppStateFormularioInmueble} from '../../store/formulario-inmueble-store/formulario-inmueble.store';
+import {FormularioInmuebleActions} from '../../store/formulario-inmueble-store/formulario-inmueble.actions';
 import {eliminarPropiedadesObjeto} from '../../../../../lib/eliminar-propiedades-objeto';
 
 @Component({

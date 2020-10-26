@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {InmuebleFormulario, InmuebleInterface} from '../../../interfaces/inmueble.interface';
+import {InmuebleFormulario, InmuebleInterface} from '../../../../interfaces/inmueble.interface';
 
 export class FormularioInmuebleActions {
     static llenarFormulario = createAction(

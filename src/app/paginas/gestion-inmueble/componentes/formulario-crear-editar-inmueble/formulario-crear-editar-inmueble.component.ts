@@ -14,8 +14,8 @@ import {debounceTime, map} from 'rxjs/operators';
 import {TipoMonedaService} from '../../../../modulos/compartido/servicios/rest/tipo-moneda.service';
 import {TipoMonedaInterface} from '../../../../interfaces/tipo-moneda.interface';
 import {Store} from '@ngrx/store';
-import {AppStateFormularioInmueble} from '../../store/formulario-inmueble.store';
-import {FormularioInmuebleActions} from '../../store/formulario-inmueble.actions';
+import {AppStateFormularioInmueble} from '../../store/formulario-inmueble-store/formulario-inmueble.store';
+import {FormularioInmuebleActions} from '../../store/formulario-inmueble-store/formulario-inmueble.actions';
 import {MENSAJES_ERRORES, OBJETO_ARREGLOS_ERRORES} from './constantes';
 
 @Component({

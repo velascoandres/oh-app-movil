@@ -1,5 +1,5 @@
 export interface EntidadCoordenadaInterface {
-    id: any;
+    id?: any;
     entidad: string;
     entidadId: number;
     tipo: 'Point';

@@ -2,7 +2,7 @@ import {EventEmitter, Input, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {ToastController} from '@ionic/angular';
 import {debounceTime} from 'rxjs/operators';
-import {AppStateFormularioInmueble} from '../app/paginas/gestion-inmueble/store/formulario-inmueble.store';
+import {AppStateFormularioInmueble} from '../app/paginas/gestion-inmueble/store/formulario-inmueble-store/formulario-inmueble.store';
 import {Store} from '@ngrx/store';
 import {InmuebleFormulario} from '../app/interfaces/inmueble.interface';
 

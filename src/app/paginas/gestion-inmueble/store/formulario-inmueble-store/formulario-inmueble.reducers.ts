@@ -1,7 +1,7 @@
 import {Action, createReducer, on} from '@ngrx/store';
 import {FormularioInmuebleActions} from './formulario-inmueble.actions';
-import {TipoMonedaInterface} from '../../../interfaces/tipo-moneda.interface';
-import {InmuebleFormulario} from '../../../interfaces/inmueble.interface';
+import {TipoMonedaInterface} from '../../../../interfaces/tipo-moneda.interface';
+import {InmuebleFormulario} from '../../../../interfaces/inmueble.interface';
 
 
 export interface FormularioInmuebleState {

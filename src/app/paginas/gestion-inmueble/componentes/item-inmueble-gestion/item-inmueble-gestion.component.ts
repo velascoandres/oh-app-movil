@@ -4,8 +4,8 @@ import {InmuebleActions} from '../../../menu-inmuebles/menu-inmueble-store/actio
 import {Store} from '@ngrx/store';
 import {AppStateInmueble} from '../../../../store/app.reducers';
 import {Router} from '@angular/router';
-import {AppStateFormularioInmueble} from '../../store/formulario-inmueble.store';
-import {FormularioInmuebleActions} from '../../store/formulario-inmueble.actions';
+import {AppStateFormularioInmueble} from '../../store/formulario-inmueble-store/formulario-inmueble.store';
+import {FormularioInmuebleActions} from '../../store/formulario-inmueble-store/formulario-inmueble.actions';
 
 @Component({
     selector: 'app-item-inmueble-gestion',
