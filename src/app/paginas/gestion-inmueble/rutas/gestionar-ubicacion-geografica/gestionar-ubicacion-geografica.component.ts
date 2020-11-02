@@ -16,6 +16,7 @@ import {ENTIDAD_COORD_ACCIONES} from '../../store/entidad-coordenada-store/entid
 })
 export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy {
     subscripciones: Subscription[] = [];
+    entidadCoordenadaActual: EntidadCoordenadaInterface;
 
     constructor(
         private readonly _entidadCooredenadaRestService: EntidadCoordenadaRestService,
@@ -27,6 +28,7 @@ export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy 
 
     ngOnInit() {
         this.cargarParametrosRuta();
+        this.escucharMapa();
     }
 
     private cargarParametrosRuta() {
@@ -60,9 +62,9 @@ export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy 
         const subscripcionMapa = this._mapaStore
             .select('mapa')
             .subscribe(
-                ({puntos}) => {
+                ({puntos, informacionSeleccionada}) => {
                     const puntoAGuardar: [number, number] = puntos[0] as [number, number];
-                    const entidadCoordenada: EntidadCoordenadaInterface = {
+                    this.entidadCoordenadaActual = {
                         tipo: 'Point',
                         coordenadas: puntoAGuardar,
                         entidad: 'inmueble',

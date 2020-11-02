@@ -29,6 +29,16 @@ const _mapaReducer = createReducer(
             };
         }
     ),
+    on(
+        MAPA_ACCIONES.dibujarPuntos,
+        (state: MapaState, {puntos}) => {
+            console.log(puntos);
+            return {
+                ...state,
+                puntos,
+            };
+        }
+    ),
 );
 
 export function mapaReducer(state: MapaState | undefined, action: Action) {

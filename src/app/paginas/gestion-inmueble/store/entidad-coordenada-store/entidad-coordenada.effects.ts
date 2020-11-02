@@ -6,6 +6,7 @@ import {catchError, mergeMap} from 'rxjs/operators';
 import {ApiResponse} from '../../../../../lib/principal.service';
 import {EntidadCoordenadaInterface} from '../../../../interfaces/entidad-coordenada.interface';
 import {Injectable} from '@angular/core';
+import {MAPA_ACCIONES} from '../../../../modulos/mapa/store/mapa.actions';
 
 @Injectable()
 export class EntidadCoordenadaEffects {
@@ -41,5 +42,24 @@ export class EntidadCoordenadaEffects {
                 )
             );
         }
+    );
+
+    cargarCoordenasExito$ = createEffect(
+        () => {
+            return this.acciones$.pipe(
+                ofType(ENTIDAD_COORD_ACCIONES.cargarCoordenadaExito),
+                mergeMap(
+                    ({entidadesCoord}) => {
+                        return of(MAPA_ACCIONES.dibujarPuntos(
+                            {
+                                puntos: [
+                                    entidadesCoord[0].coordenadas,
+                                ],
+                            }
+                        ));
+                    }
+                )
+            );
+        },
     );
 }

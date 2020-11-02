@@ -5,21 +5,22 @@ import {OSM} from 'ol/source';
 import View from 'ol/View';
 import * as olProj from 'ol/proj';
 import {MapaService} from '../../servicios/mapa.service';
-import {Feature, Geolocation} from 'ol';
+import {Collection, Feature, Geolocation} from 'ol';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
-import {Point} from 'ol/geom';
+import {Geometry, Point} from 'ol/geom';
 import {Coordinate} from 'ol/coordinate';
 import XYZ from 'ol/source/XYZ';
 import {MapaAppState} from '../../store/mapa.store';
 import {Store} from '@ngrx/store';
-import {Draw, Interaction, Modify} from 'ol/interaction';
+import {Draw, Interaction, Modify, Select, Snap} from 'ol/interaction';
 import {Fill, Icon, Stroke, Style} from 'ol/style';
 import GeometryType from 'ol/geom/GeometryType';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import CircleStyle from 'ol/style/Circle';
 import {MAPA_ACCIONES} from '../../store/mapa.actions';
-import {MAPA_HELPER} from '../../helpers/mapa-helpers';
+import {MAPA_HELPER, transformarCoordenasMapa} from '../../helpers/mapa-helpers';
+import {take} from 'rxjs/operators';
+import {ViewWillEnter} from '@ionic/angular';
 
 
 @Component({
@@ -27,7 +28,7 @@ import {MAPA_HELPER} from '../../helpers/mapa-helpers';
     templateUrl: './mapa.component.html',
     styleUrls: ['./mapa.component.scss'],
 })
-export class MapaComponent implements OnInit {
+export class MapaComponent implements OnInit, ViewWillEnter {
 
 
     @Input()
@@ -45,6 +46,8 @@ export class MapaComponent implements OnInit {
     snapInteraccion: any;
     lienzo: VectorSource;
 
+    feautureCargada: Feature;
+
     constructor(
         private readonly mapaService: MapaService,
         private readonly mapaStore: Store<MapaAppState>,
@@ -54,9 +57,12 @@ export class MapaComponent implements OnInit {
 
     ngOnInit() {
         this.inicializarMapa();
+        this.escucharMapaStore();
     }
 
-    inicializarMapa() {
+    inicializarMapa(
+        caracteristicas?: Feature<Geometry>[] | Collection<Feature<Geometry>>,
+    ) {
         this.source = new OSM();
         this.vista = new View(
             {
@@ -84,8 +90,8 @@ export class MapaComponent implements OnInit {
             }
         );
         this.mapa.setSize([1000, 1000]);
-        this.establecerInteraccionModificar();
-        // Esta ultima funcion usarla en otra funcion para delegar que "forma" dibujar
+        this.establecerInteraccionModificar(caracteristicas);
+        // // Esta ultima funcion usarla en otra funcion para delegar que "forma" dibujar
         this.agregarInteractionesParaDibujar();
         this.establecerGeolocalizacion();
     }
@@ -117,63 +123,66 @@ export class MapaComponent implements OnInit {
     escucharMapaStore() {
         this.mapaStore
             .select('mapa')
+            .pipe(take(2))
             .subscribe(
                 ({poligonos, rutas, puntos}) => {
-                    if (puntos) {
-                        // dibujar puntos
+                    if (!this.mapa) {
+                        this.inicializarMapa();
                     }
-                    if (poligonos) {
-                        // dibujar poligonos
-                    }
-                    if (rutas) {
-                        // dibujar rutas
+                    if (puntos && puntos.length) {
+                        console.log(transformarCoordenasMapa(puntos[0]));
+                        this.lienzo.addFeature(
+                            new Feature<Geometry>(
+                                new Point(
+                                    transformarCoordenasMapa(puntos[0]),
+                                ),
+                            ),
+                        );
                     }
                 }
             );
     }
 
-    establecerInteraccionModificar() {
-        this.lienzo = new VectorSource();
+    establecerInteraccionModificar(caracteristicas?: Feature<Geometry>[] | Collection<Feature<Geometry>>,
+    ) {
+        if (caracteristicas) {
+            this.lienzo = new VectorSource(
+                {
+                    features: caracteristicas,
+                }
+            );
+        } else {
+            this.lienzo = new VectorSource();
+        }
         this.modificarVector = new VectorLayer({
             source: this.lienzo,
             style: new Style({
-                fill: new Fill({
-                    color: 'rgba(255, 255, 255, 0.2)',
-                }),
-                stroke: new Stroke({
-                    color: '#ffcc33',
-                    width: 2,
-                }),
-                image: new Icon({
-                    anchor: [0.5, 200],
-                    src: 'assets/icon/casita.svg',
-                    anchorXUnits: IconAnchorUnits.FRACTION,
-                    anchorYUnits: IconAnchorUnits.PIXELS,
-                    scale: 0.09,
-                    opacity: 0.96,
-                }),
-            }),
+                    fill: new Fill({
+                        color: 'rgba(255, 255, 255, 0.2)',
+                    }),
+                    stroke: new Stroke({
+                        color: '#ffcc33',
+                        width: 2,
+                    }),
+                    image: new Icon({
+                        anchor: [0.5, 200],
+                        src: 'assets/icon/casita.svg',
+                        anchorXUnits: IconAnchorUnits.FRACTION,
+                        anchorYUnits: IconAnchorUnits.PIXELS,
+                        scale: 0.09,
+                        opacity: 0.96,
+                    }),
+                },
+            ),
         });
+        const select = new Select({});
         this.modificarInteraccion = new Modify(
             {
                 source: this.lienzo,
-                style: new Style(
-                    {
-                        image: new CircleStyle(
-                            {
-                                radius: 0,
-                                stroke: new Stroke(
-                                    {
-                                        color: 'rgba(255,255,255,0.9)'
-                                    }
-                                ),
-                            }
-                        )
-                    }
-                )
             }
         );
         this.mapa.addInteraction(this.modificarInteraccion);
+        this.mapa.addInteraction(select);
         this.mapa.addLayer(this.modificarVector);
     }
 
@@ -183,9 +192,17 @@ export class MapaComponent implements OnInit {
             type: tipo,
         });
         this.mapa.addInteraction(this.dibujarInteraccion);
-        // this.snapInteraccion = new Snap({source: this.lienzo});
+        this.snapInteraccion = new Snap({source: this.lienzo});
         this.snapInteraccion = new Modify({source: this.lienzo});
         this.mapa.addInteraction(this.snapInteraccion);
+        // this.snapInteraccion.on(
+        //     'modifyend', (e: any) => {
+        //         // const coordenadas = MAPA_HELPER.obtenerCoordenasDesdeEvento(e);
+        //
+        //         const co = (e.features.getArray() as any[])[0].getGeometry().flatCoordinates;
+        //         console.log(transformarCoordenas(co));
+        //     },
+        // );
         this.snapInteraccion.on(
             'modifyend', (event: any) => {
                 // Emitir coordenadas al store
@@ -228,5 +245,9 @@ export class MapaComponent implements OnInit {
             }
             this.lienzo.removeFeature(ultimaCaracteristica);
         }
+    }
+
+    ionViewWillEnter(): void {
+        console.log('aui es');
     }
 }
