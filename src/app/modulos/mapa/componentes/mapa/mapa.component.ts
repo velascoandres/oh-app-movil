@@ -20,7 +20,6 @@ import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {MAPA_ACCIONES} from '../../store/mapa.actions';
 import {MAPA_HELPER, transformarCoordenasMapa} from '../../helpers/mapa-helpers';
 import {take} from 'rxjs/operators';
-import {ViewWillEnter} from '@ionic/angular';
 
 
 @Component({
@@ -28,7 +27,7 @@ import {ViewWillEnter} from '@ionic/angular';
     templateUrl: './mapa.component.html',
     styleUrls: ['./mapa.component.scss'],
 })
-export class MapaComponent implements OnInit, ViewWillEnter {
+export class MapaComponent implements OnInit {
 
 
     @Input()
@@ -63,6 +62,7 @@ export class MapaComponent implements OnInit, ViewWillEnter {
     inicializarMapa(
         caracteristicas?: Feature<Geometry>[] | Collection<Feature<Geometry>>,
     ) {
+        console.log('me inicialize');
         this.source = new OSM();
         this.vista = new View(
             {
@@ -125,12 +125,13 @@ export class MapaComponent implements OnInit, ViewWillEnter {
             .select('mapa')
             .pipe(take(2))
             .subscribe(
-                ({poligonos, rutas, puntos}) => {
+                ({puntos}) => {
                     if (!this.mapa) {
                         this.inicializarMapa();
                     }
                     if (puntos && puntos.length) {
-                        console.log(transformarCoordenasMapa(puntos[0]));
+                        this.lienzo.clear();
+                        const puntosTransformados = transformarCoordenasMapa(puntos[0]);
                         this.lienzo.addFeature(
                             new Feature<Geometry>(
                                 new Point(
@@ -138,6 +139,8 @@ export class MapaComponent implements OnInit, ViewWillEnter {
                                 ),
                             ),
                         );
+                        this.vista.setCenter(puntosTransformados);
+                        this.mapa.removeInteraction(this.dibujarInteraccion);
                     }
                 }
             );
@@ -245,9 +248,5 @@ export class MapaComponent implements OnInit, ViewWillEnter {
             }
             this.lienzo.removeFeature(ultimaCaracteristica);
         }
-    }
-
-    ionViewWillEnter(): void {
-        console.log('aui es');
     }
 }

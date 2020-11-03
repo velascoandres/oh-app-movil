@@ -15,16 +15,6 @@ import VectorSource from 'ol/source/Vector';
 })
 export class MapaService {
 
-    constructor() {
-    }
-
-    // dibujarPuntos(mapa: Map, puntos: any[]) {
-    //     const punto = new Point(
-    //         puntos,
-    //     );
-    //     return mapa;
-    // }
-
     establecerGeolocalizacion(vista: View): Geolocation {
         return new Geolocation({
                 // enableHighAccuracy must be set to true to have the heading value.
@@ -54,45 +44,5 @@ export class MapaService {
         );
         return caracterisciaPosicion;
     }
-
-    dibujarPuntos(mapa, source, vector, arregloDePoligonos: number[][]) {
-        mapa.removeLayer(vector);
-        const features = arregloDePoligonos.map(
-            punto => new Feature(
-                new Point(
-                    punto,
-                ),
-            ),
-        );
-        source = new VectorSource(
-            {
-                features,
-            }
-        );
-        vector = new Vector({
-            source,
-            style: new Style({
-                    fill: new Fill({
-                        color: 'rgba(255, 255, 255, 0.2)',
-                    }),
-                    stroke: new Stroke({
-                        color: '#ffcc33',
-                        width: 2,
-                    }),
-                    image: new Icon({
-                        anchor: [0.5, 200],
-                        src: 'assets/icon/casita.svg',
-                        anchorXUnits: IconAnchorUnits.FRACTION,
-                        anchorYUnits: IconAnchorUnits.PIXELS,
-                        scale: 0.09,
-                        opacity: 0.96,
-                    }),
-                },
-            ),
-        });
-        mapa.addLayer(vector);
-        return mapa;
-    }
-
 
 }
