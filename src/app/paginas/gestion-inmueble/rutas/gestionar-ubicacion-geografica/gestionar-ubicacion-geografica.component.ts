@@ -15,8 +15,9 @@ import {ENTIDAD_COORD_ACCIONES} from '../../store/entidad-coordenada-store/entid
     styleUrls: ['./gestionar-ubicacion-geografica.component.scss'],
 })
 export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy {
-    subscripciones: Subscription[] = [];
-    entidadCoordenadaActual: EntidadCoordenadaInterface;
+    private subscripciones: Subscription[] = [];
+    private entidadCoordenadaActual: EntidadCoordenadaInterface;
+    estaEditando: boolean;
 
     constructor(
         private readonly _entidadCooredenadaRestService: EntidadCoordenadaRestService,
@@ -24,11 +25,13 @@ export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy 
         private readonly _activateRoute: ActivatedRoute,
         private readonly _entidadCoordenadaStore: Store<EntidadCoordenadaState>,
     ) {
+        this.estaEditando = false;
     }
 
     ngOnInit() {
         this.cargarParametrosRuta();
         this.escucharMapa();
+        this.escucharEntidadCoordenada();
     }
 
     private cargarParametrosRuta() {
@@ -75,8 +78,30 @@ export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy 
         this.subscripciones.push(subscripcionMapa);
     }
 
+    escucharEntidadCoordenada() {
+        const subscripcionEntidadCoordenada = this._entidadCoordenadaStore
+            .subscribe(
+                ({ids}) => {
+                    this.estaEditando = ids && ids.length > 0;
+                }
+            );
+        this.subscripciones.push(subscripcionEntidadCoordenada);
+    }
+
     ngOnDestroy(): void {
         this.subscripciones.forEach(sub => sub.unsubscribe());
     }
 
+    guardarEditar() {
+        // TODO: delegar la accion para invokar o guardar
+        const accion = this.estaEditando ? ENTIDAD_COORD_ACCIONES.editarCoordenada : ENTIDAD_COORD_ACCIONES.guardarCoordenada;
+        this._entidadCoordenadaStore.dispatch(
+            accion(
+                {
+                    id: this.entidadCoordenadaActual.id,
+                    entidadCooordenada: this.entidadCoordenadaActual
+                }
+            )
+        );
+    }
 }

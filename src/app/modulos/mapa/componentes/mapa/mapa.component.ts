@@ -18,7 +18,7 @@ import {Fill, Icon, Stroke, Style} from 'ol/style';
 import GeometryType from 'ol/geom/GeometryType';
 import IconAnchorUnits from 'ol/style/IconAnchorUnits';
 import {MAPA_ACCIONES} from '../../store/mapa.actions';
-import {MAPA_HELPER, transformarCoordenasMapa} from '../../helpers/mapa-helpers';
+import {MAPA_HELPER} from '../../helpers/mapa-helpers';
 import {take} from 'rxjs/operators';
 
 
@@ -46,12 +46,14 @@ export class MapaComponent implements OnInit {
     lienzo: VectorSource;
 
     feautureCargada: Feature;
+    mostrarBotonDeshacer: boolean;
 
     constructor(
         private readonly mapaService: MapaService,
         private readonly mapaStore: Store<MapaAppState>,
     ) {
         this.dibujarSoloUnaFigura = true;
+        this.mostrarBotonDeshacer = true;
     }
 
     ngOnInit() {
@@ -62,7 +64,6 @@ export class MapaComponent implements OnInit {
     inicializarMapa(
         caracteristicas?: Feature<Geometry>[] | Collection<Feature<Geometry>>,
     ) {
-        console.log('me inicialize');
         this.source = new OSM();
         this.vista = new View(
             {
@@ -131,16 +132,17 @@ export class MapaComponent implements OnInit {
                     }
                     if (puntos && puntos.length) {
                         this.lienzo.clear();
-                        const puntosTransformados = transformarCoordenasMapa(puntos[0]);
+                        const puntosTransformados = MAPA_HELPER.transformarCoordenasMapa(puntos[0]);
                         this.lienzo.addFeature(
                             new Feature<Geometry>(
                                 new Point(
-                                    transformarCoordenasMapa(puntos[0]),
+                                    MAPA_HELPER.transformarCoordenasMapa(puntos[0]),
                                 ),
                             ),
                         );
                         this.vista.setCenter(puntosTransformados);
                         this.mapa.removeInteraction(this.dibujarInteraccion);
+                        this.mostrarBotonDeshacer = false;
                     }
                 }
             );

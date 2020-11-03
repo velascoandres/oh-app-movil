@@ -7,12 +7,21 @@
             </ion-button>
         </ion-buttons>
         <ion-title>
-            Ubicacion Geografica
+            Ubicación Geográfica
         </ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <app-mapa></app-mapa>
+    <ion-fab
+            vertical="bottom"
+            horizontal="end"
+            slot="fixed"
+    >
+        <ion-fab-button (click)="guardarEditar()">
+            <ion-icon [name]="estaEditando ? 'create-outline' : 'save-outline'"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 </ion-content>
 

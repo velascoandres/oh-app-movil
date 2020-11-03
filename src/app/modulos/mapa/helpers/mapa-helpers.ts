@@ -1,12 +1,12 @@
 import * as olProj from 'ol/proj';
 
 
-export function transformarCoordenas(coordinate: number[]): number[] {
+function transformarCoordenas(coordinate: number[]): number[] {
     return olProj
         .transform(coordinate, 'EPSG:3857', 'EPSG:4326').reverse() as [number, number];
 }
 
-export function transformarCoordenasMapa(coordinate: number[]): number[] {
+function transformarCoordenasMapa(coordinate: number[]): number[] {
     return olProj
         .transform(coordinate,  'EPSG:4326', 'EPSG:3857') as [number, number];
 }
@@ -28,5 +28,6 @@ function obtenerCoordenasDesdeEvento(evento, tipo: string = 'drawend', transform
 
 export const MAPA_HELPER = {
     transformarCoordenas,
+    transformarCoordenasMapa,
     obtenerCoordenasDesdeEvento,
 };
