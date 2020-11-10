@@ -8,7 +8,7 @@ function transformarCoordenas(coordinate: number[]): number[] {
 
 function transformarCoordenasMapa(coordinate: number[]): number[] {
     return olProj
-        .transform(coordinate,  'EPSG:4326', 'EPSG:3857') as [number, number];
+        .transform([coordinate[1], coordinate[0]],  'EPSG:4326', 'EPSG:3857') as [number, number];
 }
 
 function obtenerCoordenasDesdeEvento(evento, tipo: string = 'drawend', transformar: boolean = true): number[] {

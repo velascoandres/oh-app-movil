@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnInit} from '@angular/core';
 import Map from 'ol/Map';
 import TileLayer from 'ol/layer/Tile';
 import {OSM} from 'ol/source';
@@ -36,12 +36,13 @@ export class MapaComponent implements OnInit {
     geolocalizacion: Geolocation;
     caracteristicaPosicion: Feature;
     vista: View;
-    coordenadasActuales: Coordinate = [7.0785, 51.4614];
+    coordenadasActuales: Coordinate = [0, 0];
     source: XYZ;
     cargoMapa: boolean;
     modificarInteraccion: any;
     modificarVector: VectorLayer;
     dibujarInteraccion: Interaction;
+    capaLocalizacion: VectorLayer;
     snapInteraccion: any;
     lienzo: VectorSource;
 
@@ -90,24 +91,24 @@ export class MapaComponent implements OnInit {
                 this.cargoMapa = true;
             }
         );
-        this.mapa.setSize([1000, 1000]);
+        this.mapa.setSize([window.innerWidth, window.innerHeight]);
         this.establecerInteraccionModificar(caracteristicas);
         // // Esta ultima funcion usarla en otra funcion para delegar que "forma" dibujar
         this.agregarInteractionesParaDibujar();
-        this.establecerGeolocalizacion();
+        // this.establecerGeolocalizacion();
     }
 
     establecerGeolocalizacion() {
         this.geolocalizacion = this.mapaService.establecerGeolocalizacion(this.vista);
         this.caracteristicaPosicion = this.mapaService.obtenerCaracteristicaPosicion();
-        const capaLocalizacion = new VectorLayer({
+        this.capaLocalizacion = new VectorLayer({
                 source: new VectorSource({
                         features: [this.caracteristicaPosicion],
                     },
                 ),
             },
         );
-        this.mapa.addLayer(capaLocalizacion);
+        this.mapa.addLayer(this.capaLocalizacion);
         this.geolocalizacion.setTracking(true);
         this.geolocalizacion.on('change:position', () => {
                 this.coordenadasActuales = this.geolocalizacion.getPosition();
@@ -118,7 +119,11 @@ export class MapaComponent implements OnInit {
     }
 
     centrarMapa() {
-        this.vista.setCenter(this.coordenadasActuales);
+        if (this.coordenadasActuales[0] !== 0 && this.coordenadasActuales[1] !== 0) {
+            this.vista.setCenter(this.coordenadasActuales);
+        } else {
+            this.establecerGeolocalizacion();
+        }
     }
 
     escucharMapaStore() {
@@ -129,6 +134,7 @@ export class MapaComponent implements OnInit {
                 ({puntos}) => {
                     if (!this.mapa) {
                         this.inicializarMapa();
+                        this.establecerGeolocalizacion();
                     }
                     if (puntos && puntos.length) {
                         this.lienzo.clear();
@@ -136,13 +142,15 @@ export class MapaComponent implements OnInit {
                         this.lienzo.addFeature(
                             new Feature<Geometry>(
                                 new Point(
-                                    MAPA_HELPER.transformarCoordenasMapa(puntos[0]),
+                                    puntosTransformados,
                                 ),
                             ),
                         );
                         this.vista.setCenter(puntosTransformados);
                         this.mapa.removeInteraction(this.dibujarInteraccion);
                         this.mostrarBotonDeshacer = false;
+                    } else {
+                        // this.establecerGeolocalizacion();
                     }
                 }
             );
