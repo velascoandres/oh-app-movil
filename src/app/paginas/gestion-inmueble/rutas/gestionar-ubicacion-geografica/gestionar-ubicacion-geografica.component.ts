@@ -48,7 +48,7 @@ export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy,
             )
             .subscribe(
                 ([parametrosRuta, queryParams]) => {
-                    this.idInmueble = parametrosRuta.idInmueble;
+                    this.idInmueble = +parametrosRuta.idInmueble;
                     const nombreInmueble = queryParams.nombre;
                     const consulta = {
                         where: {
