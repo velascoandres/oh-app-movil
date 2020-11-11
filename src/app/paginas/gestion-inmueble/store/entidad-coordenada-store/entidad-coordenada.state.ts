@@ -4,5 +4,6 @@ import {EntidadCoordenadaInterface} from '../../../../interfaces/entidad-coorden
 export interface EntidadCoordenadaState extends EntityState<EntidadCoordenadaInterface>{
     cargando?: boolean;
     error?: any;
+    registro?: EntidadCoordenadaInterface;
 }
 

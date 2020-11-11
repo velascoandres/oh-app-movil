@@ -45,6 +45,7 @@ const _entidadCoordenadaReducer = createReducer(
                     ...state,
                     cargando: false,
                     error: undefined,
+                    registro: entidadCooordenada,
                 },
             );
         },
@@ -68,6 +69,7 @@ const _entidadCoordenadaReducer = createReducer(
                     ...state,
                     cargando: false,
                     error: undefined,
+                    registro: entidadCooordenada,
                 },
             );
         },
@@ -78,6 +80,14 @@ const _entidadCoordenadaReducer = createReducer(
                 ...state,
                 error,
                 cargando: false,
+                registro: undefined,
+            };
+        },
+    ),
+    on(ENTIDAD_COORD_ACCIONES.limpiarEntidades,
+        (state: EntidadCoordenadaState) => {
+            return {
+                ...initialEntidadCoordenadaState,
             };
         },
     ),

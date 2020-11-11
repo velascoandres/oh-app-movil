@@ -62,4 +62,54 @@ export class EntidadCoordenadaEffects {
             );
         },
     );
+
+    guardarCoordenasExito$ = createEffect(
+        () => {
+            return this.acciones$.pipe(
+                ofType(ENTIDAD_COORD_ACCIONES.guardarCoordenada),
+                mergeMap(
+                    ({entidadCooordenada}) => {
+                        return this._entidadCoordenadaService.createOne(entidadCooordenada);
+                    }
+                ),
+                mergeMap(
+                    (entidadCreada: EntidadCoordenadaInterface) => {
+                        return of(
+                            ENTIDAD_COORD_ACCIONES.guardarCoordenadaExito(
+                                {entidadCooordenada: entidadCreada}
+                            ),
+                        );
+                    }
+                ),
+                catchError(
+                    (err => of(ENTIDAD_COORD_ACCIONES.errorOperacion({error: err}))),
+                )
+            );
+        },
+    );
+
+    editarCoordenasExito$ = createEffect(
+        () => {
+            return this.acciones$.pipe(
+                ofType(ENTIDAD_COORD_ACCIONES.editarCoordenada),
+                mergeMap(
+                    ({id, entidadCooordenada}) => {
+                        return this._entidadCoordenadaService.updateOne(id, entidadCooordenada);
+                    }
+                ),
+                mergeMap(
+                    (entidadEditada: EntidadCoordenadaInterface) => {
+                        return of(
+                            ENTIDAD_COORD_ACCIONES.editarCoordenadaExito(
+                                {id: entidadEditada.id, entidadCooordenada: entidadEditada}
+                            ),
+                        );
+                    }
+                ),
+                catchError(
+                    (err => of(ENTIDAD_COORD_ACCIONES.errorOperacion({error: err}))),
+                )
+            );
+        },
+    );
 }

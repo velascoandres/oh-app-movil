@@ -4,10 +4,11 @@ import {MapaAppState} from '../../../../modulos/mapa/store/mapa.store';
 import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 import {EntidadCoordenadaInterface} from '../../../../interfaces/entidad-coordenada.interface';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {withLatestFrom} from 'rxjs/operators';
 import {EntidadCoordenadaState} from '../../store/entidad-coordenada-store/entidad-coordenada.state';
 import {ENTIDAD_COORD_ACCIONES} from '../../store/entidad-coordenada-store/entidad-coordenada.actions';
+import {ToastController} from '@ionic/angular';
 
 @Component({
     selector: 'app-gestionar-ubicacion-geografica',
@@ -24,6 +25,8 @@ export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy 
         private readonly _mapaStore: Store<MapaAppState>,
         private readonly _activateRoute: ActivatedRoute,
         private readonly _entidadCoordenadaStore: Store<EntidadCoordenadaState>,
+        public toastController: ToastController,
+        private readonly _router: Router,
     ) {
         this.estaEditando = false;
     }
@@ -81,8 +84,22 @@ export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy 
     escucharEntidadCoordenada() {
         const subscripcionEntidadCoordenada = this._entidadCoordenadaStore
             .subscribe(
-                ({ids}) => {
-                    this.estaEditando = ids && ids.length > 0;
+                ({entities, ids, cargando, error, registro}) => {
+                    this.estaEditando = entities && Object.keys(entities).length > 0;
+                    console.log(this.estaEditando);
+                    const editoExito = !cargando && !error && this.estaEditando && registro;
+                    const guardoExito = !cargando && !error && !this.estaEditando && registro;
+                    if (editoExito) {
+                        this.mostrarToast('Información Geográfica editada con éxito!!').then();
+                        this._router.navigate(['', 'tabs', 'gestion-inmueble']);
+                    }
+                    if (guardoExito) {
+                        this.mostrarToast('Información Geográfica guardada con éxito!!').then();
+                        this._router.navigate(['', 'tabs', 'gestion-inmueble']);
+                    }
+                    if (error) {
+                        this.mostrarToast('Ha ocurrido un error, intentalo más tarde', 'danger').then();
+                    }
                 }
             );
         this.subscripciones.push(subscripcionEntidadCoordenada);
@@ -93,7 +110,7 @@ export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy 
     }
 
     guardarEditar() {
-        // TODO: delegar la accion para invokar o guardar
+        // TODO: delegar la accion para editar o guardar
         const accion = this.estaEditando ? ENTIDAD_COORD_ACCIONES.editarCoordenada : ENTIDAD_COORD_ACCIONES.guardarCoordenada;
         this._entidadCoordenadaStore.dispatch(
             accion(
@@ -103,5 +120,22 @@ export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy 
                 }
             )
         );
+    }
+
+    private async mostrarToast(mensaje: string, tipo: 'success' | 'danger' = 'success') {
+        const toast = await this.toastController.create({
+            message: mensaje,
+            duration: 2000,
+            color: tipo,
+            position: 'top',
+        });
+        await toast.present();
+    }
+
+    ionViewWillLeave(): void {
+        this._entidadCoordenadaStore.dispatch(
+            ENTIDAD_COORD_ACCIONES.limpiarEntidades(),
+        );
+        this.subscripciones.forEach(sub => sub.unsubscribe());
     }
 }
