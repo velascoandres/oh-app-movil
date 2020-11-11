@@ -1,5 +1,6 @@
 import {EntityState} from '@ngrx/entity';
 import {EntidadCoordenadaInterface} from '../../../../interfaces/entidad-coordenada.interface';
+import {AppState} from '../../../../store/app.reducers';
 
 export interface EntidadCoordenadaState extends EntityState<EntidadCoordenadaInterface>{
     cargando?: boolean;
@@ -7,3 +8,8 @@ export interface EntidadCoordenadaState extends EntityState<EntidadCoordenadaInt
     registro?: EntidadCoordenadaInterface;
 }
 
+
+
+export interface AppStateEntidadCoordenada extends AppState {
+    entidadCoordenada: EntidadCoordenadaState;
+}

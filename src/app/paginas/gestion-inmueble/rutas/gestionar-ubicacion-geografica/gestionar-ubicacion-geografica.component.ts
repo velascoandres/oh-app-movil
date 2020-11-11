@@ -6,7 +6,10 @@ import {Subscription} from 'rxjs';
 import {EntidadCoordenadaInterface} from '../../../../interfaces/entidad-coordenada.interface';
 import {ActivatedRoute, Router} from '@angular/router';
 import {withLatestFrom} from 'rxjs/operators';
-import {EntidadCoordenadaState} from '../../store/entidad-coordenada-store/entidad-coordenada.state';
+import {
+    AppStateEntidadCoordenada,
+    EntidadCoordenadaState
+} from '../../store/entidad-coordenada-store/entidad-coordenada.state';
 import {ENTIDAD_COORD_ACCIONES} from '../../store/entidad-coordenada-store/entidad-coordenada.actions';
 import {ToastController} from '@ionic/angular';
 
@@ -24,7 +27,7 @@ export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy 
         private readonly _entidadCooredenadaRestService: EntidadCoordenadaRestService,
         private readonly _mapaStore: Store<MapaAppState>,
         private readonly _activateRoute: ActivatedRoute,
-        private readonly _entidadCoordenadaStore: Store<EntidadCoordenadaState>,
+        private readonly _entidadCoordenadaStore: Store<AppStateEntidadCoordenada>,
         public toastController: ToastController,
         private readonly _router: Router,
     ) {
@@ -83,9 +86,10 @@ export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy 
 
     escucharEntidadCoordenada() {
         const subscripcionEntidadCoordenada = this._entidadCoordenadaStore
+            .select('entidadCoordenada')
             .subscribe(
-                ({entities, ids, cargando, error, registro}) => {
-                    this.estaEditando = entities && Object.keys(entities).length > 0;
+                ({entities, ids, registro, cargando, error}) => {
+                    this.estaEditando = ids && ids.length > 0;
                     console.log(this.estaEditando);
                     const editoExito = !cargando && !error && this.estaEditando && registro;
                     const guardoExito = !cargando && !error && !this.estaEditando && registro;
