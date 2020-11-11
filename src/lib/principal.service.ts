@@ -50,7 +50,7 @@ export abstract class PrincipalRestService<T> implements HttpMethods<T>{
         return this.httpClient.post(this.url, body) as Observable<T>;
     }
 
-    public updateOne(id: number, body: T): Observable<T> {
+    public updateOne(id: number | string, body: T): Observable<T> {
         return this.httpClient.put(`${this.url}/${id}`, body) as Observable<T>;
     }
 

@@ -2,17 +2,20 @@ import {EntidadCoordenadaRestService} from '../../../../modulos/compartido/servi
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {ENTIDAD_COORD_ACCIONES} from './entidad-coordenada.actions';
 import {of} from 'rxjs';
-import {catchError, mergeMap} from 'rxjs/operators';
+import {catchError, mergeMap, withLatestFrom} from 'rxjs/operators';
 import {ApiResponse} from '../../../../../lib/principal.service';
 import {EntidadCoordenadaInterface} from '../../../../interfaces/entidad-coordenada.interface';
 import {Injectable} from '@angular/core';
 import {MAPA_ACCIONES} from '../../../../modulos/mapa/store/mapa.actions';
+import {AppStateEntidadCoordenada} from './entidad-coordenada.state';
+import {Store} from '@ngrx/store';
 
 @Injectable()
 export class EntidadCoordenadaEffects {
     constructor(
         private readonly _entidadCoordenadaService: EntidadCoordenadaRestService,
         private readonly acciones$: Actions,
+        private readonly entidadCoordStore: Store<AppStateEntidadCoordenada>,
     ) {
     }
 
@@ -92,9 +95,13 @@ export class EntidadCoordenadaEffects {
         () => {
             return this.acciones$.pipe(
                 ofType(ENTIDAD_COORD_ACCIONES.editarCoordenada),
+                withLatestFrom(this.entidadCoordStore.select('entidadCoordenada')),
                 mergeMap(
-                    ({id, entidadCooordenada}) => {
-                        return this._entidadCoordenadaService.updateOne(id, entidadCooordenada);
+                    ([{id, entidadCooordenada}, {entities}]) => {
+                        console.log(id, entidadCooordenada);
+                        console.log(Object.keys(entities)[0]);
+                        const idEntidad = Object.keys(entities)[0];
+                        return this._entidadCoordenadaService.updateOne(idEntidad, entidadCooordenada);
                     }
                 ),
                 mergeMap(
