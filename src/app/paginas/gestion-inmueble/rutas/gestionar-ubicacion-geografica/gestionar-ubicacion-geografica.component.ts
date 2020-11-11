@@ -8,20 +8,20 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {withLatestFrom} from 'rxjs/operators';
 import {
     AppStateEntidadCoordenada,
-    EntidadCoordenadaState
 } from '../../store/entidad-coordenada-store/entidad-coordenada.state';
 import {ENTIDAD_COORD_ACCIONES} from '../../store/entidad-coordenada-store/entidad-coordenada.actions';
-import {ToastController} from '@ionic/angular';
+import {ToastController, ViewWillEnter} from '@ionic/angular';
 
 @Component({
     selector: 'app-gestionar-ubicacion-geografica',
     templateUrl: './gestionar-ubicacion-geografica.component.html',
     styleUrls: ['./gestionar-ubicacion-geografica.component.scss'],
 })
-export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy {
+export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy, ViewWillEnter {
     private subscripciones: Subscription[] = [];
     private entidadCoordenadaActual: EntidadCoordenadaInterface;
     estaEditando: boolean;
+    private idInmueble: number;
 
     constructor(
         private readonly _entidadCooredenadaRestService: EntidadCoordenadaRestService,
@@ -48,11 +48,11 @@ export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy 
             )
             .subscribe(
                 ([parametrosRuta, queryParams]) => {
-                    const idInmueble = parametrosRuta.idInmueble;
+                    this.idInmueble = parametrosRuta.idInmueble;
                     const nombreInmueble = queryParams.nombre;
                     const consulta = {
                         where: {
-                            entidadId: +idInmueble,
+                            entidadId: +this.idInmueble,
                             entidad: 'inmueble',
                         },
                     };
@@ -77,7 +77,7 @@ export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy 
                         tipo: 'Point',
                         coordenadas: puntoAGuardar,
                         entidad: 'inmueble',
-                        entidadId: 1
+                        entidadId: this.idInmueble,
                     };
                 },
             );
@@ -141,5 +141,10 @@ export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy 
             ENTIDAD_COORD_ACCIONES.limpiarEntidades(),
         );
         this.subscripciones.forEach(sub => sub.unsubscribe());
+    }
+
+    ionViewWillEnter(): void {
+        this.escucharMapa();
+        this.escucharEntidadCoordenada();
     }
 }

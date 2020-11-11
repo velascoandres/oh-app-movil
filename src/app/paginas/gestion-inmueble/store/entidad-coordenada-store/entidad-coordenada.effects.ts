@@ -98,9 +98,8 @@ export class EntidadCoordenadaEffects {
                 withLatestFrom(this.entidadCoordStore.select('entidadCoordenada')),
                 mergeMap(
                     ([{id, entidadCooordenada}, {entities}]) => {
-                        console.log(id, entidadCooordenada);
-                        console.log(Object.keys(entities)[0]);
                         const idEntidad = Object.keys(entities)[0];
+                        console.log(idEntidad, entidadCooordenada);
                         return this._entidadCoordenadaService.updateOne(idEntidad, entidadCooordenada);
                     }
                 ),
