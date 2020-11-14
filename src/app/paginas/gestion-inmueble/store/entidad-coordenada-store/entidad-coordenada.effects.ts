@@ -56,7 +56,7 @@ export class EntidadCoordenadaEffects {
                         return of(MAPA_ACCIONES.dibujarPuntos(
                             {
                                 puntos: [
-                                    entidadesCoord[0].coordenadas,
+                                    entidadesCoord[0].location.coordinates,
                                 ],
                             }
                         ));

@@ -74,10 +74,12 @@ export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy,
                 ({puntos, informacionSeleccionada}) => {
                     const puntoAGuardar: [number, number] = puntos[0] as [number, number];
                     this.entidadCoordenadaActual = {
-                        tipo: 'Point',
-                        coordenadas: puntoAGuardar,
                         entidad: 'inmueble',
                         entidadId: this.idInmueble,
+                        location: {
+                            type: 'Point',
+                            coordinates: puntoAGuardar,
+                        }
                     };
                 },
             );
