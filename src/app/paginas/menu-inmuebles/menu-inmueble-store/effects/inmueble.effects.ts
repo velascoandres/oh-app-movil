@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {InmuebleRestService} from '../../../../modulos/compartido/servicios/rest/inmueble-rest.service';
-import {catchError, mergeMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, map, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
 import {ApiResponse} from 'src/lib/principal.service';
 import {InmuebleInterface} from 'src/app/interfaces/inmueble.interface';
 import {of} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {AppStateInmueble} from 'src/app/store/app.reducers';
 import {InmuebleActions} from '../actions/inmueble.actions';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class InmuebleEffects {
@@ -15,10 +16,12 @@ export class InmuebleEffects {
         private acciones$: Actions,
         private readonly _inmuebleService: InmuebleRestService,
         private readonly inmuebleStore: Store<AppStateInmueble>,
+        private readonly _router: Router,
     ) {
 
     }
 
+    //                         this._router.navigate(['', 'tabs', 'gestion-inmueble']);
     cargarInmuebles$ = createEffect(
         () => {
             // Definimos que accion va escuchar
@@ -61,6 +64,11 @@ export class InmuebleEffects {
                 mergeMap(
                     ({inmueble, precio}) => {
                         return this._inmuebleService.crearInmueble(inmueble, precio);
+                    },
+                ),
+                tap(
+                    () => {
+                        this._router.navigate(['', 'tabs', 'gestion-inmueble']);
                     },
                 ),
                 mergeMap(
