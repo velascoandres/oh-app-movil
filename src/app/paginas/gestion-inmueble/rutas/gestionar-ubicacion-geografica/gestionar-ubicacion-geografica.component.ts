@@ -92,7 +92,6 @@ export class GestionarUbicacionGeograficaComponent implements OnInit, OnDestroy,
             .subscribe(
                 ({entities, ids, registro, cargando, error}) => {
                     this.estaEditando = ids && ids.length > 0;
-                    console.log(this.estaEditando);
                     const editoExito = !cargando && !error && this.estaEditando && registro;
                     const guardoExito = !cargando && !error && !this.estaEditando && registro;
                     if (editoExito) {

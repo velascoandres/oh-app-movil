@@ -53,13 +53,24 @@ export class EntidadCoordenadaEffects {
                 ofType(ENTIDAD_COORD_ACCIONES.cargarCoordenadaExito),
                 mergeMap(
                     ({entidadesCoord}) => {
-                        return of(MAPA_ACCIONES.dibujarPuntos(
-                            {
-                                puntos: [
-                                    entidadesCoord[0].location.coordinates,
-                                ],
-                            }
-                        ));
+                        if (entidadesCoord && entidadesCoord[0] && entidadesCoord[0].location) {
+                            const puntos = entidadesCoord[0].location.coordinates;
+                            return of(MAPA_ACCIONES.dibujarPuntos(
+                                {
+                                    puntos: [puntos],
+                                },
+                                ),
+                            );
+                        } else {
+                            return of(
+                                MAPA_ACCIONES.dibujarPuntos(
+                                    {
+                                        puntos: [],
+                                    },
+                                ),
+                            );
+                        }
+
                     }
                 )
             );

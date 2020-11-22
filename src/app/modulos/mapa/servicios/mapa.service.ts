@@ -1,26 +1,63 @@
 import {Injectable} from '@angular/core';
-import Map from 'ol/Map';
 import {Feature, Geolocation, View} from 'ol';
-import {Fill, Icon, Stroke, Style} from 'ol/style';
+import {Fill, Stroke, Style} from 'ol/style';
 import CircleStyle from 'ol/style/Circle';
-import Point from 'ol/geom/Point';
-import {Vector} from 'ol/layer';
-import {format} from 'ol/coordinate';
-import IconAnchorUnits from 'ol/style/IconAnchorUnits';
-import {Source} from 'ol/source';
-import VectorSource from 'ol/source/Vector';
 
 @Injectable({
     providedIn: 'root'
 })
 export class MapaService {
 
+
+    private _localizacion: number[] = [];
+
+    constructor() {
+    }
+
+    get localizacion() {
+        console.log(this._localizacion);
+        return this._localizacion;
+    }
+
+    recuperarLocalizacion(): void {
+        this.establecerLocalizacion().then(
+            (position: Position) => {
+                console.log(position.coords.longitude);
+                this._localizacion[0] = position.coords.latitude;
+                this._localizacion[1] = position.coords.longitude;
+            }
+        );
+    }
+
+    private establecerLocalizacion() {
+        return new Promise(
+            (resolve, reject) => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((position: Position) => {
+                            if (position) {
+                                resolve(position);
+                            } else {
+                                reject('error');
+                            }
+                        },
+                        (error: PositionError) => reject(error),
+                        {
+                            enableHighAccuracy: false,
+                            timeout: 1000,
+                        }
+                    );
+                } else {
+                    reject('error');
+                }
+            }
+        )
+
+    }
+
+
     establecerGeolocalizacion(vista: View): Geolocation {
         return new Geolocation({
                 // enableHighAccuracy must be set to true to have the heading value.
-                trackingOptions: {
-                    enableHighAccuracy: true,
-                },
                 projection: vista.getProjection(),
             },
         );

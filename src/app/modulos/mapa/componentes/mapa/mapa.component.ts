@@ -65,6 +65,7 @@ export class MapaComponent implements OnInit {
     inicializarMapa(
         caracteristicas?: Feature<Geometry>[] | Collection<Feature<Geometry>>,
     ) {
+        console.log('Me inicializo');
         this.source = new OSM();
         this.vista = new View(
             {
@@ -111,7 +112,7 @@ export class MapaComponent implements OnInit {
         this.mapa.addLayer(this.capaLocalizacion);
         this.geolocalizacion.setTracking(true);
         this.geolocalizacion.on('change:position', () => {
-                this.coordenadasActuales = this.geolocalizacion.getPosition();
+                this.coordenadasActuales = MAPA_HELPER.transformarCoordenasMapa(this.mapaService.localizacion);
                 this.caracteristicaPosicion.setGeometry(this.coordenadasActuales ? new Point(this.coordenadasActuales) : null);
                 this.vista.setCenter(this.coordenadasActuales);
             },
@@ -122,7 +123,7 @@ export class MapaComponent implements OnInit {
         if (this.coordenadasActuales[0] !== 0 && this.coordenadasActuales[1] !== 0) {
             this.vista.setCenter(this.coordenadasActuales);
         } else {
-            this.establecerGeolocalizacion();
+            this.vista.setCenter(MAPA_HELPER.transformarCoordenasMapa(this.mapaService.localizacion));
         }
     }
 
@@ -150,7 +151,8 @@ export class MapaComponent implements OnInit {
                         this.mapa.removeInteraction(this.dibujarInteraccion);
                         this.mostrarBotonDeshacer = false;
                     } else {
-                        // this.establecerGeolocalizacion();
+                        this.lienzo.clear();
+                        this.vista.setCenter(MAPA_HELPER.transformarCoordenasMapa(this.mapaService.localizacion));
                     }
                 }
             );
@@ -213,7 +215,6 @@ export class MapaComponent implements OnInit {
         //         // const coordenadas = MAPA_HELPER.obtenerCoordenasDesdeEvento(e);
         //
         //         const co = (e.features.getArray() as any[])[0].getGeometry().flatCoordinates;
-        //         console.log(transformarCoordenas(co));
         //     },
         // );
         this.snapInteraccion.on(

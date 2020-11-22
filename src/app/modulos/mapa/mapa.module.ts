@@ -29,4 +29,7 @@ import {CompartidoModule} from '../compartido/compartido.module';
     ],
 })
 export class MapaModule {
+    constructor(private readonly mapaService: MapaService) {
+        this.mapaService.recuperarLocalizacion();
+    }
 }
